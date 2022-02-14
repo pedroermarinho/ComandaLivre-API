@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.Entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
