@@ -40,17 +40,40 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findByUsername(String username) {
+        return userDataSource.findByUsername(username).orElseThrow(
+                () -> new ObjectNotFoundException(
+                        "Usuário não encontrado! username: " + username + ", Tipo: " + User.class.getName()
+                )
+        );
+    }
+
+    @Override
     public User create(User user) {
         return userDataSource.save(user);
     }
 
     @Override
-    public User update(UUID id, User user) {
-        return null;
+    public User update(UUID id, User userParam) {
+        final User user = findById(id);
+        user.setName(userParam.getEmail());
+        user.setUsername(userParam.getUsername());
+        return userDataSource.save(user);
     }
 
     @Override
-    public void disable(User user) {
-
+    public User disable(UUID id) {
+        final User user = findById(id);
+        user.setStatus(false);
+        return userDataSource.save(user);
     }
+
+    @Override
+    public User enable(UUID id) {
+        final User user = findById(id);
+        user.setStatus(true);
+        return userDataSource.save(user);
+    }
+
+    
 }

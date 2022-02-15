@@ -12,7 +12,9 @@ public interface UserRepository {
     List<User> findAll();
     User findById(UUID id);
     User findByEmail(String email);
+    User findByUsername(String username);
     User create(User user);
-    User update(UUID id,User user);
-    void disable(User user);
+    User update(UUID id,User userParam);
+    User disable(UUID id);
+    User enable(UUID id);
 }
