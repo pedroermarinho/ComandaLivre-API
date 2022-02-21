@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
@@ -41,16 +41,16 @@ public class StatusUserTest {
     @Test
     void disableUserReturnsUser() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
-        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
+        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(User.class, statusUser.disableUser(UUID.randomUUID()));
+        assertInstanceOf(UserEntity.class, statusUser.disableUser(UUID.randomUUID()));
     }
 
     @Test
     void disableUserReturnsThrowsObjectNotFoundException() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
 
         assertThrows(ObjectNotFoundException.class,()-> statusUser.disableUser(UUID.randomUUID()));
     }
@@ -58,16 +58,16 @@ public class StatusUserTest {
     @Test
     void enableUserReturnsUser() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
-        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
+        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(User.class, statusUser.enableUser(UUID.randomUUID()));
+        assertInstanceOf(UserEntity.class, statusUser.enableUser(UUID.randomUUID()));
     }
 
     @Test
     void enableUserReturnsThrowsObjectNotFoundException() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
 
         assertThrows(ObjectNotFoundException.class,()-> statusUser.enableUser(UUID.randomUUID()));
     }

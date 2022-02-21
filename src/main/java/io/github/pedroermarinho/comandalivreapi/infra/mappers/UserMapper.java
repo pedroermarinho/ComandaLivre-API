@@ -5,7 +5,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.infra.dtos.UserDTO;
 
 @Mapper
@@ -14,9 +14,9 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @InheritInverseConfiguration
-    UserDTO entityToResponse(User user);
+    UserDTO entityToResponse(UserEntity user);
 
-    List<UserDTO> entityToResponse(List<User>  users);
+    List<UserDTO> entityToResponse(List<UserEntity>  users);
 
-    User entityToResponse(UserDTO userDTO);
+    UserEntity entityToResponse(UserDTO userDTO);
 }

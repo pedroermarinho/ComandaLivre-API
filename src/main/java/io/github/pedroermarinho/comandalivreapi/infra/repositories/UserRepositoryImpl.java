@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
@@ -8,6 +8,9 @@ import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserDataSource userDataSource;
@@ -17,60 +20,60 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserEntity> findAll() {
         return userDataSource.findAll();
     }
 
     @Override
-    public User findById(UUID id) {
+    public UserEntity findById(UUID id) {
         return userDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
-                        "Usuário não encontrado! Id: " + id + ", Tipo: " + User.class.getName()
+                        "Usuário não encontrado! Id: " + id + ", Tipo: " + UserEntity.class.getName()
                 )
         );
     }
 
     @Override
-    public User findByEmail(String email) {
+    public UserEntity findByEmail(String email) {
         return userDataSource.findByEmail(email).orElseThrow(
                 () -> new ObjectNotFoundException(
-                        "Usuário não encontrado! email: " + email + ", Tipo: " + User.class.getName()
+                        "Usuário não encontrado! email: " + email + ", Tipo: " + UserEntity.class.getName()
                 )
         );
     }
 
     @Override
-    public User findByUsername(String username) {
+    public UserEntity findByUsername(String username) {
         return userDataSource.findByUsername(username).orElseThrow(
                 () -> new ObjectNotFoundException(
-                        "Usuário não encontrado! username: " + username + ", Tipo: " + User.class.getName()
+                        "Usuário não encontrado! username: " + username + ", Tipo: " + UserEntity.class.getName()
                 )
         );
     }
 
     @Override
-    public User create(User user) {
+    public UserEntity create(UserEntity user) {
         return userDataSource.save(user);
     }
 
     @Override
-    public User update(UUID id, User userParam) {
-        final User user = findById(id);
+    public UserEntity update(UUID id, UserEntity userParam) {
+        final UserEntity user = findById(id);
         user.setName(userParam.getEmail());
         user.setUsername(userParam.getUsername());
         return userDataSource.save(user);
     }
 
     @Override
-    public User disable(UUID id) {
-        final User user = findById(id);
+    public UserEntity disable(UUID id) {
+        final UserEntity user = findById(id);
         user.setStatus(false);
         return userDataSource.save(user);
     }
 
     @Override
-    public User enable(UUID id) {
-        final User user = findById(id);
+    public UserEntity enable(UUID id) {
+        final UserEntity user = findById(id);
         user.setStatus(true);
         return userDataSource.save(user);
     }

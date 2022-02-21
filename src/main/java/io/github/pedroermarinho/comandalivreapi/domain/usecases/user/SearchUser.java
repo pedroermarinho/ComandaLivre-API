@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.EmailValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UsernameValidation;
@@ -19,14 +19,14 @@ public class SearchUser {
         this.userRepository = userRepository;
     }
 
-    public User searchUserById(UUID id){
+    public UserEntity searchUserById(UUID id){
         if(id == null){
             throw new IllegalArgumentException("O id não pode ser null");
         }
         return userRepository.findById(id);
     }
 
-    public User searchUserByEmail(String email){
+    public UserEntity searchUserByEmail(String email){
         if(email == null){
             throw new IllegalArgumentException("O email não pode ser null");
         }
@@ -34,7 +34,7 @@ public class SearchUser {
         return userRepository.findByEmail(email);
     }
 
-    public User searchUserByUsername(String username){
+    public UserEntity searchUserByUsername(String username){
         if(username == null){
             throw new IllegalArgumentException("O username não pode ser null");
         }
@@ -42,7 +42,7 @@ public class SearchUser {
         return userRepository.findByUsername(username);
     }
 
-    public List<User> searchUserAll(){
+    public List<UserEntity> searchUserAll(){
         return userRepository.findAll();
     }
     

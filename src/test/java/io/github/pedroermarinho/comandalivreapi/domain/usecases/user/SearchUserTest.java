@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
@@ -44,15 +44,15 @@ public class SearchUserTest {
     @Test
     void searchUserByIdReturnsUser() {
         
-        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(User.class, searchUser.searchUserById(UUID.randomUUID()));
+        assertInstanceOf(UserEntity.class, searchUser.searchUserById(UUID.randomUUID()));
     }
     
     @Test
     void searchUserByIdReturnsThrowIllegalArgumentException() {
         
-        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
         assertThrows(IllegalArgumentException.class,()-> searchUser.searchUserById(null));
     }
@@ -60,15 +60,15 @@ public class SearchUserTest {
     @Test
     void searchUserByEmailReturnsUser() {
         
-        when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(User.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
+        assertInstanceOf(UserEntity.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
     }
 
     @Test
     void searchUserByEmailReturnsThrowEmailInvalidException() {
         
-        when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
         assertThrows(UsernameInvalidException.class,()-> searchUser.searchUserByEmail("exemplo@exemplo"));
     }
@@ -76,15 +76,15 @@ public class SearchUserTest {
     @Test
     void searchUserByUsernameReturnsUser() {
         
-        when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(User.class, searchUser.searchUserByUsername("exemplo"));
+        assertInstanceOf(UserEntity.class, searchUser.searchUserByUsername("exemplo"));
     }
 
     @Test
     void searchUserByUsernameReturnsThrowUsernameInvalidException() {
         
-        when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
         assertThrows(UsernameInvalidException.class,()-> searchUser.searchUserByUsername("exemplo@exemplo.com"));
     }
@@ -92,7 +92,7 @@ public class SearchUserTest {
     @Test
     void searchUserAllReturnsListUser() {
         
-        when(userDataSource.findAll()).thenReturn( new ArrayList<User>());
+        when(userDataSource.findAll()).thenReturn( new ArrayList<UserEntity>());
 
         assertInstanceOf(List.class, searchUser.searchUserAll());
     }

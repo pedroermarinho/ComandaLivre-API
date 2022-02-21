@@ -3,8 +3,9 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.user;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.EmailValidation;
 
@@ -17,7 +18,8 @@ public class UpdateUser {
         this.userRepository = userRepository;
     }
 
-    public User execute(UUID id, User userParam){
+    @Transactional
+    public UserEntity execute(UUID id, UserEntity userParam){
         EmailValidation.validationThrow(userParam.getEmail());
         return userRepository.update(id, userParam);
     }

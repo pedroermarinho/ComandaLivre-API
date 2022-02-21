@@ -1,14 +1,18 @@
 package io.github.pedroermarinho.comandalivreapi.external.drivers;
 
 import java.util.Optional;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.Cep;
+
+import org.springframework.stereotype.Component;
+
+import io.github.pedroermarinho.comandalivreapi.domain.entities.CepEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.infra.drivers.CepDriver;
 
+@Component
 public class CepDriverImpl implements CepDriver {
 
     @Override
-    public Optional<Cep> findByCep(String cep) {
+    public Optional<CepEntity> findByCep(String cep) {
         throw new NotImplementedException() ;
     }
 }

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.Cep;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.CepEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.CepInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.services.CepService;
 import io.github.pedroermarinho.comandalivreapi.infra.drivers.CepDriver;
@@ -41,9 +41,9 @@ public class SearchCepTest {
     @Test
     void searchCepReturnsNewCepAddress() {
         
-        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new Cep()));
+        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new CepEntity()));
 
-        assertInstanceOf(Cep.class, searchCep.execute("69088240"));
+        assertInstanceOf(CepEntity.class, searchCep.execute("69088240"));
     }
 
     @Test

@@ -5,16 +5,15 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 
-@Component
 public interface UserRepository {
-    List<User> findAll();
-    User findById(UUID id);
-    User findByEmail(String email);
-    User findByUsername(String username);
-    User create(User user);
-    User update(UUID id,User userParam);
-    User disable(UUID id);
-    User enable(UUID id);
+    List<UserEntity> findAll();
+    UserEntity findById(UUID id);
+    UserEntity findByEmail(String email);
+    UserEntity findByUsername(String username);
+    UserEntity create(UserEntity user);
+    UserEntity update(UUID id,UserEntity userParam);
+    UserEntity disable(UUID id);
+    UserEntity enable(UUID id);
 }

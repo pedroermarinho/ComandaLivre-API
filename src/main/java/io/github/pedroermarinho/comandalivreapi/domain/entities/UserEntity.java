@@ -9,14 +9,14 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "user")
 @DynamicUpdate
 @DynamicInsert
-public class User extends Auditable{
+public class UserEntity extends Auditable{
 
     private String name;
 
-    @Column(unique=true)
+    // @Column(unique=true)
     private String email;
 
-    @Column(unique=true)
+    // @Column(unique=true)
     private String username;
 
     private String password;
@@ -24,11 +24,11 @@ public class User extends Auditable{
     private boolean status;
 
 
-    public User() {
+    public UserEntity() {
     }
 
 
-    public User(String name, String email, String username, String password) {
+    public UserEntity(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -84,6 +84,40 @@ public class User extends Auditable{
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserEntity other = (UserEntity) obj;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        return true;
+    }
+
+
+    @Override
+    public String toString() {
+        return "UserEntity [email=" + email + ", name=" + name + ", password=" + password + ", status=" + status
+                + ", username=" + username + "]";
     }
 
     

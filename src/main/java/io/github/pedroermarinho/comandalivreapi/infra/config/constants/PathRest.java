@@ -7,5 +7,5 @@ public class PathRest {
     }
 
     public static final String API = "/api";
-    public static final String VERSION = "/V1";
+    public static final String VERSION = "/v1";
 }

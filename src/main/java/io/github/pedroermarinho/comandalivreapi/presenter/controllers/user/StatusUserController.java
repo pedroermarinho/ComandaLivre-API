@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.StatusUser;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
@@ -27,9 +27,8 @@ public class StatusUserController {
     }
 
     @PatchMapping("/{id}")
-    @Transactional
     public ResponseEntity<UserDTO> disableUser(@PathVariable UUID id){
-        final User user= statusUser.disableUser(id);
+        final UserEntity user= statusUser.disableUser(id);
         return ResponseEntity.ok().body(UserMapper.INSTANCE.entityToResponse(user));
     }
 }

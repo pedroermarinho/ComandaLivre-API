@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
@@ -42,24 +42,24 @@ public class RegisterUserTest {
     @Test
     void registerUserReturnsUser() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
-        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new User()));
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
+        when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        final User user = new User();
+        final UserEntity user = new UserEntity();
 
         user.setEmail("exemplo@exemplo.com");
         user.setName("exemplo");
         user.setUsername("exemplo");
         user.setPassword("exemplo");
 
-        assertInstanceOf(User.class, registerUser.execute(user));
+        assertInstanceOf(UserEntity.class, registerUser.execute(user));
     }
 
     @Test
     void registerUserReturnsThrowsEmailInvalidException() {
         
-        when(userDataSource.save(any(User.class))).thenReturn(new User());
-        final User user = new User();
+        when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
+        final UserEntity user = new UserEntity();
 
         user.setEmail("exemplo@exemplo");
         user.setName("exemplo");

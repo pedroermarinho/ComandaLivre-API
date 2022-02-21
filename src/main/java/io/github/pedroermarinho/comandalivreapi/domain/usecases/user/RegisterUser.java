@@ -1,8 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.user;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.EmailValidation;
 
@@ -15,7 +16,8 @@ public class RegisterUser {
         this.userRepository = userRepository;
     }
 
-    public User execute(User userRegister){
+    @Transactional
+    public UserEntity execute(UserEntity userRegister){
         EmailValidation.validationThrow(userRegister.getEmail());
         return userRepository.create(userRegister);
     }

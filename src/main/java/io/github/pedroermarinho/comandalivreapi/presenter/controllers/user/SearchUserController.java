@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.User;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.SearchUser;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
@@ -28,25 +28,25 @@ public class SearchUserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> searchUserAll() {
-        final List<User> users = searchUser.searchUserAll();
+        final List<UserEntity> users = searchUser.searchUserAll();
         return ResponseEntity.ok().body(UserMapper.INSTANCE.entityToResponse(users));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> searchUserById(@PathVariable UUID id) {
-        final User user = searchUser.searchUserById(id); 
+        final UserEntity user = searchUser.searchUserById(id); 
         return ResponseEntity.ok().body(UserMapper.INSTANCE.entityToResponse(user));
     }
 
     @GetMapping(UserPathRest.USER_SEARCH_EMAIL)
     public ResponseEntity<UserDTO> searchUserByEmail(@PathVariable String email) {
-        final User user = searchUser.searchUserByEmail(email); 
+        final UserEntity user = searchUser.searchUserByEmail(email); 
         return ResponseEntity.ok().body(UserMapper.INSTANCE.entityToResponse(user));
     }
 
     @GetMapping(UserPathRest.USER_SEARCH_USERNAME)
     public ResponseEntity<UserDTO> searchUserByUsername(@PathVariable String username) {
-        final User user = searchUser.searchUserByUsername(username); 
+        final UserEntity user = searchUser.searchUserByUsername(username); 
         return ResponseEntity.ok().body(UserMapper.INSTANCE.entityToResponse(user));
     }
     
