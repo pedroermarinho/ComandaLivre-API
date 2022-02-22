@@ -18,7 +18,7 @@ public class RegisterUser {
 
     @Transactional
     public UserEntity execute(UserEntity userRegister){
-        EmailValidation.validationThrow(userRegister.getEmail());
+        new EmailValidation().validationThrow(userRegister.getEmail());
         return userRepository.create(userRegister);
     }
 

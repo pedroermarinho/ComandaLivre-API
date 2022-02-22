@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.CepEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.infra.drivers.CepDriver;
 
@@ -12,7 +12,7 @@ import io.github.pedroermarinho.comandalivreapi.infra.drivers.CepDriver;
 public class CepDriverImpl implements CepDriver {
 
     @Override
-    public Optional<CepEntity> findByCep(String cep) {
+    public Optional<AddressEntity> findByCep(String cep) {
         throw new NotImplementedException() ;
     }
 }

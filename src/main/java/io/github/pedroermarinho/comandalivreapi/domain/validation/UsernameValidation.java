@@ -2,19 +2,18 @@ package io.github.pedroermarinho.comandalivreapi.domain.validation;
 
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 
-public class UsernameValidation {
-    private UsernameValidation() {
-        throw new IllegalStateException("Utility class");
-    }
-
-    public static Boolean validation(String username) {
+public class UsernameValidation implements Validation<String>{
+    
+    @Override
+    public  boolean validation(String username) {
         if (username == null)
             return false;
             
-        return !EmailValidation.validation(username);
+        return !new EmailValidation().validation(username);
     }
 
-    public static void validationThrow(String username) {
+    @Override
+    public  void validationThrow(String username) {
         if (Boolean.TRUE.equals(validation(username)))
             return;
 

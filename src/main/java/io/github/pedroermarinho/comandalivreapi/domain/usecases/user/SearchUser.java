@@ -30,7 +30,7 @@ public class SearchUser {
         if(email == null){
             throw new IllegalArgumentException("O email não pode ser null");
         }
-        EmailValidation.validationThrow(email);
+        new EmailValidation().validationThrow(email);
         return userRepository.findByEmail(email);
     }
 
@@ -38,7 +38,7 @@ public class SearchUser {
         if(username == null){
             throw new IllegalArgumentException("O username não pode ser null");
         }
-        UsernameValidation.validationThrow(username);
+        new UsernameValidation().validationThrow(username);
         return userRepository.findByUsername(username);
     }
 

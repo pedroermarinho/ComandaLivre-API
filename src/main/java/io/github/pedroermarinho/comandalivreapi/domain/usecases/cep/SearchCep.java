@@ -2,7 +2,7 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.cep;
 
 import org.springframework.stereotype.Service;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.CepEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.services.CepService;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.CepValidation;
 
@@ -14,8 +14,8 @@ public class SearchCep {
         this.cepService = cepService;
     }
 
-    public CepEntity execute(String cep){
-        CepValidation.validationThrow(cep);
+    public AddressEntity execute(String cep){
+        new CepValidation().validationThrow(cep);
         return cepService.findByCep(cep);
     }
 }

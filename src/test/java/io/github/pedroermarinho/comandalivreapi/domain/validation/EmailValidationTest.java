@@ -14,31 +14,31 @@ public class EmailValidationTest {
     
     @Test
     public void emailValidationReturnsNotThrow(){
-        assertDoesNotThrow(()->EmailValidation.validationThrow("exemplo@exemplo.com"));
+        assertDoesNotThrow(()->new EmailValidation().validationThrow("exemplo@exemplo.com"));
     }
 
     @Test
     public void emailValidationReturnsThrowEmailInvalidException(){
-        assertThrows(UsernameInvalidException.class,()->EmailValidation.validationThrow("exemplo@exemplo"));
+        assertThrows(UsernameInvalidException.class,()->new EmailValidation().validationThrow("exemplo@exemplo"));
     }
     
     @Test
     public void valueNullEmailValidationReturnsThrowEmailInvalidException(){
-        assertThrows(UsernameInvalidException.class,()->EmailValidation.validationThrow(null));
+        assertThrows(UsernameInvalidException.class,()->new EmailValidation().validationThrow(null));
     }
 
     @Test
     public void emailValidationReturnsTrue(){
-        assertTrue(EmailValidation.validation("exemplo@exemplo.com"));
+        assertTrue(new EmailValidation().validation("exemplo@exemplo.com"));
     }
 
     @Test
     public void emailValidationReturnsFalse(){
-        assertFalse(EmailValidation.validation("exemplo@exemplo"));
+        assertFalse(new EmailValidation().validation("exemplo@exemplo"));
     }
 
     @Test
     public void valeueNullEmailValidationReturnsFalse(){
-        assertFalse(EmailValidation.validation(null));
+        assertFalse(new EmailValidation().validation(null));
     }
 }

@@ -13,31 +13,31 @@ public class CepValidationTest {
 
     @Test
     public void cepValidationReturnsNotThrow(){
-        assertDoesNotThrow(()->CepValidation.validationThrow("60440134"));
+        assertDoesNotThrow(()->new CepValidation().validationThrow("60440134"));
     }
 
     @Test
     public void cepValidationReturnsThrowCepInvalidException(){
-        assertThrows(CepInvalidException.class,()->CepValidation.validationThrow("60440-134"));
+        assertThrows(CepInvalidException.class,()->new CepValidation().validationThrow("60440-134"));
     }
     
     @Test
     public void valueNullCepValidationReturnsThrowCepInvalidException(){
-        assertThrows(CepInvalidException.class,()->CepValidation.validationThrow(null));
+        assertThrows(CepInvalidException.class,()->new CepValidation().validationThrow(null));
     }
 
     @Test
     public void cepValidationReturnsTrue(){
-        assertTrue(CepValidation.validation("60440134"));
+        assertTrue(new CepValidation().validation("60440134"));
     }
 
     @Test
     public void cepValidationReturnsFalse(){
-        assertFalse(CepValidation.validation("6044-0134"));
+        assertFalse(new CepValidation().validation("6044-0134"));
     }
 
     @Test
     public void valeueNullCepValidationReturnsFalse(){
-        assertFalse(CepValidation.validation(null));
+        assertFalse(new CepValidation().validation(null));
     }
 }

@@ -20,7 +20,7 @@ public class UpdateUser {
 
     @Transactional
     public UserEntity execute(UUID id, UserEntity userParam){
-        EmailValidation.validationThrow(userParam.getEmail());
+        new EmailValidation().validationThrow(userParam.getEmail());
         return userRepository.update(id, userParam);
     }
 }
