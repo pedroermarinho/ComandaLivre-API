@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
@@ -45,21 +45,21 @@ public class RegisterUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        final UserEntity user = new UserEntity();
+        final UserDTO user = new UserDTO();
 
         user.setEmail("exemplo@exemplo.com");
         user.setName("exemplo");
         user.setUsername("exemplo");
         user.setPassword("exemplo");
 
-        assertInstanceOf(UserEntity.class, registerUser.execute(user));
+        assertInstanceOf(UserDTO.class, registerUser.execute(user));
     }
 
     @Test
     void registerUserReturnsThrowsEmailInvalidException() {
         
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
-        final UserEntity user = new UserEntity();
+        final UserDTO user = new UserDTO();
 
         user.setEmail("exemplo@exemplo");
         user.setName("exemplo");

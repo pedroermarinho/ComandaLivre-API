@@ -23,11 +23,6 @@ public class EmailValidationTest {
     }
     
     @Test
-    public void valueNullEmailValidationReturnsThrowEmailInvalidException(){
-        assertThrows(UsernameInvalidException.class,()->new EmailValidation().validationThrow(null));
-    }
-
-    @Test
     public void emailValidationReturnsTrue(){
         assertTrue(new EmailValidation().validation("exemplo@exemplo.com"));
     }
@@ -35,10 +30,5 @@ public class EmailValidationTest {
     @Test
     public void emailValidationReturnsFalse(){
         assertFalse(new EmailValidation().validation("exemplo@exemplo"));
-    }
-
-    @Test
-    public void valeueNullEmailValidationReturnsFalse(){
-        assertFalse(new EmailValidation().validation(null));
     }
 }

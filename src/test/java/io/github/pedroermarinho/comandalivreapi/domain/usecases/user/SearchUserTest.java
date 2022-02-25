@@ -15,8 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotNullException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
@@ -46,7 +47,7 @@ public class SearchUserTest {
         
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserEntity.class, searchUser.searchUserById(UUID.randomUUID()));
+        assertInstanceOf(UserDTO.class, searchUser.searchUserById(UUID.randomUUID()));
     }
     
     @Test
@@ -54,7 +55,7 @@ public class SearchUserTest {
         
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertThrows(IllegalArgumentException.class,()-> searchUser.searchUserById(null));
+        assertThrows(NotNullException.class,()-> searchUser.searchUserById(null));
     }
 
     @Test
@@ -62,7 +63,7 @@ public class SearchUserTest {
         
         when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserEntity.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
+        assertInstanceOf(UserDTO.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
     }
 
     @Test
@@ -78,7 +79,7 @@ public class SearchUserTest {
         
         when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserEntity.class, searchUser.searchUserByUsername("exemplo"));
+        assertInstanceOf(UserDTO.class, searchUser.searchUserByUsername("exemplo"));
     }
 
     @Test

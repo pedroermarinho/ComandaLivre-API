@@ -20,11 +20,7 @@ public class CepValidationTest {
     public void cepValidationReturnsThrowCepInvalidException(){
         assertThrows(CepInvalidException.class,()->new CepValidation().validationThrow("60440-134"));
     }
-    
-    @Test
-    public void valueNullCepValidationReturnsThrowCepInvalidException(){
-        assertThrows(CepInvalidException.class,()->new CepValidation().validationThrow(null));
-    }
+
 
     @Test
     public void cepValidationReturnsTrue(){
@@ -36,8 +32,4 @@ public class CepValidationTest {
         assertFalse(new CepValidation().validation("6044-0134"));
     }
 
-    @Test
-    public void valeueNullCepValidationReturnsFalse(){
-        assertFalse(new CepValidation().validation(null));
-    }
 }

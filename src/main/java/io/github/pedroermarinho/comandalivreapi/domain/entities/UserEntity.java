@@ -1,38 +1,42 @@
 package io.github.pedroermarinho.comandalivreapi.domain.entities;
 
-import java.util.List;
-
-import javax.persistence.*;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.Data;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @DynamicUpdate
 @DynamicInsert
 @Data
-public class UserEntity extends Auditable{
+@EqualsAndHashCode(callSuper = true)
+public class UserEntity extends Auditable {
 
     private String name;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     private String password;
 
-    private String telefone; 
+    private String telefone;
 
     @OneToMany(mappedBy = "userEntity")
-    private List<EmployeeEntity> employees; 
+    private List<EmployeeEntity> employees = new ArrayList<>();
 
     @OneToMany(mappedBy = "userEntity")
-    private List<CommandEntity> commands;
+    private List<CommandEntity> commands = new ArrayList<>();
 
 
     public UserEntity() {
@@ -45,5 +49,5 @@ public class UserEntity extends Auditable{
         this.username = username;
         this.password = password;
     }
-    
+
 }

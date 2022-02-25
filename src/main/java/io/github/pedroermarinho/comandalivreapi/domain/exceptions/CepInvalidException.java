@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.exceptions;
 
-public class CepInvalidException extends RuntimeException{
+public class CepInvalidException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public CepInvalidException(String msg) {

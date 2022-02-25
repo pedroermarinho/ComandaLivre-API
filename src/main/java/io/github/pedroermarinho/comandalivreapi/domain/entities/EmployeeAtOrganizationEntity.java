@@ -1,21 +1,22 @@
 package io.github.pedroermarinho.comandalivreapi.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "employee_at_organization")
 @DynamicUpdate
 @DynamicInsert
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class EmployeeAtOrganizationEntity extends Auditable {
-    
+
     @ManyToOne
     private OrganizationEntity organizationEntity;
 
@@ -27,13 +28,13 @@ public class EmployeeAtOrganizationEntity extends Auditable {
 
     public EmployeeAtOrganizationEntity() {
     }
-    
+
     public EmployeeAtOrganizationEntity(OrganizationEntity organizationEntity, EmployeeEntity employeeEntity,
-            RoleEntity roleEntity) {
+                                        RoleEntity roleEntity) {
         this.organizationEntity = organizationEntity;
         this.employeeEntity = employeeEntity;
         this.roleEntity = roleEntity;
     }
 
-    
+
 }

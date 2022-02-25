@@ -1,13 +1,13 @@
 package io.github.pedroermarinho.comandalivreapi.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 @Entity
@@ -15,7 +15,8 @@ import lombok.Data;
 @DynamicUpdate
 @DynamicInsert
 @Data
-public class ProductOfCommandEntity  extends Auditable{
+@EqualsAndHashCode(callSuper = true)
+public class ProductOfCommandEntity extends Auditable {
 
     private Integer amount;
 
@@ -35,7 +36,5 @@ public class ProductOfCommandEntity  extends Auditable{
         this.productEntity = productEntity;
     }
 
-    
-    
-    
+
 }

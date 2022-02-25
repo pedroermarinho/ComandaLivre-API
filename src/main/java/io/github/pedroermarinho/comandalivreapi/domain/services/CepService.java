@@ -1,10 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.domain.services;
 
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
 import org.springframework.stereotype.Component;
-
-import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
 
 @Component
 public interface CepService {
-    AddressEntity findByCep(String cep);
+    AddressDTO findByCep(String cep);
 }

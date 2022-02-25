@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
@@ -44,7 +44,7 @@ public class StatusUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserEntity.class, statusUser.disableUser(UUID.randomUUID()));
+        assertInstanceOf(UserDTO.class, statusUser.disableUser(UUID.randomUUID()));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class StatusUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserEntity.class, statusUser.enableUser(UUID.randomUUID()));
+        assertInstanceOf(UserDTO.class, statusUser.enableUser(UUID.randomUUID()));
     }
 
     @Test

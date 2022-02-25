@@ -1,20 +1,21 @@
 package io.github.pedroermarinho.comandalivreapi.domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "addresses")
 @DynamicUpdate
 @DynamicInsert
 @Data
-public class AddressEntity extends Auditable{
-    
+@EqualsAndHashCode(callSuper = true)
+public class AddressEntity extends Auditable {
+
     private String cep;
 
     private String logradouro;

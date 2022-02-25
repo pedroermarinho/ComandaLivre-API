@@ -1,10 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.infra.drivers;
 
-import java.util.Optional;
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
+import java.util.Optional;
 
 
 public interface CepDriver {
-    Optional<AddressEntity> findByCep(String cep);
+    Optional<AddressDTO> findByCep(String cep);
 }

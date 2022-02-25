@@ -1,11 +1,19 @@
 package io.github.pedroermarinho.comandalivreapi.infra.forms;
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
+import lombok.Data;
+import org.springframework.stereotype.Component;
 
+@Component
+@Data
 public class UserForm {
 
-    public UserEntity converte(){
-        final UserEntity user = new UserEntity();
-        return user;
-    }
+    private String name;
+
+    private String email;
+
+    private String username;
+
+    private String password;
+
+    private String telefone;
 }

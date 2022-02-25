@@ -1,10 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.domain.validation;
 
-import java.util.regex.Pattern;
-
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 
-public class EmailValidation  implements Validation<String>{
+import java.util.regex.Pattern;
+
+public class EmailValidation implements Validation<String> {
 
     private final Pattern VALID_EMAIL_REGEX = Pattern.compile(
             "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
@@ -12,9 +12,6 @@ public class EmailValidation  implements Validation<String>{
 
     @Override
     public boolean validation(String email) {
-        if (email == null)
-            return false;
-            
         return VALID_EMAIL_REGEX.matcher(email).find();
     }
 

@@ -1,22 +1,23 @@
 package io.github.pedroermarinho.comandalivreapi.domain.entities;
 
-import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "organizations")
 @DynamicUpdate
 @DynamicInsert
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class OrganizationEntity extends Auditable {
 
     private String name;
@@ -26,11 +27,11 @@ public class OrganizationEntity extends Auditable {
     private AddressEntity addressEntity;
 
     @OneToMany(mappedBy = "organizationEntity")
-    private List<EmployeeAtOrganizationEntity> employeeAtOrganizations;
+    private List<EmployeeAtOrganizationEntity> employeeAtOrganizations = new ArrayList<>();
 
     @OneToMany(mappedBy = "organizationEntity")
-    private List<ProductEntity> productEntities;
-    
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
     public OrganizationEntity(String name, String telefone, AddressEntity addressEntity) {
         this.name = name;
         this.telefone = telefone;
@@ -40,6 +41,5 @@ public class OrganizationEntity extends Auditable {
     public OrganizationEntity() {
     }
 
-    
 
 }

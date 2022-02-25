@@ -1,9 +1,8 @@
 package io.github.pedroermarinho.comandalivreapi.infra.datasources;
 
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -12,5 +11,6 @@ import java.util.UUID;
 public interface UserDataSource extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByEmail(String email);
+
     Optional<UserEntity> findByUsername(String username);
 }

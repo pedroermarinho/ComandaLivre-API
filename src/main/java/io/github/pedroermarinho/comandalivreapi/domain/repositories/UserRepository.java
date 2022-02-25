@@ -1,19 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.domain.repositories;
 
-import java.util.List;
-import java.util.UUID;
+import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 
-import org.springframework.stereotype.Component;
+public interface UserRepository extends GenericRepository<UserDTO> {
 
-import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
+    UserDTO findByEmail(String email);
 
-public interface UserRepository {
-    List<UserEntity> findAll();
-    UserEntity findById(UUID id);
-    UserEntity findByEmail(String email);
-    UserEntity findByUsername(String username);
-    UserEntity create(UserEntity user);
-    UserEntity update(UUID id,UserEntity userParam);
-    UserEntity disable(UUID id);
-    UserEntity enable(UUID id);
+    UserDTO findByUsername(String username);
 }
