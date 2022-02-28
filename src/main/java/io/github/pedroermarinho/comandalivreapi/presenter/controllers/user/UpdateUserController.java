@@ -6,6 +6,8 @@ import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.UserConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.UserForm;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,9 @@ public class UpdateUserController {
         this.updateUser = updateUser;
     }
 
+    @Operation(summary = "Atualizar usuário")
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> disableUser(@PathVariable UUID id, @Valid @RequestBody UserForm userForm) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable UUID id, @Valid @RequestBody UserForm userForm) {
         final UserDTO user = updateUser.execute(id, convert.fromForm(userForm));
         return ResponseEntity.ok().body(user);
     }

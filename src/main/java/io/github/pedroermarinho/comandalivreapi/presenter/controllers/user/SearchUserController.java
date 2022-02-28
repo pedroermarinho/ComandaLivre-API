@@ -4,6 +4,8 @@ import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.SearchUser;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,25 +25,29 @@ public class SearchUserController {
         this.searchUser = searchUser;
     }
 
+    @Operation(summary = "Lista de usuários")
     @GetMapping
     public ResponseEntity<List<UserDTO>> searchUserAll() {
         final List<UserDTO> users = searchUser.searchUserAll();
         return ResponseEntity.ok().body(users);
     }
 
+    @Operation(summary = "Buscar usuário por id")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> searchUserById(@PathVariable UUID id) {
         final UserDTO user = searchUser.searchUserById(id);
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping(UserPathRest.USER_SEARCH_EMAIL)
+    @Operation(summary = "Buscar usuário por email")
+    @GetMapping(UserPathRest.USER_SEARCH_EMAIL+"/{email}")
     public ResponseEntity<UserDTO> searchUserByEmail(@PathVariable String email) {
         final UserDTO user = searchUser.searchUserByEmail(email);
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping(UserPathRest.USER_SEARCH_USERNAME)
+    @Operation(summary = "Buscar usuário por username")
+    @GetMapping(UserPathRest.USER_SEARCH_USERNAME+"/{username}")
     public ResponseEntity<UserDTO> searchUserByUsername(@PathVariable String username) {
         final UserDTO user = searchUser.searchUserByUsername(username);
         return ResponseEntity.ok().body(user);

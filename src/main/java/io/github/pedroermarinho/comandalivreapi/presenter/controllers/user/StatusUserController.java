@@ -4,6 +4,8 @@ import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.StatusUser;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ public class StatusUserController {
         this.statusUser = statusUser;
     }
 
+    @Operation(summary = "Desativar usuário")
     @PatchMapping("/{id}")
     public ResponseEntity<UserDTO> disableUser(@PathVariable UUID id) {
         final UserDTO user = statusUser.disableUser(id);

@@ -6,6 +6,8 @@ import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.UserConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.UserForm;
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ public class RegisterUserController {
         this.registerUser = registerUser;
     }
 
+    @Operation(summary = "Cadastrar usuário")
     @PostMapping
     public ResponseEntity<UserDTO> registerUser(UserForm userForm) {
         final UserDTO user = registerUser.execute(convert.fromForm(userForm));

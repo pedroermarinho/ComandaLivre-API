@@ -10,7 +10,7 @@ public class UserPathRest {
     public static final String USER_REGISTER = USER;
     public static final String USER_SEARCH = USER;
     public static final String USER_UPDATE = USER;
-    public static final String USER_SEARCH_EMAIL = "/email/{email}";
-    public static final String USER_SEARCH_USERNAME = "/username/{username}";
+    public static final String USER_SEARCH_EMAIL = "/email/";
+    public static final String USER_SEARCH_USERNAME = "/username/";
     public static final String USER_STATUS = USER + "/disable";
 }

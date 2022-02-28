@@ -2,12 +2,12 @@ package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeEntity;
-import io.github.pedroermarinho.comandalivreapi.infra.forms.Employeeform;
+import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeForm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeConvert implements Convert<EmployeeEntity, EmployeeDTO, Employeeform> {
+public class EmployeeConvert implements Convert<EmployeeEntity, EmployeeDTO, EmployeeForm> {
 
     @Override
     public EmployeeDTO formEntity(EmployeeEntity entity) {
@@ -34,7 +34,7 @@ public class EmployeeConvert implements Convert<EmployeeEntity, EmployeeDTO, Emp
     }
 
     @Override
-    public EmployeeDTO fromForm(Employeeform form) {
+    public EmployeeDTO fromForm(EmployeeForm form) {
         // TODO Auto-generated method stub
         return null;
     }
