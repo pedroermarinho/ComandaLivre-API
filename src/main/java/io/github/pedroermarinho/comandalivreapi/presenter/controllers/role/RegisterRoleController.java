@@ -7,7 +7,6 @@ import io.github.pedroermarinho.comandalivreapi.infra.config.constants.RolePathR
 import io.github.pedroermarinho.comandalivreapi.infra.convert.RoleConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.RoleForm;
 import io.swagger.v3.oas.annotations.Operation;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

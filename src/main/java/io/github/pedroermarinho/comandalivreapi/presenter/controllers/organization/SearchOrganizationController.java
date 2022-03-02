@@ -2,9 +2,9 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.organizat
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.SearchOrganization;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.OrganizationPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.OrganizationPathRest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +37,6 @@ public class SearchOrganizationController {
         final OrganizationDTO organization = searchOrganization.searchOrganizationById(id);
         return ResponseEntity.ok().body(organization);
     }
-
 
 
 }

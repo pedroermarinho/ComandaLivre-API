@@ -2,9 +2,9 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.StatusEmployee;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeePathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeePathRest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

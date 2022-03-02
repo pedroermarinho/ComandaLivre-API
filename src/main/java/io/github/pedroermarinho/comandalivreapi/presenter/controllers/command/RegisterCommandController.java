@@ -2,12 +2,11 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.command.RegisterCommand;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.CommandPathRest;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.CommandConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.CommandForm;
 import io.swagger.v3.oas.annotations.Operation;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

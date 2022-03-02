@@ -22,7 +22,7 @@ public class SearchUser {
     }
 
     public UserDTO searchUserById(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
 
         validations.forEach(validation -> validation.validationThrow(id));
 
@@ -49,6 +49,24 @@ public class SearchUser {
 
     public List<UserDTO> searchUserAll() {
         return userRepository.findAll();
+    }
+
+    public boolean existsByEmail(String email) {
+
+        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>(), new EmailValidation());
+
+        validations.forEach(validation -> validation.validationThrow(email));
+
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean existsByUsername(String username) {
+
+        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>(), new UsernameValidation());
+
+        validations.forEach(validation -> validation.validationThrow(username));
+
+        return userRepository.existsByUsername(username);
     }
 
 }

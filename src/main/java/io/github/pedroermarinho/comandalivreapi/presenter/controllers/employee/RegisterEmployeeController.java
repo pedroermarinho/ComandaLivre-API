@@ -2,12 +2,11 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.RegisterEmployee;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeePathRest;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.EmployeeConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeForm;
 import io.swagger.v3.oas.annotations.Operation;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -7,4 +7,8 @@ public interface UserRepository extends GenericRepository<UserDTO> {
     UserDTO findByEmail(String email);
 
     UserDTO findByUsername(String username);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 }

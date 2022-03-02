@@ -2,8 +2,8 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee_
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employeea_at_organization.UpdateEmployeeAtOrganization;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeeAtOrganizationPathRest;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.EmployeeAtOrganizationConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeAtOrganizationForm;
 import org.springframework.http.ResponseEntity;

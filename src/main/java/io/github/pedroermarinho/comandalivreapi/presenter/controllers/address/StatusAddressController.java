@@ -2,9 +2,9 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.address;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.address.StatusAddress;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.AddressPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.AddressPathRest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

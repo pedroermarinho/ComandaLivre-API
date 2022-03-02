@@ -53,6 +53,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean existsByUsername(String username) {
+        return userDataSource.existsByUsername(username);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userDataSource.existsByEmail(email);
+    }
+
+    @Override
     public UserDTO create(UserDTO user) {
         return convert.formEntity(userDataSource.save(convert.formDTO(user)));
     }

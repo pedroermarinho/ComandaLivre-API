@@ -2,8 +2,8 @@ package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee_
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employeea_at_organization.SearchEmployeeAtOrganization;
-import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeeAtOrganizationPathRest;
+import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
