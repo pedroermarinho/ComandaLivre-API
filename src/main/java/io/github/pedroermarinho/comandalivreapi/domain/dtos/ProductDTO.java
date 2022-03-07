@@ -1,18 +1,35 @@
 package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductDTO extends AuditableDTO {
+public record ProductDTO(
+        UUID id,
 
-    private String name;
+        UUID createdById,
 
-    private String description;
+        UUID modifiedById,
 
-    private BigDecimal price;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date creationDate,
+
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date lastModifiedDate,
+
+        Boolean status,
+        String name,
+
+        String description,
+
+        BigDecimal price
+        ) {
+
 
 }

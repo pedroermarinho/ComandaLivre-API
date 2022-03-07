@@ -1,21 +1,41 @@
 package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserDTO extends AuditableDTO {
+public record UserDTO(
+        UUID id,
 
-    private String name;
+        UUID createdById,
 
-    private String email;
+        UUID modifiedById,
 
-    private String username;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date creationDate,
 
-    private String password;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date lastModifiedDate,
 
-    private String telefone;
+        Boolean status,
+
+        String name,
+
+        String email,
+
+        String username,
+
+        String password,
+
+        String telefone
+
+) {
+
 
 }

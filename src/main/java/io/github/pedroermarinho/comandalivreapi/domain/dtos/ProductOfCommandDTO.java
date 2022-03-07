@@ -1,16 +1,35 @@
 package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductOfCommandDTO extends AuditableDTO {
+public record ProductOfCommandDTO(
+        UUID id,
 
-    private Integer amount;
+        UUID createdById,
 
-    private CommandDTO command;
+        UUID modifiedById,
 
-    private ProductDTO product;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date creationDate,
+
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        Date lastModifiedDate,
+
+        Boolean status,
+
+        Integer amount,
+
+        CommandDTO command,
+
+        ProductDTO product
+        ) {
+
 
 }

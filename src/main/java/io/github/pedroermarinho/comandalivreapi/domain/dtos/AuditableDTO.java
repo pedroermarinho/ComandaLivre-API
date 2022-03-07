@@ -6,20 +6,21 @@ import lombok.Data;
 import java.util.Date;
 import java.util.UUID;
 
-@Data
-public abstract class AuditableDTO {
+public record AuditableDTO(
 
-    protected UUID id;
+         UUID id,
 
-    protected UUID createdById;
+         UUID createdById,
 
-    protected UUID modifiedById;
+         UUID modifiedById,
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    protected Date creationDate;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+         Date creationDate,
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    protected Date lastModifiedDate;
+        @JsonFormat(pattern = "dd/MM/yyyy")
+         Date lastModifiedDate,
 
-    protected Boolean status = true;
+         Boolean status
+) {
+
 }
