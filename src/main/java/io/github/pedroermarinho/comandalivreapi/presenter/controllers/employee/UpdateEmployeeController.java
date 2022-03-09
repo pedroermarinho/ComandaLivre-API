@@ -18,7 +18,7 @@ import java.util.UUID;
 public class UpdateEmployeeController {
 
     private final UpdateEmployee updateEmployee;
-    private final EmployeeConvert convert = new EmployeeConvert();
+    private final EmployeeConvert convert = new EmployeeConvert(searchUser);
 
     public UpdateEmployeeController(UpdateEmployee updateEmployee) {
         this.updateEmployee = updateEmployee;

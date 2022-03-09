@@ -20,7 +20,7 @@ import java.net.URI;
 public class RegisterProductController {
 
     private final RegisterProduct registerProduct;
-    private final ProductConvert convert = new ProductConvert();
+    private final ProductConvert convert = new ProductConvert(searchOrganization);
 
     public RegisterProductController(RegisterProduct registerProduct) {
         this.registerProduct = registerProduct;

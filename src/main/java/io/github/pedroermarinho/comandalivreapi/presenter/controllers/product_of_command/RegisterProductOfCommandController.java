@@ -19,7 +19,7 @@ import java.net.URI;
 public class RegisterProductOfCommandController {
 
     private final RegisterProductOfCommand registerProductOfCommand;
-    private final ProductOfCommandConvert convert = new ProductOfCommandConvert();
+    private final ProductOfCommandConvert convert = new ProductOfCommandConvert(searchCommand, searchProduct);
 
     public RegisterProductOfCommandController(RegisterProductOfCommand registerProductOfCommand) {
         this.registerProductOfCommand = registerProductOfCommand;

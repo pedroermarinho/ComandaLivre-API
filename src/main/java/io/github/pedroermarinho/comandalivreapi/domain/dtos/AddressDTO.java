@@ -5,11 +5,10 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-@Getter
-@Setter
 public record AddressDTO(
         UUID id,
 
@@ -36,7 +35,7 @@ public record AddressDTO(
         String uf,
 
         String number
-) {
+) implements Serializable {
 
     public AddressDTO(String cep, String logradouro, String bairro, String localidade, String uf, String number) {
         this(

@@ -20,7 +20,7 @@ import java.net.URI;
 public class RegisterOrganizationController {
 
     private final RegisterOrganization registerOrganization;
-    private final OrganizationConvert convert = new OrganizationConvert();
+    private final OrganizationConvert convert = new OrganizationConvert(searchAddress);
 
     public RegisterOrganizationController(RegisterOrganization registerOrganization) {
         this.registerOrganization = registerOrganization;

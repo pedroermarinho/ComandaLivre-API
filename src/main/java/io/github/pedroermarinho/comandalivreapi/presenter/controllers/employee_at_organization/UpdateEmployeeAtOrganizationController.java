@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UpdateEmployeeAtOrganizationController {
 
     private final UpdateEmployeeAtOrganization updateEmployeeAtOrganization;
-    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert();
+    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert(searchOrganization, searchEmployee, searchRole);
 
     public UpdateEmployeeAtOrganizationController(UpdateEmployeeAtOrganization updateEmployeeAtOrganization) {
         this.updateEmployeeAtOrganization = updateEmployeeAtOrganization;

@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class RoleRepositoryImpl implements RoleRepository {
 
     private final RoleDataSource roleDataSource;
-    private final RoleConvert convert = new RoleConvert();
 
     public RoleRepositoryImpl(RoleDataSource roleDataSource) {
         this.roleDataSource = roleDataSource;
@@ -23,19 +23,19 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public List<RoleDTO> findAll() {
-        return convert.formEntity(roleDataSource.findAll());
+        return roleDataSource.findAll().stream().map(RoleDTO::new).toList();
     }
 
     @Override
     public RoleDTO findById(UUID id) {
-        return convert.formEntity(roleDataSource.findById(id).orElseThrow(
+        return new RoleDTO(roleDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Cargo não encontrado! Id: " + id + ", Tipo: " + RoleDTO.class.getName())));
     }
 
     @Override
     public RoleDTO create(RoleDTO param) {
-        return convert.formEntity(roleDataSource.save(convert.formDTO(param)));
+        return new RoleDTO(roleDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -45,16 +45,16 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public RoleDTO disable(UUID id) {
-        final RoleDTO roleDTO = findById(id);
-        roleDTO.setStatus(false);
-        return convert.formEntity(roleDataSource.save(convert.formDTO(roleDTO)));
+        final RoleEntity roleEntity = findById(id).toEntity();
+        roleEntity.setStatus(false);
+        return new RoleDTO(roleDataSource.save(roleEntity));
     }
 
     @Override
     public RoleDTO enable(UUID id) {
-        final RoleDTO roleDTO = findById(id);
-        roleDTO.setStatus(true);
-        return convert.formEntity(roleDataSource.save(convert.formDTO(roleDTO)));
+        final RoleEntity roleEntity = findById(id).toEntity();
+        roleEntity.setStatus(false);
+        return new RoleDTO(roleDataSource.save(roleEntity));
     }
 
 }

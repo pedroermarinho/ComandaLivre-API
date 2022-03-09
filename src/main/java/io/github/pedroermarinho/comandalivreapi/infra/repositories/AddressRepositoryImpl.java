@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.AddressRepository;
@@ -15,27 +16,28 @@ import java.util.UUID;
 public class AddressRepositoryImpl implements AddressRepository {
 
     private final AddressDataSource addressDataSource;
-    private final AddressConvert convert = new AddressConvert();
+    private final AddressConvert convert ;
 
-    public AddressRepositoryImpl(AddressDataSource addressDataSource) {
+    public AddressRepositoryImpl(AddressDataSource addressDataSource, AddressConvert convert) {
         this.addressDataSource = addressDataSource;
+        this.convert = convert;
     }
 
     @Override
     public List<AddressDTO> findAll() {
-        return convert.formEntity(addressDataSource.findAll());
+        return addressDataSource.findAll().stream().map(AddressDTO::new).toList();
     }
 
     @Override
     public AddressDTO findById(UUID id) {
-        return convert.formEntity(addressDataSource.findById(id).orElseThrow(
+        return new AddressDTO(addressDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Endereço não encontrado! Id: " + id + ", Tipo: " + AddressDTO.class.getName())));
     }
 
     @Override
     public AddressDTO create(AddressDTO param) {
-        return convert.formEntity(addressDataSource.save(convert.formDTO(param)));
+        return new AddressDTO(addressDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -45,16 +47,16 @@ public class AddressRepositoryImpl implements AddressRepository {
 
     @Override
     public AddressDTO disable(UUID id) {
-        final AddressDTO addressDTO = findById(id);
-        addressDTO.setStatus(false);
-        return convert.formEntity(addressDataSource.save(convert.formDTO(addressDTO)));
+        final AddressEntity addressEntity = findById(id).toEntity();
+        addressEntity.setStatus(false);
+        return new AddressDTO(addressDataSource.save(addressEntity));
     }
 
     @Override
     public AddressDTO enable(UUID id) {
-        final AddressDTO addressDTO = findById(id);
-        addressDTO.setStatus(true);
-        return convert.formEntity(addressDataSource.save(convert.formDTO(addressDTO)));
+        final AddressEntity addressEntity = findById(id).toEntity();
+        addressEntity.setStatus(true);
+        return new AddressDTO(addressDataSource.save(addressEntity));
     }
 
 }

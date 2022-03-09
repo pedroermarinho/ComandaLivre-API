@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class OrganizationRepositoryImpl implements OrganizationRepository {
 
     private final OrganizationDataSource organizationDataSource;
-    private final OrganizationConvert convert = new OrganizationConvert();
 
     public OrganizationRepositoryImpl(OrganizationDataSource organizationDataSource) {
         this.organizationDataSource = organizationDataSource;
@@ -23,19 +23,19 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
 
     @Override
     public List<OrganizationDTO> findAll() {
-        return convert.formEntity(organizationDataSource.findAll());
+        return organizationDataSource.findAll().stream().map(OrganizationDTO::new).toList();
     }
 
     @Override
     public OrganizationDTO findById(UUID id) {
-        return convert.formEntity(organizationDataSource.findById(id).orElseThrow(
+        return new OrganizationDTO(organizationDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Organização não encontrado! Id: " + id + ", Tipo: " + OrganizationDTO.class.getName())));
     }
 
     @Override
     public OrganizationDTO create(OrganizationDTO param) {
-        return convert.formEntity(organizationDataSource.save(convert.formDTO(param)));
+        return new OrganizationDTO(organizationDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -45,16 +45,16 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
 
     @Override
     public OrganizationDTO disable(UUID id) {
-        final OrganizationDTO organizationDTO = findById(id);
-        organizationDTO.setStatus(false);
-        return convert.formEntity(organizationDataSource.save(convert.formDTO(organizationDTO)));
+        final OrganizationEntity organizationEntity = findById(id).toEntity();
+        organizationEntity.setStatus(false);
+        return new OrganizationDTO(organizationDataSource.save(organizationEntity));
     }
 
     @Override
     public OrganizationDTO enable(UUID id) {
-        final OrganizationDTO organizationDTO = findById(id);
-        organizationDTO.setStatus(true);
-        return convert.formEntity(organizationDataSource.save(convert.formDTO(organizationDTO)));
+        final OrganizationEntity organizationEntity = findById(id).toEntity();
+        organizationEntity.setStatus(true);
+        return new OrganizationDTO(organizationDataSource.save(organizationEntity));
     }
 
 }

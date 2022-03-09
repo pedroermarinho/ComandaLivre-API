@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeAtOrganizationRepository;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizationRepository {
 
     private final EmployeeAtOrganizationDataSource employeeAtOrganizationDataSource;
-    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert();
 
     public EmployeeAtOrganizationRepositoryImpl(EmployeeAtOrganizationDataSource employeeAtOrganizationDataSource) {
         this.employeeAtOrganizationDataSource = employeeAtOrganizationDataSource;
@@ -23,12 +23,12 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
 
     @Override
     public List<EmployeeAtOrganizationDTO> findAll() {
-        return convert.formEntity(employeeAtOrganizationDataSource.findAll());
+        return employeeAtOrganizationDataSource.findAll().stream().map(EmployeeAtOrganizationDTO::new).toList();
     }
 
     @Override
     public EmployeeAtOrganizationDTO findById(UUID id) {
-        return convert.formEntity(employeeAtOrganizationDataSource.findById(id).orElseThrow(
+        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Emprego na orginação não encontrado! Id: " + id + ", Tipo: "
                                 + EmployeeAtOrganizationDTO.class.getName())));
@@ -36,7 +36,7 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
 
     @Override
     public EmployeeAtOrganizationDTO create(EmployeeAtOrganizationDTO param) {
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(param)));
+        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -46,16 +46,16 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
 
     @Override
     public EmployeeAtOrganizationDTO disable(UUID id) {
-        final EmployeeAtOrganizationDTO employeeAtOrganizationDTO = findById(id);
-        employeeAtOrganizationDTO.setStatus(false);
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(employeeAtOrganizationDTO)));
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).toEntity();
+        employeeAtOrganizationEntity.setStatus(false);
+        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity));
     }
 
     @Override
     public EmployeeAtOrganizationDTO enable(UUID id) {
-        final EmployeeAtOrganizationDTO employeeAtOrganizationDTO = findById(id);
-        employeeAtOrganizationDTO.setStatus(true);
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(employeeAtOrganizationDTO)));
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).toEntity();
+        employeeAtOrganizationEntity.setStatus(true);
+        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity));
     }
 
 }

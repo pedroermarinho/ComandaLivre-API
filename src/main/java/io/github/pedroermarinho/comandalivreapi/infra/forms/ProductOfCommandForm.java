@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Component
 @Data
@@ -12,7 +13,7 @@ public class ProductOfCommandForm {
     @NotNull
     private Integer amount;
 
-    private String commandId;
+    private UUID commandId;
 
-    private String productId;
+    private UUID productId;
 }

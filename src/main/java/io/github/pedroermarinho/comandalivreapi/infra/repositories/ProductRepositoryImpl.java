@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductDataSource productDataSource;
-    private final ProductConvert convert = new ProductConvert();
 
     public ProductRepositoryImpl(ProductDataSource productDataSource) {
         this.productDataSource = productDataSource;
@@ -23,19 +23,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<ProductDTO> findAll() {
-        return convert.formEntity(productDataSource.findAll());
+        return productDataSource.findAll().stream().map(ProductDTO::new).toList();
     }
 
     @Override
     public ProductDTO findById(UUID id) {
-        return convert.formEntity(productDataSource.findById(id).orElseThrow(
+        return new ProductDTO(productDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Produdo não encontrado! Id: " + id + ", Tipo: " + ProductDTO.class.getName())));
     }
 
     @Override
     public ProductDTO create(ProductDTO param) {
-        return convert.formEntity(productDataSource.save(convert.formDTO(param)));
+        return new ProductDTO(productDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -45,16 +45,16 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public ProductDTO disable(UUID id) {
-        final ProductDTO productDTO = findById(id);
-        productDTO.setStatus(false);
-        return convert.formEntity(productDataSource.save(convert.formDTO(productDTO)));
+        final ProductEntity productEntity = findById(id).toEntity();
+        productEntity.setStatus(false);
+        return new ProductDTO(productDataSource.save(productEntity));
     }
 
     @Override
     public ProductDTO enable(UUID id) {
-        final ProductDTO productDTO = findById(id);
-        productDTO.setStatus(true);
-        return convert.formEntity(productDataSource.save(convert.formDTO(productDTO)));
+        final ProductEntity productEntity = findById(id).toEntity();
+        productEntity.setStatus(true);
+        return new ProductDTO(productDataSource.save(productEntity));
     }
 
 }

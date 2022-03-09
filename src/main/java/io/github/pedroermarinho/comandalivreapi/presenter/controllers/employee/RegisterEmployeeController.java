@@ -20,7 +20,7 @@ import java.net.URI;
 public class RegisterEmployeeController {
 
     private final RegisterEmployee registerEmployee;
-    private final EmployeeConvert convert = new EmployeeConvert();
+    private final EmployeeConvert convert = new EmployeeConvert(searchUser);
 
     public RegisterEmployeeController(RegisterEmployee registerEmployee) {
         this.registerEmployee = registerEmployee;

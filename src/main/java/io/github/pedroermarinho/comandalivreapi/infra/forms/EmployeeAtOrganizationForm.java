@@ -3,13 +3,15 @@ package io.github.pedroermarinho.comandalivreapi.infra.forms;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @Data
 public class EmployeeAtOrganizationForm {
 
-    private String organizationId;
+    private UUID organizationId;
 
-    private String employeeId;
+    private UUID employeeId;
 
-    private String roleId;
+    private UUID roleId;
 }

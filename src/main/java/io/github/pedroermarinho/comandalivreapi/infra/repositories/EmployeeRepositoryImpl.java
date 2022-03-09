@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
@@ -15,7 +16,6 @@ import java.util.UUID;
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private final EmployeeDataSource employeeDataSource;
-    private final EmployeeConvert convert = new EmployeeConvert();
 
     public EmployeeRepositoryImpl(EmployeeDataSource employeeDataSource) {
         this.employeeDataSource = employeeDataSource;
@@ -23,19 +23,19 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<EmployeeDTO> findAll() {
-        return convert.formEntity(employeeDataSource.findAll());
+        return employeeDataSource.findAll().stream().map(EmployeeDTO::new).toList();
     }
 
     @Override
     public EmployeeDTO findById(UUID id) {
-        return convert.formEntity(employeeDataSource.findById(id).orElseThrow(
+        return new EmployeeDTO(employeeDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Emprego não encontrado! Id: " + id + ", Tipo: " + EmployeeDTO.class.getName())));
     }
 
     @Override
     public EmployeeDTO create(EmployeeDTO param) {
-        return convert.formEntity(employeeDataSource.save(convert.formDTO(param)));
+        return new EmployeeDTO(employeeDataSource.save(param.toEntity()));
     }
 
     @Override
@@ -45,16 +45,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public EmployeeDTO disable(UUID id) {
-        final EmployeeDTO employeeDTO = findById(id);
-        employeeDTO.setStatus(false);
-        return convert.formEntity(employeeDataSource.save(convert.formDTO(employeeDTO)));
+        final EmployeeEntity employeeEntity = findById(id).toEntity();
+        employeeEntity.setStatus(false);
+        return new EmployeeDTO(employeeDataSource.save(employeeEntity));
     }
 
     @Override
     public EmployeeDTO enable(UUID id) {
-        final EmployeeDTO employeeDTO = findById(id);
-        employeeDTO.setStatus(true);
-        return convert.formEntity(employeeDataSource.save(convert.formDTO(employeeDTO)));
+        final EmployeeEntity employeeEntity = findById(id).toEntity();
+        employeeEntity.setStatus(true);
+        return new EmployeeDTO(employeeDataSource.save(employeeEntity));
     }
 
 }

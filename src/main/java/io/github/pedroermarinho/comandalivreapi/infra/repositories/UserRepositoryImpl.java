@@ -1,6 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.UserConvert;
@@ -14,7 +15,6 @@ import java.util.UUID;
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserDataSource userDataSource;
-    private final UserConvert convert = new UserConvert();
 
     public UserRepositoryImpl(UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
@@ -22,12 +22,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<UserDTO> findAll() {
-        return convert.formEntity(userDataSource.findAll());
+        return userDataSource.findAll().stream().map(UserDTO::new).toList();
     }
 
     @Override
     public UserDTO findById(UUID id) {
-        return convert.formEntity(userDataSource.findById(id).orElseThrow(
+        return new UserDTO(userDataSource.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Usuário não encontrado! Id: " + id + ", Tipo: " + UserDTO.class.getName()
                 ))
@@ -36,7 +36,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public UserDTO findByEmail(String email) {
-        return convert.formEntity(userDataSource.findByEmail(email).orElseThrow(
+        return new UserDTO(userDataSource.findByEmail(email).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Usuário não encontrado! email: " + email + ", Tipo: " + UserDTO.class.getName()
                 ))
@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public UserDTO findByUsername(String username) {
-        return convert.formEntity(userDataSource.findByUsername(username).orElseThrow(
+        return new UserDTO(userDataSource.findByUsername(username).orElseThrow(
                 () -> new ObjectNotFoundException(
                         "Usuário não encontrado! username: " + username + ", Tipo: " + UserDTO.class.getName()
                 ))
@@ -64,29 +64,29 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public UserDTO create(UserDTO user) {
-        return convert.formEntity(userDataSource.save(convert.formDTO(user)));
+        return new UserDTO(userDataSource.save(user.toEntity()));
     }
 
     @Override
     public UserDTO update(UUID id, UserDTO userParam) {
-        final UserDTO user = findById(id);
-        user.setName(userParam.getEmail());
-        user.setUsername(userParam.getUsername());
-        return convert.formEntity(userDataSource.save(convert.formDTO(user)));
+        final UserEntity user = findById(id).toEntity();
+        user.setName(userParam.email());
+        user.setUsername(userParam.username());
+        return new UserDTO(userDataSource.save(user));
     }
 
     @Override
     public UserDTO disable(UUID id) {
-        final UserDTO user = findById(id);
+        final UserEntity user = findById(id).toEntity();
         user.setStatus(false);
-        return convert.formEntity(userDataSource.save(convert.formDTO(user)));
+        return new UserDTO(userDataSource.save(user));
     }
 
     @Override
     public UserDTO enable(UUID id) {
-        final UserDTO user = findById(id);
+        final UserEntity user = findById(id).toEntity();
         user.setStatus(true);
-        return convert.formEntity(userDataSource.save(convert.formDTO(user)));
+        return new UserDTO(userDataSource.save(user));
     }
 
 

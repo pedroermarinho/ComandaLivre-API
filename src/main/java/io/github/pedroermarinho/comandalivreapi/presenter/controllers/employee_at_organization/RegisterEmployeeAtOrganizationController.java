@@ -19,7 +19,7 @@ import java.net.URI;
 public class RegisterEmployeeAtOrganizationController {
 
     private final RegisterEmployeeAtOrganization registerEmployeeAtOrganization;
-    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert();
+    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert(searchOrganization, searchEmployee, searchRole);
 
     public RegisterEmployeeAtOrganizationController(RegisterEmployeeAtOrganization registerEmployeeAtOrganization) {
         this.registerEmployeeAtOrganization = registerEmployeeAtOrganization;

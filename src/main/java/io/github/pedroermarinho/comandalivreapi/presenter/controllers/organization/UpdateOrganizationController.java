@@ -18,7 +18,7 @@ import java.util.UUID;
 public class UpdateOrganizationController {
 
     private final UpdateOrganization updateOrganization;
-    private final OrganizationConvert convert = new OrganizationConvert();
+    private final OrganizationConvert convert = new OrganizationConvert(searchAddress);
 
     public UpdateOrganizationController(UpdateOrganization updateOrganization) {
         this.updateOrganization = updateOrganization;

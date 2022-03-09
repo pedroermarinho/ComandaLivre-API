@@ -18,7 +18,7 @@ import java.util.UUID;
 public class UpdateProductController {
 
     private final UpdateProduct updateProduct;
-    private final ProductConvert convert = new ProductConvert();
+    private final ProductConvert convert = new ProductConvert(searchOrganization);
 
     public UpdateProductController(UpdateProduct updateProduct) {
         this.updateProduct = updateProduct;
