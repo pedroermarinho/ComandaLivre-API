@@ -24,7 +24,7 @@ public class RegisterProductOfCommand {
     public ProductOfCommandDTO execute(ProductOfCommandDTO productofcommandRegister) {
         final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(productofcommandRegister.getProduct().getId()));
+        validations.forEach(validation -> validation.validationThrow(productofcommandRegister.product().id()));
 
         return productofcommandRepository.create(productofcommandRegister);
     }

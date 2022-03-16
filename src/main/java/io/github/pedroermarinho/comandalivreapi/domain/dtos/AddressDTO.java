@@ -2,8 +2,6 @@ package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;

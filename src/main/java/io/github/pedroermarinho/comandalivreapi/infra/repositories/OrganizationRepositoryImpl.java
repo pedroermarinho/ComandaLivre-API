@@ -5,7 +5,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEnti
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.OrganizationConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.OrganizationDataSource;
 import org.springframework.stereotype.Component;
 

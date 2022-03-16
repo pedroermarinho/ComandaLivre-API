@@ -2,8 +2,6 @@ package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,7 +37,7 @@ public record CommandDTO(
                 true,
                 paidOff,
                 identification
-                );
+        );
     }
 
     public CommandDTO(CommandEntity entity) {

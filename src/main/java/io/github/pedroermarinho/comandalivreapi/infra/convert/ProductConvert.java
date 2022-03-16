@@ -5,8 +5,10 @@ import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.SearchOrganization;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.ProductForm;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-public class ProductConvert implements Converter< ProductForm,ProductDTO> {
+@Component
+public class ProductConvert implements Converter<ProductForm, ProductDTO> {
 
     private final SearchOrganization searchOrganization;
 
@@ -17,6 +19,6 @@ public class ProductConvert implements Converter< ProductForm,ProductDTO> {
     @Override
     public ProductDTO convert(ProductForm source) {
         final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.getOrganizationId());
-        return new ProductDTO(source.getName(),source.getDescription(),source.getPrice(),organizationDTO);
+        return new ProductDTO(source.getName(), source.getDescription(), source.getPrice(), organizationDTO);
     }
 }

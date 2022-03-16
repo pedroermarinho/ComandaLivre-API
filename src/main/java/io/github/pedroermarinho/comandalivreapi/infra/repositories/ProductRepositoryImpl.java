@@ -5,7 +5,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.ProductConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.ProductDataSource;
 import org.springframework.stereotype.Component;
 

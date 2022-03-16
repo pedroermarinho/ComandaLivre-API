@@ -5,7 +5,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductOfCommand
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.ProductOfCommandConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.ProductOfCommandDataSource;
 import org.springframework.stereotype.Component;
 

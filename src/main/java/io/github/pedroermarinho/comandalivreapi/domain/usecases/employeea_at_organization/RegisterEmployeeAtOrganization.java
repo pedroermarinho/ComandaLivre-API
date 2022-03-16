@@ -24,7 +24,7 @@ public class RegisterEmployeeAtOrganization {
     public EmployeeAtOrganizationDTO execute(EmployeeAtOrganizationDTO employeeAtOrganizationRegister) {
         final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(employeeAtOrganizationRegister.getEmployee().getId()));
+        validations.forEach(validation -> validation.validationThrow(employeeAtOrganizationRegister.employee().id()));
 
         return employeeAtOrganizationRepository.create(employeeAtOrganizationRegister);
     }

@@ -23,7 +23,7 @@ public class RegisterRole {
     public RoleDTO execute(RoleDTO roleRegister) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(roleRegister.getName()));
+        validations.forEach(validation -> validation.validationThrow(roleRegister.name()));
 
         return roleRepository.create(roleRegister);
     }

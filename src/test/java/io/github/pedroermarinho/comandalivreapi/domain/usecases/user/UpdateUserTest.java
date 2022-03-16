@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 import java.util.UUID;
 
+import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,12 +45,7 @@ public class UpdateUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        final UserDTO user = new UserDTO();
-
-        user.setEmail("exemplo@exemplo.com");
-        user.setName("exemplo");
-        user.setUsername("exemplo");
-        user.setPassword("exemplo");
+        final UserDTO user = new UserDTO("exemplo@exemplo.com","exemplo","exemplo","exemplo","exemplo");
 
         assertInstanceOf(UserDTO.class, updateUser.execute(UUID.randomUUID(),user));
     }
@@ -58,13 +54,8 @@ public class UpdateUserTest {
     void updateUserReturnsThrowsObjectNotFoundException() {
         
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
-        final UserDTO user = new UserDTO();
+        final UserDTO user = new UserDTO("exemplo@exemplo.com","exemplo","exemplo","exemplo","exemplo");
 
-        user.setEmail("exemplo@exemplo.com");
-        user.setName("exemplo");
-        user.setUsername("exemplo");
-        user.setPassword("exemplo");
-
-        assertThrows(ObjectNotFoundException.class,()-> updateUser.execute(UUID.randomUUID(),user));
+        assertThrows(UsernameInvalidException.class,()-> updateUser.execute(UUID.randomUUID(),user));
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 public class AddressRepositoryImpl implements AddressRepository {
 
     private final AddressDataSource addressDataSource;
-    private final AddressConvert convert ;
+    private final AddressConvert convert;
 
     public AddressRepositoryImpl(AddressDataSource addressDataSource, AddressConvert convert) {
         this.addressDataSource = addressDataSource;

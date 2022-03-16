@@ -23,7 +23,7 @@ public class RegisterOrganization {
     public OrganizationDTO execute(OrganizationDTO organizationRegister) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(organizationRegister.getName()));
+        validations.forEach(validation -> validation.validationThrow(organizationRegister.name()));
 
         return organizationRepository.create(organizationRegister);
     }

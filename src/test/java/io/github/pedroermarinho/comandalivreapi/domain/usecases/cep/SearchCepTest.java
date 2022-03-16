@@ -41,7 +41,7 @@ public class SearchCepTest {
     @Test
     void searchCepReturnsNewCepAddress() {
         
-        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new AddressDTO()));
+        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new AddressDTO(null,null,null,null,null,null)));
 
         assertInstanceOf(AddressDTO.class, searchCep.execute("69088240"));
     }

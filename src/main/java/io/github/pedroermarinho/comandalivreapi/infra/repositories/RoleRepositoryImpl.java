@@ -5,7 +5,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.RoleConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.RoleDataSource;
 import org.springframework.stereotype.Component;
 

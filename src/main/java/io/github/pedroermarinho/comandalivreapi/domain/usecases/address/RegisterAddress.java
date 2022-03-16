@@ -23,7 +23,7 @@ public class RegisterAddress {
     public AddressDTO execute(AddressDTO addressRegister) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(addressRegister.getCep()));
+        validations.forEach(validation -> validation.validationThrow(addressRegister.cep()));
 
         return addressRepository.create(addressRegister);
     }

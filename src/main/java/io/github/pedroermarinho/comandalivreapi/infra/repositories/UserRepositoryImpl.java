@@ -4,7 +4,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.UserConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
 import org.springframework.stereotype.Component;
 

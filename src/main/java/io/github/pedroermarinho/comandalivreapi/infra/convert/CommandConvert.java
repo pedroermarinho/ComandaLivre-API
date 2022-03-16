@@ -1,18 +1,15 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.CommandForm;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CommandConvert implements Converter<CommandForm,CommandDTO> {
-
+@Component
+public class CommandConvert implements Converter<CommandForm, CommandDTO> {
 
     @Override
     public CommandDTO convert(CommandForm source) {
-        return new CommandDTO(source.getPaidOff(),source.getIdentification());
+        return new CommandDTO(source.getPaidOff(), source.getIdentification());
     }
 }

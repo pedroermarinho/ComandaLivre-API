@@ -6,9 +6,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 
-
 @Component
-public class AddressConvert implements Converter<AddressForm,AddressDTO> {
+public class AddressConvert implements Converter<AddressForm, AddressDTO> {
 
 
     @Override

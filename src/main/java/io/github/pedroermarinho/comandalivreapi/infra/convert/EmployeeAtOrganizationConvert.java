@@ -9,7 +9,9 @@ import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.Sea
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.role.SearchRole;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeAtOrganizationForm;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrganizationForm, EmployeeAtOrganizationDTO> {
 
     private final SearchOrganization searchOrganization;
@@ -33,6 +35,6 @@ public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrgani
         final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.getOrganizationId());
         final EmployeeDTO employeeDTO = searchEmployee.searchEmployeeById(source.getEmployeeId());
         final RoleDTO roleDTO = searchRole.searchRoleById(source.getRoleId());
-        return new EmployeeAtOrganizationDTO(organizationDTO,employeeDTO,roleDTO);
+        return new EmployeeAtOrganizationDTO(organizationDTO, employeeDTO, roleDTO);
     }
 }

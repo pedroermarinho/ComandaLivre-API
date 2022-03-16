@@ -23,7 +23,7 @@ public class RegisterProduct {
     public ProductDTO execute(ProductDTO productRegister) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(productRegister.getName()));
+        validations.forEach(validation -> validation.validationThrow(productRegister.name()));
 
         return productRepository.create(productRegister);
     }

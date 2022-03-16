@@ -5,7 +5,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrgani
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeAtOrganizationRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.EmployeeAtOrganizationConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.EmployeeAtOrganizationDataSource;
 import org.springframework.stereotype.Component;
 

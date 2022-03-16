@@ -23,7 +23,7 @@ public class RegisterCommand {
     public CommandDTO execute(CommandDTO commandRegister) {
         final List<Validation<Boolean>> validations = Arrays.asList(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(commandRegister.getPaidOff()));
+        validations.forEach(validation -> validation.validationThrow(commandRegister.paidOff()));
 
         return commandRepository.create(commandRegister);
     }

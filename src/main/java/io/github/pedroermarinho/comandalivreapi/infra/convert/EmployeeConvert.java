@@ -5,8 +5,10 @@ import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.SearchUser;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeForm;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-public class EmployeeConvert implements Converter< EmployeeForm,EmployeeDTO> {
+@Component
+public class EmployeeConvert implements Converter<EmployeeForm, EmployeeDTO> {
 
     private final SearchUser searchUser;
 
@@ -17,6 +19,6 @@ public class EmployeeConvert implements Converter< EmployeeForm,EmployeeDTO> {
     @Override
     public EmployeeDTO convert(EmployeeForm source) {
         final UserDTO userDTO = searchUser.searchUserById(source.getUserId());
-        return new EmployeeDTO(source.getRegistration(),userDTO);
+        return new EmployeeDTO(source.getRegistration(), userDTO);
     }
 }

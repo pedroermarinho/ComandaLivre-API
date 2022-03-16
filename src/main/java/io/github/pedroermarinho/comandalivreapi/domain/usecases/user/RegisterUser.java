@@ -24,7 +24,7 @@ public class RegisterUser {
     public UserDTO execute(UserDTO userRegister) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>(), new EmailValidation());
 
-        validations.forEach(validation -> validation.validationThrow(userRegister.getEmail()));
+        validations.forEach(validation -> validation.validationThrow(userRegister.email()));
 
         return userRepository.create(userRegister);
     }

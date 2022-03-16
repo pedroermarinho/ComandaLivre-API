@@ -30,8 +30,8 @@ public class UpdateUser {
         final List<Validation<String>> usernameValidations = Arrays.asList(new NotNullValidation<>(), new UsernameValidation());
 
         idValidations.forEach(validation -> validation.validationThrow(id));
-        emailValidations.forEach(validation -> validation.validationThrow(userParam.getEmail()));
-        usernameValidations.forEach(validation -> validation.validationThrow(userParam.getUsername()));
+        emailValidations.forEach(validation -> validation.validationThrow(userParam.email()));
+        usernameValidations.forEach(validation -> validation.validationThrow(userParam.username()));
 
         return userRepository.update(id, userParam);
     }

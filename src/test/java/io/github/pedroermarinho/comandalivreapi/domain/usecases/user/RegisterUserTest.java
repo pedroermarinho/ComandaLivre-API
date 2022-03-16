@@ -45,12 +45,7 @@ public class RegisterUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        final UserDTO user = new UserDTO();
-
-        user.setEmail("exemplo@exemplo.com");
-        user.setName("exemplo");
-        user.setUsername("exemplo");
-        user.setPassword("exemplo");
+        final UserDTO user = new UserDTO("exemplo@exemplo.com","exemplo","exemplo","exemplo","exemplo");
 
         assertInstanceOf(UserDTO.class, registerUser.execute(user));
     }
@@ -59,12 +54,8 @@ public class RegisterUserTest {
     void registerUserReturnsThrowsEmailInvalidException() {
         
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
-        final UserDTO user = new UserDTO();
+        final UserDTO user = new UserDTO("exemplo@exemplo","exemplo","exemplo","exemplo","exemplo");
 
-        user.setEmail("exemplo@exemplo");
-        user.setName("exemplo");
-        user.setUsername("exemplo");
-        user.setPassword("exemplo");
 
         assertThrows(UsernameInvalidException.class,()-> registerUser.execute(user));
     }
