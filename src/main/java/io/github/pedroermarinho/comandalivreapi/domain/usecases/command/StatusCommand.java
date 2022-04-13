@@ -22,7 +22,7 @@ public class StatusCommand {
 
     @Transactional
     public CommandDTO disableCommand(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
 
         validations.forEach(validation -> validation.validationThrow(id));
 
@@ -31,7 +31,7 @@ public class StatusCommand {
 
     @Transactional
     public CommandDTO enableCommand(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
 
         validations.forEach(validation -> validation.validationThrow(id));
 

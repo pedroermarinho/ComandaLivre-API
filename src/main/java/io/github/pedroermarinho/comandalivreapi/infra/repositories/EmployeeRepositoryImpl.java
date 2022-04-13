@@ -56,4 +56,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         return new EmployeeDTO(employeeDataSource.save(employeeEntity));
     }
 
+    @Override
+    public long count() {
+        return employeeDataSource.count();
+    }
+
 }

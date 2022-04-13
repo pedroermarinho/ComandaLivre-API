@@ -57,4 +57,9 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
         return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity));
     }
 
+    @Override
+    public long count() {
+        return employeeAtOrganizationDataSource.count();
+    }
+
 }

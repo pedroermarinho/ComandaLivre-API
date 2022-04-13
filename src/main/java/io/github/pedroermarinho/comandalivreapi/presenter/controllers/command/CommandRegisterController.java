@@ -1,7 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.usecases.command.RegisterCommand;
+import io.github.pedroermarinho.comandalivreapi.domain.usecases.command.CreateCommand;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.CommandPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.CommandConvert;
@@ -21,10 +21,10 @@ import java.net.URI;
 @Tag(name = "Comanda", description = "Operações de comanda")
 public class CommandRegisterController {
 
-    private final RegisterCommand registerCommand;
+    private final CreateCommand registerCommand;
     private final CommandConvert commandConvert;
 
-    public CommandRegisterController(RegisterCommand registerCommand, CommandConvert commandConvert) {
+    public CommandRegisterController(CreateCommand registerCommand, CommandConvert commandConvert) {
         this.registerCommand = registerCommand;
         this.commandConvert = commandConvert;
     }

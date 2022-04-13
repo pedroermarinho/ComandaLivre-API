@@ -57,4 +57,9 @@ public class ProductOfCommandRepositoryImpl implements ProductOfCommandRepositor
         return new ProductOfCommandDTO(productOfCommandDataSource.save(productOfCommandEntity));
     }
 
+    @Override
+    public long count() {
+        return productOfCommandDataSource.count();
+    }
+
 }

@@ -56,4 +56,9 @@ public class RoleRepositoryImpl implements RoleRepository {
         return new RoleDTO(roleDataSource.save(roleEntity));
     }
 
+    @Override
+    public long count() {
+        return roleDataSource.count();
+    }
+
 }

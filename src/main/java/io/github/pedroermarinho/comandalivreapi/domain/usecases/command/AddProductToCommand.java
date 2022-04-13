@@ -1,4 +1,4 @@
-package io.github.pedroermarinho.comandalivreapi.domain.usecases.product_of_command;
+package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
@@ -12,29 +12,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class StatusProductOfCommand {
-
+public class AddProductToCommand {
     private final ProductOfCommandRepository productofcommandRepository;
 
-    public StatusProductOfCommand(ProductOfCommandRepository productofcommandRepository) {
+    public AddProductToCommand(ProductOfCommandRepository productofcommandRepository) {
         this.productofcommandRepository = productofcommandRepository;
     }
 
     @Transactional
-    public ProductOfCommandDTO disableProductOfCommand(UUID id) {
+    public ProductOfCommandDTO execute(ProductOfCommandDTO payload) {
         final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
 
-        validations.forEach(validation -> validation.validationThrow(id));
+        validations.forEach(validation -> validation.validationThrow(payload.product().id()));
 
-        return productofcommandRepository.disable(id);
-    }
-
-    @Transactional
-    public ProductOfCommandDTO enableProductOfCommand(UUID id) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return productofcommandRepository.enable(id);
+        return productofcommandRepository.create(payload);
     }
 }

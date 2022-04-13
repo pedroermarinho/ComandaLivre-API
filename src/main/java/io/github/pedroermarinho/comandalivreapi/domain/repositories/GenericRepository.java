@@ -15,4 +15,6 @@ public interface GenericRepository<D> {
     D disable(UUID id);
 
     D enable(UUID id);
+
+    long count();
 }

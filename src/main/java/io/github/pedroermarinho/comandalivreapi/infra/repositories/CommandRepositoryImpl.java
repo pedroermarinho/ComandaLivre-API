@@ -39,7 +39,9 @@ public class CommandRepositoryImpl implements CommandRepository {
 
     @Override
     public CommandDTO update(UUID id, CommandDTO param) {
-        throw new NotImplementedException();
+        final CommandEntity commandEntity = findById(id).toEntity();
+        commandEntity.setIdentification(param.identification());
+        return new CommandDTO(commandDataSource.save(commandEntity));
     }
 
     @Override
@@ -56,4 +58,15 @@ public class CommandRepositoryImpl implements CommandRepository {
         return new CommandDTO(commandDataSource.save(commandEntity));
     }
 
+    @Override
+    public long count() {
+        return commandDataSource.count();
+    }
+
+    @Override
+    public CommandDTO updatePaidOff(UUID id, boolean paidOff) {
+        final CommandEntity commandEntity = findById(id).toEntity();
+        commandEntity.setPaidOff(paidOff);
+        return new CommandDTO(commandDataSource.save(commandEntity));
+    }
 }

@@ -30,6 +30,7 @@ public class UserEntity extends Auditable {
 
     private String password;
 
+    @Column(unique = true)
     private String telefone;
 
     @OneToMany(mappedBy = "userEntity")

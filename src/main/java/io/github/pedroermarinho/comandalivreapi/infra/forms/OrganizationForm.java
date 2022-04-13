@@ -25,4 +25,10 @@ public class OrganizationForm {
 
     @Schema(description = "Endereço da organização", example = "1", required = false)
     private UUID addressId;
+
+    public OrganizationForm(String name, String telefone, UUID addressId) {
+        this.name = name;
+        this.telefone = telefone;
+        this.addressId = addressId;
+    }
 }

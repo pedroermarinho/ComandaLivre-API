@@ -56,4 +56,9 @@ public class ProductRepositoryImpl implements ProductRepository {
         return new ProductDTO(productDataSource.save(productEntity));
     }
 
+    @Override
+    public long count() {
+        return productDataSource.count();
+    }
+
 }

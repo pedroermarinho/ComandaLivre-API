@@ -1,4 +1,4 @@
-package io.github.pedroermarinho.comandalivreapi.domain.usecases.product_of_command;
+package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
@@ -12,21 +12,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class RegisterProductOfCommand {
+public class EditProductToCommand {
 
     private final ProductOfCommandRepository productofcommandRepository;
 
-    public RegisterProductOfCommand(ProductOfCommandRepository productofcommandRepository) {
+    public EditProductToCommand(ProductOfCommandRepository productofcommandRepository) {
         this.productofcommandRepository = productofcommandRepository;
     }
 
     @Transactional
-    public ProductOfCommandDTO execute(ProductOfCommandDTO payload) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
+    public ProductOfCommandDTO execute(UUID id, ProductOfCommandDTO payload) {
 
-        validations.forEach(validation -> validation.validationThrow(payload.product().id()));
+        final List<Validation<UUID>> idValidations = List.of(new NotNullValidation<>());
 
-        return productofcommandRepository.create(payload);
+        idValidations.forEach(validation -> validation.validationThrow(id));
+
+        return productofcommandRepository.update(id, payload);
     }
-
 }

@@ -59,4 +59,9 @@ public class AddressRepositoryImpl implements AddressRepository {
         return new AddressDTO(addressDataSource.save(addressEntity));
     }
 
+    @Override
+    public long count() {
+        return addressDataSource.count();
+    }
+
 }

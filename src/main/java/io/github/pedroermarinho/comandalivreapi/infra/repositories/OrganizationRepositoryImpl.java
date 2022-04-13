@@ -56,4 +56,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         return new OrganizationDTO(organizationDataSource.save(organizationEntity));
     }
 
+    @Override
+    public long count() {
+        return organizationDataSource.count();
+    }
+
 }

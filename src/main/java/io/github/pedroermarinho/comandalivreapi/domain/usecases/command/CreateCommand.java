@@ -11,17 +11,17 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class RegisterCommand {
+public class CreateCommand {
 
     private final CommandRepository commandRepository;
 
-    public RegisterCommand(CommandRepository commandRepository) {
+    public CreateCommand(CommandRepository commandRepository) {
         this.commandRepository = commandRepository;
     }
 
     @Transactional
     public CommandDTO execute(CommandDTO commandRegister) {
-        final List<Validation<Boolean>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<Boolean>> validations = List.of(new NotNullValidation<>());
 
         validations.forEach(validation -> validation.validationThrow(commandRegister.paidOff()));
 

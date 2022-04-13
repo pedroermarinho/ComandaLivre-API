@@ -16,5 +16,4 @@ public class NotNullValidation<T> implements Validation<T> {
         throw new NotNullException("O valor não pode ser nulo!!!");
     }
 
-
 }

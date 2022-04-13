@@ -88,5 +88,10 @@ public class UserRepositoryImpl implements UserRepository {
         return new UserDTO(userDataSource.save(user));
     }
 
+    @Override
+    public long count() {
+        return userDataSource.count();
+    }
+
 
 }

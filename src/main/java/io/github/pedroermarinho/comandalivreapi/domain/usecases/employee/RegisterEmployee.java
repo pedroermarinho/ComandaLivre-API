@@ -22,7 +22,7 @@ public class RegisterEmployee {
 
     @Transactional
     public EmployeeDTO execute(EmployeeDTO employeeRegister) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
 
         validations.forEach(validation -> validation.validationThrow(employeeRegister.user().id()));
 
