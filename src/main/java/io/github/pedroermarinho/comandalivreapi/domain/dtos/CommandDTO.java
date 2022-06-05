@@ -2,7 +2,9 @@ package io.github.pedroermarinho.comandalivreapi.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
+import org.jetbrains.annotations.Nullable;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -22,6 +24,7 @@ public record CommandDTO(
 
         Boolean status,
 
+        @Nullable
         Boolean paidOff,
 
         String identification

@@ -5,12 +5,12 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotNullExcepti
 public class NotNullValidation<T> implements Validation<T> {
 
     @Override
-    public boolean validation(T value) {
+    public boolean validation(Object value) {
         return value != null;
     }
 
     @Override
-    public void validationThrow(T value) {
+    public void validationThrow(Object value) {
         if (Boolean.TRUE.equals(validation(value))) return;
 
         throw new NotNullException("O valor não pode ser nulo!!!");

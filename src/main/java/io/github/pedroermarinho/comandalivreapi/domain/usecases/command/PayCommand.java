@@ -3,8 +3,8 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.ObjectDisabledValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class PayCommand {
         this.searchCommand = searchCommand;
     }
 
-    public CommandDTO execute(UUID id) {
+    public CommandDTO execute(@Nullable UUID id) {
         final List<Validation<UUID>> idValidations = List.of(new NotNullValidation<>());
 
         idValidations.forEach(validation -> validation.validationThrow(id));
