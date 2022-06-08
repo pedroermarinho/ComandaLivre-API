@@ -1,9 +1,8 @@
 package io.github.pedroermarinho.comandalivreapi.domain.validation;
 
-import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotNullException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectDisabledException;
 
-public class ObjectDisabledValidation implements Validation<Boolean> {
+public class ObjectEnabledValidation implements Validation<Boolean> {
 
     @Override
     public boolean validation(Boolean value) {

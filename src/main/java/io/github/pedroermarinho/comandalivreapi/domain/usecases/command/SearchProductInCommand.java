@@ -2,14 +2,11 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.ObjectDisabledValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class SearchProductInCommand {
@@ -21,23 +18,16 @@ public class SearchProductInCommand {
     }
 
     public ProductOfCommandDTO searchProductInCommandById(UUID id) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
+        UtilValidation.idNotNullValidationThrow(id);
 
-        validations.forEach(validation -> validation.validationThrow(id));
+        final var productOfCommand = productOfCommandRepository.findById(id);
+        UtilValidation.statusEnableValidationThrow(productOfCommand.status());
 
-        final var result = productOfCommandRepository.findById(id);
-
-        final List<Validation<Boolean>> statusValidations = List.of(
-                new NotNullValidation<>(),
-                new ObjectDisabledValidation()
-        );
-
-        statusValidations.forEach(validation -> validation.validationThrow(result.status()));
-
-        return result;
+        return productOfCommand;
     }
 
     public List<ProductOfCommandDTO> searchProductInCommandAll() {
         return productOfCommandRepository.findAll().stream().filter(ProductOfCommandDTO::status).toList();
     }
+
 }

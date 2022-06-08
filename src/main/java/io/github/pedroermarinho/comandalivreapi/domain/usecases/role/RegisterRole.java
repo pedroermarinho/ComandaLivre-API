@@ -3,11 +3,11 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.role;
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,8 +21,9 @@ public class RegisterRole {
 
     @Transactional
     public RoleDTO execute(RoleDTO roleRegister) {
-        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
+        UtilValidation.objectNotNullValidationThrow(roleRegister);
 
+        final List<Validation<String>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(roleRegister.name()));
 
         return roleRepository.create(roleRegister);

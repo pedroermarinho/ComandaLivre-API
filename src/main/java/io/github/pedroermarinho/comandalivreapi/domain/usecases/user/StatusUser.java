@@ -2,12 +2,10 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.user;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,19 +19,13 @@ public class StatusUser {
 
     @Transactional
     public UserDTO disableUser(UUID id) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
+        UtilValidation.idNotNullValidationThrow(id);
         return userRepository.disable(id);
     }
 
     @Transactional
     public UserDTO enableUser(UUID id) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
+        UtilValidation.idNotNullValidationThrow(id);
         return userRepository.enable(id);
     }
 }

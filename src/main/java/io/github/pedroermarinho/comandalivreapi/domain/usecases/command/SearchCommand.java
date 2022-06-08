@@ -2,12 +2,10 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.ObjectDisabledValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,19 +18,12 @@ public class SearchCommand {
         this.commandRepository = commandRepository;
     }
 
-    public CommandDTO searchCommandById(UUID id) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
+    public CommandDTO searchCommandById(@Nullable UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
 
-        validations.forEach(validation -> validation.validationThrow(id));
+        final var result = commandRepository.findById(id);
 
-        final var result =commandRepository.findById(id);
-
-        final List<Validation<Boolean>> statusValidations = List.of(
-                new NotNullValidation<>(),
-                new ObjectDisabledValidation()
-        );
-
-        statusValidations.forEach(validation -> validation.validationThrow(result.status()));
+        UtilValidation.statusEnableValidationThrow(result.status());
 
         return result;
     }
@@ -40,5 +31,4 @@ public class SearchCommand {
     public List<CommandDTO> searchCommandAll() {
         return commandRepository.findAll().stream().filter(CommandDTO::status).toList();
     }
-
 }

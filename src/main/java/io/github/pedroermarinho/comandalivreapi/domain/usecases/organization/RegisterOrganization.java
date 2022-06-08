@@ -3,6 +3,7 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.organization;
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +22,9 @@ public class RegisterOrganization {
 
     @Transactional
     public OrganizationDTO execute(OrganizationDTO organizationRegister) {
-        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
+        UtilValidation.objectNotNullValidationThrow(organizationRegister);
 
+        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(organizationRegister.name()));
 
         return organizationRepository.create(organizationRegister);

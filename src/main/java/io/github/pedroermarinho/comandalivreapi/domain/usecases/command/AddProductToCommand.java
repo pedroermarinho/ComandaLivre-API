@@ -2,15 +2,9 @@ package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
-import org.springframework.lang.Nullable;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AddProductToCommand {
@@ -21,10 +15,10 @@ public class AddProductToCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO execute(@Nullable ProductOfCommandDTO payload) {
-        final List<Validation<UUID>> validations = List.of(new NotNullValidation());
+    public ProductOfCommandDTO execute(ProductOfCommandDTO payload) {
 
-        validations.forEach(validation -> validation.validationThrow(payload.product().id()));
+        UtilValidation.objectNotNullValidationThrow(payload);
+        UtilValidation.idNotNullValidationThrow(payload.product().id());
 
         return productofcommandRepository.create(payload);
     }
