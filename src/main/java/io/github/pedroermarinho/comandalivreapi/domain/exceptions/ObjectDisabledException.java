@@ -1,7 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.domain.exceptions;
 
+import java.io.Serial;
+
 public class ObjectDisabledException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public ObjectDisabledException(String msg) {

@@ -16,7 +16,7 @@ public record ProductForm(
         @Size(min = 2, max = 255)
         String name,
 
-        @Schema(description = "Descrição do produto", example = "Coca-Cola é um refrigerante carbonado", required = false)
+        @Schema(description = "Descrição do produto", example = "Coca-Cola é um refrigerante carbonado")
         @Size(max = 255)
         String description,
 

@@ -38,7 +38,7 @@ public record UserForm(
         @Size(min = 8, max = 255)
         String password,
 
-        @Schema(description = "Telefone do usuário", example = "+5500000000000", required = false)
+        @Schema(description = "Telefone do usuário", example = "+5500000000000")
         @Size(max = 16)
         String phone
 

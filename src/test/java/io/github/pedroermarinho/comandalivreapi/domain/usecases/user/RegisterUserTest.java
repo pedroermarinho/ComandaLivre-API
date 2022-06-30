@@ -31,7 +31,7 @@ public class RegisterUserTest {
 
 
     @BeforeEach
-    private void setUp() throws Exception{
+    private void setUp() {
         MockitoAnnotations.openMocks(this);
 
         userRepository = new UserRepositoryImpl(userDataSource);

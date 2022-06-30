@@ -14,7 +14,7 @@ public record OrganizationForm(
         @Size(max = 255)
         String name,
 
-        @Schema(description = "Telefone da organização", example = "+5500000000000", required = false)
+        @Schema(description = "Telefone da organização", example = "+5500000000000")
         @Size(max = 16)
         String phone,
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public record EmployeeForm(
 
-        @Schema(description = "Matricula do funcionário", example = "55555", required = false)
+        @Schema(description = "Matricula do funcionário", example = "55555")
         @Size(max = 255)
         String registration,
 

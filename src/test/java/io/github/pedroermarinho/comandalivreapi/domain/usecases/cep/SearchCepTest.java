@@ -29,7 +29,7 @@ public class SearchCepTest {
     private SearchCep searchCep;
 
     @BeforeEach
-    private void setUp() throws Exception{
+    private void setUp() {
         MockitoAnnotations.openMocks(this);
 
         cepService = new CepServiceImpl(cepDriver);

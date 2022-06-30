@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 public record CommandForm(
 
-        @Schema(description = "A comada ja esta paga", example = "true", required = false)
+        @Schema(description = "A comada ja esta paga", example = "true")
         Boolean paidOff,
 
-        @Schema(description = "Identificação da comanda", example = "true", required = false)
+        @Schema(description = "Identificação da comanda", example = "true")
         @NotBlank
         @Size(max = 255)
         String identification

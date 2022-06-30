@@ -15,8 +15,7 @@ public record RoleForm(
 
         @Schema(
                 description = "Descrição do cargo",
-                example = "Gerente é responsável pelo planejamento e controle da execução dos trabalhos",
-                required = false
+                example = "Gerente é responsável pelo planejamento e controle da execução dos trabalhos"
         )
         @Size(max = 255)
         String description

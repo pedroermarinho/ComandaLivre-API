@@ -26,6 +26,7 @@ public class RemoveProductionToCommand {
                 throwable -> {
                     throw throwable;
                 },
-                result -> result);
+                result -> result
+        );
     }
 }

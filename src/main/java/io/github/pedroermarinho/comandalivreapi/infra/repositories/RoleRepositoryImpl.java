@@ -5,6 +5,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
+import io.github.pedroermarinho.comandalivreapi.infra.config.Translator;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.RoleDataSource;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,11 @@ import java.util.UUID;
 public class RoleRepositoryImpl implements RoleRepository {
 
     private final RoleDataSource roleDataSource;
+    private final Translator translator;
 
-    public RoleRepositoryImpl(RoleDataSource roleDataSource) {
+    public RoleRepositoryImpl(RoleDataSource roleDataSource, Translator translator) {
         this.roleDataSource = roleDataSource;
+        this.translator = translator;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     public Either<RuntimeException, RoleDTO> findById(UUID id) {
         return roleDataSource.findById(id).<Either<RuntimeException, RoleDTO>>map(entity -> Either.right(new RoleDTO(entity)))
                 .orElseGet(() -> Either.left(new ObjectNotFoundException(
-                        "Cargo não encontrado! Id: " + id + ", Tipo: " + RoleDTO.class.getName())));
+                        translator.toLocale("role.ObjectNotFoundException"))));
     }
 
     @Override
