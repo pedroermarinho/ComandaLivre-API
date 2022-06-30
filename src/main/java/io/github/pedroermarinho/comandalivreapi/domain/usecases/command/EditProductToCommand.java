@@ -23,6 +23,10 @@ public class EditProductToCommand {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(payload);
 
-        return productofcommandRepository.update(id, payload);
+        return productofcommandRepository.update(id, payload).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 }

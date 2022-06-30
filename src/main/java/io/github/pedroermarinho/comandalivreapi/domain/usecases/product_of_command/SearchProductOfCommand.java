@@ -19,7 +19,11 @@ public class SearchProductOfCommand {
 
     public ProductOfCommandDTO searchProductOfCommandById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return productofcommandRepository.findById(id);
+        return productofcommandRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public List<ProductOfCommandDTO> searchProductOfCommandAll() {

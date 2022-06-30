@@ -21,6 +21,10 @@ public class UpdateProductOfCommand {
     public ProductOfCommandDTO execute(UUID id, ProductOfCommandDTO productOfCommandParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(productOfCommandParam);
-        return productofcommandRepository.update(id, productOfCommandParam);
+        return productofcommandRepository.update(id, productOfCommandParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

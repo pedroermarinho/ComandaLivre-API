@@ -21,6 +21,10 @@ public class UpdateAddress {
     public AddressDTO execute(UUID id, AddressDTO addressParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(addressParam);
-        return addressRepository.update(id, addressParam);
+        return addressRepository.update(id, addressParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

@@ -21,6 +21,10 @@ public class UpdateRole {
     public RoleDTO execute(UUID id, RoleDTO roleParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(roleParam);
-        return roleRepository.update(id, roleParam);
+        return roleRepository.update(id, roleParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

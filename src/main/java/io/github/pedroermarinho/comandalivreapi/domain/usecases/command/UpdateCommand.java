@@ -21,7 +21,11 @@ public class UpdateCommand {
     public CommandDTO execute(UUID id, CommandDTO commandParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(commandParam);
-        return commandRepository.update(id, commandParam);
+        return commandRepository.update(id, commandParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
 

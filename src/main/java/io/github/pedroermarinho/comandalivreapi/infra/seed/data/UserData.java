@@ -16,9 +16,9 @@ public class UserData implements DataSeed {
     @Override
     public void create() {
         final List<UserDTO> userList = List.of(
-                new UserDTO("exemplo1","exemplo1@exemplo.com","exemplo1","123","12345676783"),
-                new UserDTO("exemplo2","exemplo2@exemplo.com","exemplo2","123","12345676789"),
-                new UserDTO("exemplo3","exemplo3@exemplo.com","exemplo3","123","12345676782")
+                new UserDTO("exemplo1", "exemplo1@exemplo.com", "exemplo1", "123", "12345676783"),
+                new UserDTO("exemplo2", "exemplo2@exemplo.com", "exemplo2", "123", "12345676789"),
+                new UserDTO("exemplo3", "exemplo3@exemplo.com", "exemplo3", "123", "12345676782")
         );
 
         userList.forEach(registerUser::execute);

@@ -20,12 +20,20 @@ public class StatusEmployee {
     @Transactional
     public EmployeeDTO disableEmployee(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return employeeRepository.disable(id);
+        return employeeRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public EmployeeDTO enableEmployee(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return employeeRepository.enable(id);
+        return employeeRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

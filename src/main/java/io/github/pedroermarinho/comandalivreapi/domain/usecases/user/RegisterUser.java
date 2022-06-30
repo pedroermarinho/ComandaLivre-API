@@ -20,7 +20,11 @@ public class RegisterUser {
         UtilValidation.objectNotNullValidationThrow(userRegister);
         UtilValidation.emailNotNullValidationThrow(userRegister.email());
 
-        return userRepository.create(userRegister);
+        return userRepository.create(userRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

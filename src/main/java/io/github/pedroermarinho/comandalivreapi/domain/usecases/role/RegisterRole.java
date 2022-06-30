@@ -26,7 +26,11 @@ public class RegisterRole {
         final List<Validation<String>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(roleRegister.name()));
 
-        return roleRepository.create(roleRegister);
+        return roleRepository.create(roleRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

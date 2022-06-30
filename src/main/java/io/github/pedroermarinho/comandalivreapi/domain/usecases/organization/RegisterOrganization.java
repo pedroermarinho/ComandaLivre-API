@@ -8,7 +8,6 @@ import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,10 +23,14 @@ public class RegisterOrganization {
     public OrganizationDTO execute(OrganizationDTO organizationRegister) {
         UtilValidation.objectNotNullValidationThrow(organizationRegister);
 
-        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<String>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(organizationRegister.name()));
 
-        return organizationRepository.create(organizationRegister);
+        return organizationRepository.create(organizationRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

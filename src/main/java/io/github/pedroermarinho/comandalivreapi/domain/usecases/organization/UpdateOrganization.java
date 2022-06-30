@@ -21,6 +21,10 @@ public class UpdateOrganization {
     public OrganizationDTO execute(UUID id, OrganizationDTO organizationParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(organizationParam);
-        return organizationRepository.update(id, organizationParam);
+        return organizationRepository.update(id, organizationParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

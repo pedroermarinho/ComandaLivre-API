@@ -4,6 +4,7 @@ public class NotImplementedException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public NotImplementedException() {
+        super("Funcionalidade não implementada");
     }
 
     public NotImplementedException(String msg) {

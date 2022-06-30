@@ -1,23 +1,20 @@
 package io.github.pedroermarinho.comandalivreapi.infra.forms;
 
-import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
-import org.springframework.stereotype.Component;
+public record CommandForm(
 
-import io.swagger.v3.oas.annotations.media.Schema;
+        @Schema(description = "A comada ja esta paga", example = "true", required = false)
+        Boolean paidOff,
 
-@Component
-@Data
-public class CommandForm {
+        @Schema(description = "Identificação da comanda", example = "true", required = false)
+        @NotBlank
+        @Size(max = 255)
+        String identification
+) implements Serializable {
 
-    @Schema(description = "A comada ja esta paga", example = "true", required = false)
-    private Boolean paidOff;
-
-    @Schema(description = "Identificação da comanda", example = "true", required = false)
-    @NotBlank
-    @Size(max = 255)
-    private String identification;
 }

@@ -18,7 +18,7 @@ public class OrganizationConvert implements Converter<OrganizationForm, Organiza
 
     @Override
     public OrganizationDTO convert(OrganizationForm source) {
-        final AddressDTO addressDTO = searchAddress.searchAddressById(source.getAddressId());
-        return new OrganizationDTO(source.getName(), source.getTelefone(), addressDTO);
+        final AddressDTO addressDTO = searchAddress.searchAddressById(source.addressId());
+        return new OrganizationDTO(source.name(), source.phone(), addressDTO);
     }
 }

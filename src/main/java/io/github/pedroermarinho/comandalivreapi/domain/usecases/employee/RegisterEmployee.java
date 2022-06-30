@@ -27,7 +27,11 @@ public class RegisterEmployee {
         final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(employeeRegister.user().id()));
 
-        return employeeRepository.create(employeeRegister);
+        return employeeRepository.create(employeeRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

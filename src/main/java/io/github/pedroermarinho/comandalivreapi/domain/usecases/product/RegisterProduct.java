@@ -26,7 +26,11 @@ public class RegisterProduct {
         final List<Validation<String>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(productRegister.name()));
 
-        return productRepository.create(productRegister);
+        return productRepository.create(productRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
 }

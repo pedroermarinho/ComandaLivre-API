@@ -20,13 +20,21 @@ public class StatusCommand {
     @Transactional
     public CommandDTO disableCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return commandRepository.disable(id);
+        return commandRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
     @Transactional
     public CommandDTO enableCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return commandRepository.enable(id);
+        return commandRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
 }

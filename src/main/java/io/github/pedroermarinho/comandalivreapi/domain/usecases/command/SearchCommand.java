@@ -21,7 +21,11 @@ public class SearchCommand {
     public CommandDTO searchCommandById(@Nullable UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
-        final var result = commandRepository.findById(id);
+        final var result = commandRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
 
         UtilValidation.statusEnableValidationThrow(result.status());
 

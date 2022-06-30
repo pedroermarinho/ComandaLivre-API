@@ -10,6 +10,6 @@ public class CommandConvert implements Converter<CommandForm, CommandDTO> {
 
     @Override
     public CommandDTO convert(CommandForm source) {
-        return new CommandDTO(source.getPaidOff(), source.getIdentification());
+        return new CommandDTO(source.paidOff(), source.identification());
     }
 }

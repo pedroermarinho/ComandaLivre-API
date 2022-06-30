@@ -5,6 +5,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,73 +25,86 @@ public class UserRepositoryImpl implements UserRepository {
         return userDataSource.findAll().stream().map(UserDTO::new).toList();
     }
 
+
     @Override
-    public UserDTO findById(UUID id) {
-        return new UserDTO(userDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
-                        "Usuário não encontrado! Id: " + id + ", Tipo: " + UserDTO.class.getName()
-                ))
-        );
+    public Either<RuntimeException, UserDTO> findById(UUID id) {
+        return userDataSource.findById(id)
+                .<Either<RuntimeException, UserDTO>>map(userEntity -> Either.right(new UserDTO(userEntity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
+                        "Usuário não encontrado! Id: %s , Tipo: %s ".formatted(id, UserDTO.class.getName())
+                )));
     }
 
     @Override
-    public UserDTO findByEmail(String email) {
-        return new UserDTO(userDataSource.findByEmail(email).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, UserDTO> findByEmail(String email) {
+        return userDataSource.findByEmail(email)
+                .<Either<RuntimeException, UserDTO>>map(userEntity -> Either.right(new UserDTO(userEntity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Usuário não encontrado! email: " + email + ", Tipo: " + UserDTO.class.getName()
-                ))
-        );
+                )));
     }
 
     @Override
-    public UserDTO findByUsername(String username) {
-        return new UserDTO(userDataSource.findByUsername(username).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, UserDTO> findByUsername(String username) {
+        return userDataSource.findByUsername(username)
+                .<Either<RuntimeException, UserDTO>>map(userEntity -> Either.right(new UserDTO(userEntity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Usuário não encontrado! username: " + username + ", Tipo: " + UserDTO.class.getName()
-                ))
+                )));
+    }
+
+    @Override
+    public Either<RuntimeException, Boolean> existsByUsername(String username) {
+        return Either.right(userDataSource.existsByUsername(username));
+    }
+
+    @Override
+    public Either<RuntimeException, Boolean> existsByEmail(String email) {
+        return Either.right(userDataSource.existsByEmail(email));
+    }
+
+    @Override
+    public Either<RuntimeException, UserDTO> create(UserDTO user) {
+        return Either.right(new UserDTO(userDataSource.save(user.toEntity())));
+    }
+
+    @Override
+    public Either<RuntimeException, UserDTO> update(UUID id, UserDTO userParam) {
+        final UserEntity user = findById(id).fold(throwable -> {
+                    throw throwable;
+                },
+                UserDTO::toEntity
         );
-    }
-
-    @Override
-    public boolean existsByUsername(String username) {
-        return userDataSource.existsByUsername(username);
-    }
-
-    @Override
-    public boolean existsByEmail(String email) {
-        return userDataSource.existsByEmail(email);
-    }
-
-    @Override
-    public UserDTO create(UserDTO user) {
-        return new UserDTO(userDataSource.save(user.toEntity()));
-    }
-
-    @Override
-    public UserDTO update(UUID id, UserDTO userParam) {
-        final UserEntity user = findById(id).toEntity();
         user.setName(userParam.email());
         user.setUsername(userParam.username());
-        return new UserDTO(userDataSource.save(user));
+        return Either.right(new UserDTO(userDataSource.save(user)));
     }
 
     @Override
-    public UserDTO disable(UUID id) {
-        final UserEntity user = findById(id).toEntity();
+    public Either<RuntimeException, UserDTO> disable(UUID id) {
+        final UserEntity user = findById(id).fold(throwable -> {
+                    throw throwable;
+                },
+                UserDTO::toEntity
+        );
         user.setStatus(false);
-        return new UserDTO(userDataSource.save(user));
+        return Either.right(new UserDTO(userDataSource.save(user)));
     }
 
     @Override
-    public UserDTO enable(UUID id) {
-        final UserEntity user = findById(id).toEntity();
+    public Either<RuntimeException, UserDTO> enable(UUID id) {
+        final UserEntity user = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                UserDTO::toEntity);
         user.setStatus(true);
-        return new UserDTO(userDataSource.save(user));
+        return Either.right(new UserDTO(userDataSource.save(user)));
     }
 
     @Override
-    public long count() {
-        return userDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(userDataSource.count());
     }
 
 

@@ -20,12 +20,20 @@ public class StatusProductOfCommand {
     @Transactional
     public ProductOfCommandDTO disableProductOfCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return productofcommandRepository.disable(id);
+        return productofcommandRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public ProductOfCommandDTO enableProductOfCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return productofcommandRepository.enable(id);
+        return productofcommandRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

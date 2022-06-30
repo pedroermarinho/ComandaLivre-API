@@ -27,7 +27,11 @@ public class CreateCommand {
         final List<Validation<Boolean>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(commandRegister.paidOff()));
 
-        return commandRepository.create(commandRegister);
+        return commandRepository.create(commandRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
 }

@@ -20,7 +20,11 @@ public class SearchProductInCommand {
     public ProductOfCommandDTO searchProductInCommandById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
-        final var productOfCommand = productOfCommandRepository.findById(id);
+        final var productOfCommand = productOfCommandRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
         UtilValidation.statusEnableValidationThrow(productOfCommand.status());
 
         return productOfCommand;

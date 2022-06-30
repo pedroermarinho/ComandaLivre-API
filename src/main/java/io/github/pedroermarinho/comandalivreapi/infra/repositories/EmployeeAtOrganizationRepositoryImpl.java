@@ -6,6 +6,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplemented
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeAtOrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.EmployeeAtOrganizationDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,40 +27,48 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
     }
 
     @Override
-    public EmployeeAtOrganizationDTO findById(UUID id) {
-        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, EmployeeAtOrganizationDTO> findById(UUID id) {
+        return employeeAtOrganizationDataSource.findById(id).<Either<RuntimeException, EmployeeAtOrganizationDTO>>map(entity -> Either.right(new EmployeeAtOrganizationDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Emprego na orginação não encontrado! Id: " + id + ", Tipo: "
                                 + EmployeeAtOrganizationDTO.class.getName())));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO create(EmployeeAtOrganizationDTO param) {
-        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(param.toEntity()));
+    public Either<RuntimeException, EmployeeAtOrganizationDTO> create(EmployeeAtOrganizationDTO param) {
+        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(param.toEntity())));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO update(UUID id, EmployeeAtOrganizationDTO param) {
+    public Either<RuntimeException, EmployeeAtOrganizationDTO> update(UUID id, EmployeeAtOrganizationDTO param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public EmployeeAtOrganizationDTO disable(UUID id) {
-        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).toEntity();
+    public Either<RuntimeException, EmployeeAtOrganizationDTO> disable(UUID id) {
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeAtOrganizationDTO::toEntity);
         employeeAtOrganizationEntity.setStatus(false);
-        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity));
+        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO enable(UUID id) {
-        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).toEntity();
+    public Either<RuntimeException, EmployeeAtOrganizationDTO> enable(UUID id) {
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeAtOrganizationDTO::toEntity);
         employeeAtOrganizationEntity.setStatus(true);
-        return new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity));
+        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
     }
 
     @Override
-    public long count() {
-        return employeeAtOrganizationDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(employeeAtOrganizationDataSource.count());
     }
 
 }

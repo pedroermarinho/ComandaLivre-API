@@ -19,17 +19,29 @@ public class SearchUser {
 
     public UserDTO searchUserById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return userRepository.findById(id);
+        return userRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public UserDTO searchUserByEmail(String email) {
         UtilValidation.emailNotNullValidationThrow(email);
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public UserDTO searchUserByUsername(String username) {
         UtilValidation.usernameNotNullValidationThrow(username);
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public List<UserDTO> searchUserAll() {
@@ -38,12 +50,20 @@ public class SearchUser {
 
     public boolean existsByEmail(String email) {
         UtilValidation.emailNotNullValidationThrow(email);
-        return userRepository.existsByEmail(email);
+        return userRepository.existsByEmail(email).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public boolean existsByUsername(String username) {
         UtilValidation.usernameNotNullValidationThrow(username);
-        return userRepository.existsByUsername(username);
+        return userRepository.existsByUsername(username).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

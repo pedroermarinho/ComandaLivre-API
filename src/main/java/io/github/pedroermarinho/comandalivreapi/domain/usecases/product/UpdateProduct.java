@@ -21,6 +21,10 @@ public class UpdateProduct {
     public ProductDTO execute(UUID id, ProductDTO productParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(productParam);
-        return productRepository.update(id, productParam);
+        return productRepository.update(id, productParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 }

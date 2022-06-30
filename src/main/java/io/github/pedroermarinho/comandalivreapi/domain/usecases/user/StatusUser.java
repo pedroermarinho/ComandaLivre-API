@@ -20,12 +20,20 @@ public class StatusUser {
     @Transactional
     public UserDTO disableUser(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return userRepository.disable(id);
+        return userRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public UserDTO enableUser(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return userRepository.enable(id);
+        return userRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

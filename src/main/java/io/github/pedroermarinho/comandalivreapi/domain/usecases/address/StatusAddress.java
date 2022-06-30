@@ -20,12 +20,20 @@ public class StatusAddress {
     @Transactional
     public AddressDTO disableAddress(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return addressRepository.disable(id);
+        return addressRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public AddressDTO enableAddress(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return addressRepository.enable(id);
+        return addressRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

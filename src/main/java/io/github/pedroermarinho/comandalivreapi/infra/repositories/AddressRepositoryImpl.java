@@ -7,6 +7,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFound
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.AddressRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.AddressConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.AddressDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,39 +30,48 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public AddressDTO findById(UUID id) {
-        return new AddressDTO(addressDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, AddressDTO> findById(UUID id) {
+        return addressDataSource.findById(id)
+                .<Either<RuntimeException, AddressDTO>>map(entity -> Either.right(new AddressDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Endereço não encontrado! Id: " + id + ", Tipo: " + AddressDTO.class.getName())));
     }
 
     @Override
-    public AddressDTO create(AddressDTO param) {
-        return new AddressDTO(addressDataSource.save(param.toEntity()));
+    public Either<RuntimeException, AddressDTO> create(AddressDTO param) {
+        return Either.right(new AddressDTO(addressDataSource.save(param.toEntity())));
     }
 
     @Override
-    public AddressDTO update(UUID id, AddressDTO param) {
+    public Either<RuntimeException, AddressDTO> update(UUID id, AddressDTO param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public AddressDTO disable(UUID id) {
-        final AddressEntity addressEntity = findById(id).toEntity();
+    public Either<RuntimeException, AddressDTO> disable(UUID id) {
+        final AddressEntity addressEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                AddressDTO::toEntity);
         addressEntity.setStatus(false);
-        return new AddressDTO(addressDataSource.save(addressEntity));
+        return Either.right(new AddressDTO(addressDataSource.save(addressEntity)));
     }
 
     @Override
-    public AddressDTO enable(UUID id) {
-        final AddressEntity addressEntity = findById(id).toEntity();
+    public Either<RuntimeException, AddressDTO> enable(UUID id) {
+        final AddressEntity addressEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                AddressDTO::toEntity);
         addressEntity.setStatus(true);
-        return new AddressDTO(addressDataSource.save(addressEntity));
+        return Either.right(new AddressDTO(addressDataSource.save(addressEntity)));
     }
 
     @Override
-    public long count() {
-        return addressDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(addressDataSource.count());
     }
 
 }

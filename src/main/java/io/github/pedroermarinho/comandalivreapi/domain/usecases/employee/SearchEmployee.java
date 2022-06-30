@@ -19,7 +19,11 @@ public class SearchEmployee {
 
     public EmployeeDTO searchEmployeeById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return employeeRepository.findById(id);
+        return employeeRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 

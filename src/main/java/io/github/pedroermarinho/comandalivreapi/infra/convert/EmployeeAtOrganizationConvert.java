@@ -32,9 +32,9 @@ public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrgani
 
     @Override
     public EmployeeAtOrganizationDTO convert(EmployeeAtOrganizationForm source) {
-        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.getOrganizationId());
-        final EmployeeDTO employeeDTO = searchEmployee.searchEmployeeById(source.getEmployeeId());
-        final RoleDTO roleDTO = searchRole.searchRoleById(source.getRoleId());
+        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.organizationId());
+        final EmployeeDTO employeeDTO = searchEmployee.searchEmployeeById(source.employeeId());
+        final RoleDTO roleDTO = searchRole.searchRoleById(source.roleId());
         return new EmployeeAtOrganizationDTO(organizationDTO, employeeDTO, roleDTO);
     }
 }

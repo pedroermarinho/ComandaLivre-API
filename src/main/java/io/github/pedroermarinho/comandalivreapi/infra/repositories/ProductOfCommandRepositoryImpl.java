@@ -6,6 +6,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplemented
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.ProductOfCommandDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,40 +27,48 @@ public class ProductOfCommandRepositoryImpl implements ProductOfCommandRepositor
     }
 
     @Override
-    public ProductOfCommandDTO findById(UUID id) {
-        return new ProductOfCommandDTO(productOfCommandDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, ProductOfCommandDTO> findById(UUID id) {
+        return productOfCommandDataSource.findById(id).<Either<RuntimeException, ProductOfCommandDTO>>map(entity -> Either.right(new ProductOfCommandDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Produdo da comanda não encontrado! Id: " + id + ", Tipo: "
                                 + ProductOfCommandDTO.class.getName())));
     }
 
     @Override
-    public ProductOfCommandDTO create(ProductOfCommandDTO param) {
-        return new ProductOfCommandDTO(productOfCommandDataSource.save(param.toEntity()));
+    public Either<RuntimeException, ProductOfCommandDTO> create(ProductOfCommandDTO param) {
+        return Either.right(new ProductOfCommandDTO(productOfCommandDataSource.save(param.toEntity())));
     }
 
     @Override
-    public ProductOfCommandDTO update(UUID id, ProductOfCommandDTO param) {
+    public Either<RuntimeException, ProductOfCommandDTO> update(UUID id, ProductOfCommandDTO param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public ProductOfCommandDTO disable(UUID id) {
-        final ProductOfCommandEntity productOfCommandEntity = findById(id).toEntity();
+    public Either<RuntimeException, ProductOfCommandDTO> disable(UUID id) {
+        final ProductOfCommandEntity productOfCommandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductOfCommandDTO::toEntity);
         productOfCommandEntity.setStatus(false);
-        return new ProductOfCommandDTO(productOfCommandDataSource.save(productOfCommandEntity));
+        return Either.right(new ProductOfCommandDTO(productOfCommandDataSource.save(productOfCommandEntity)));
     }
 
     @Override
-    public ProductOfCommandDTO enable(UUID id) {
-        final ProductOfCommandEntity productOfCommandEntity = findById(id).toEntity();
+    public Either<RuntimeException, ProductOfCommandDTO> enable(UUID id) {
+        final ProductOfCommandEntity productOfCommandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductOfCommandDTO::toEntity);
         productOfCommandEntity.setStatus(true);
-        return new ProductOfCommandDTO(productOfCommandDataSource.save(productOfCommandEntity));
+        return Either.right(new ProductOfCommandDTO(productOfCommandDataSource.save(productOfCommandEntity)));
     }
 
     @Override
-    public long count() {
-        return productOfCommandDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(productOfCommandDataSource.count());
     }
 
 }

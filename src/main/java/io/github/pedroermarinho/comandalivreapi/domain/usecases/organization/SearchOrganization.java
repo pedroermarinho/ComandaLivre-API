@@ -19,7 +19,11 @@ public class SearchOrganization {
 
     public OrganizationDTO searchOrganizationById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return organizationRepository.findById(id);
+        return organizationRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 

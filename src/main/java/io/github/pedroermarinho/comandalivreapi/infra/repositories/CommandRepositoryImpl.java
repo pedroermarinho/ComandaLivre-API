@@ -2,10 +2,10 @@ package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
 import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
-import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.CommandDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,47 +26,63 @@ public class CommandRepositoryImpl implements CommandRepository {
     }
 
     @Override
-    public CommandDTO findById(UUID id) {
-        return new CommandDTO(commandDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, CommandDTO> findById(UUID id) {
+        return commandDataSource.findById(id).<Either<RuntimeException, CommandDTO>>map(entity -> Either.right(new CommandDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Comanda não encontrado! Id: " + id + ", Tipo: " + CommandDTO.class.getName())));
     }
 
     @Override
-    public CommandDTO create(CommandDTO param) {
-        return new CommandDTO(commandDataSource.save(param.toEntity()));
+    public Either<RuntimeException, CommandDTO> create(CommandDTO param) {
+        return Either.right(new CommandDTO(commandDataSource.save(param.toEntity())));
     }
 
     @Override
-    public CommandDTO update(UUID id, CommandDTO param) {
-        final CommandEntity commandEntity = findById(id).toEntity();
+    public Either<RuntimeException, CommandDTO> update(UUID id, CommandDTO param) {
+        final CommandEntity commandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                CommandDTO::toEntity);
         commandEntity.setIdentification(param.identification());
-        return new CommandDTO(commandDataSource.save(commandEntity));
+        return Either.right(new CommandDTO(commandDataSource.save(commandEntity)));
     }
 
     @Override
-    public CommandDTO disable(UUID id) {
-        final CommandEntity commandEntity = findById(id).toEntity();
+    public Either<RuntimeException, CommandDTO> disable(UUID id) {
+        final CommandEntity commandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                CommandDTO::toEntity);
         commandEntity.setStatus(false);
-        return new CommandDTO(commandDataSource.save(commandEntity));
+        return Either.right(new CommandDTO(commandDataSource.save(commandEntity)));
     }
 
     @Override
-    public CommandDTO enable(UUID id) {
-        final CommandEntity commandEntity = findById(id).toEntity();
+    public Either<RuntimeException, CommandDTO> enable(UUID id) {
+        final CommandEntity commandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                CommandDTO::toEntity);
         commandEntity.setStatus(true);
-        return new CommandDTO(commandDataSource.save(commandEntity));
+        return Either.right(new CommandDTO(commandDataSource.save(commandEntity)));
     }
 
     @Override
-    public long count() {
-        return commandDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(commandDataSource.count());
     }
 
     @Override
-    public CommandDTO updatePaidOff(UUID id, boolean paidOff) {
-        final CommandEntity commandEntity = findById(id).toEntity();
+    public Either<RuntimeException, CommandDTO> updatePaidOff(UUID id, boolean paidOff) {
+        final CommandEntity commandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                CommandDTO::toEntity);
         commandEntity.setPaidOff(paidOff);
-        return new CommandDTO(commandDataSource.save(commandEntity));
+        return Either.right(new CommandDTO(commandDataSource.save(commandEntity)));
     }
 }

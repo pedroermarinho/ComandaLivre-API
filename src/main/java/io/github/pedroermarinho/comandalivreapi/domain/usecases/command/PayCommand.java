@@ -23,7 +23,11 @@ public class PayCommand {
 
         searchCommand.searchCommandById(id);
 
-        return commandRepository.updatePaidOff(id, true);
+        return commandRepository.updatePaidOff(id, true).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

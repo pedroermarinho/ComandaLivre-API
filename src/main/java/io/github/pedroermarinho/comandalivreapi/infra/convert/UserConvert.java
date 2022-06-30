@@ -11,11 +11,11 @@ public class UserConvert implements Converter<UserForm, UserDTO> {
     @Override
     public UserDTO convert(UserForm source) {
         return new UserDTO(
-                source.getName(),
-                source.getEmail(),
-                source.getUsername(),
-                source.getPassword(),
-                source.getTelefone()
+                source.name(),
+                source.email(),
+                source.username(),
+                source.password(),
+                source.phone()
         );
     }
 }

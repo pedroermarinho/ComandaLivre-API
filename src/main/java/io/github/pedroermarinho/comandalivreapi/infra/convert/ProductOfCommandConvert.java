@@ -22,8 +22,8 @@ public class ProductOfCommandConvert implements Converter<ProductOfCommandForm, 
 
     @Override
     public ProductOfCommandDTO convert(ProductOfCommandForm source) {
-        final CommandDTO commandDTO = searchCommand.searchCommandById(source.getCommandId());
-        final ProductDTO productDTO = searchProduct.searchProductById(source.getProductId());
-        return new ProductOfCommandDTO(source.getAmount(), commandDTO, productDTO);
+        final CommandDTO commandDTO = searchCommand.searchCommandById(source.commandId());
+        final ProductDTO productDTO = searchProduct.searchProductById(source.productId());
+        return new ProductOfCommandDTO(source.amount(), commandDTO, productDTO);
     }
 }

@@ -1,20 +1,22 @@
 package io.github.pedroermarinho.comandalivreapi.domain.repositories;
 
+import io.vavr.control.Either;
+
 import java.util.List;
 import java.util.UUID;
 
 public interface GenericRepository<D> {
     List<D> findAll();
 
-    D findById(UUID id);
+    Either<RuntimeException, D> findById(UUID id);
 
-    D create(D param);
+    Either<RuntimeException, D> create(D param);
 
-    D update(UUID id, D param);
+    Either<RuntimeException, D> update(UUID id, D param);
 
-    D disable(UUID id);
+    Either<RuntimeException, D> disable(UUID id);
 
-    D enable(UUID id);
+    Either<RuntimeException, D> enable(UUID id);
 
-    long count();
+    Either<RuntimeException, Long> count();
 }

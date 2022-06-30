@@ -24,10 +24,14 @@ public class RegisterAddress {
     public AddressDTO execute(AddressDTO addressRegister) {
         UtilValidation.objectNotNullValidationThrow(addressRegister);
 
-        final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>());
+        final List<Validation<String>> validations = List.of(new NotNullValidation<>());
         validations.forEach(validation -> validation.validationThrow(addressRegister.cep()));
 
-        return addressRepository.create(addressRegister);
+        return addressRepository.create(addressRegister).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

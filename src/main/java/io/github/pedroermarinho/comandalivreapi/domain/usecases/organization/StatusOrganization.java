@@ -20,12 +20,20 @@ public class StatusOrganization {
     @Transactional
     public OrganizationDTO disableOrganization(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return organizationRepository.disable(id);
+        return organizationRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public OrganizationDTO enableOrganization(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return organizationRepository.enable(id);
+        return organizationRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

@@ -93,7 +93,7 @@ public class SearchUserTest {
     @Test
     void searchUserAllReturnsListUser() {
         
-        when(userDataSource.findAll()).thenReturn( new ArrayList<UserEntity>());
+        when(userDataSource.findAll()).thenReturn( new ArrayList<>());
 
         assertInstanceOf(List.class, searchUser.searchUserAll());
     }

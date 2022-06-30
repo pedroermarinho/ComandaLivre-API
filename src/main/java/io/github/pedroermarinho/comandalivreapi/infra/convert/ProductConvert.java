@@ -18,7 +18,7 @@ public class ProductConvert implements Converter<ProductForm, ProductDTO> {
 
     @Override
     public ProductDTO convert(ProductForm source) {
-        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.getOrganizationId());
-        return new ProductDTO(source.getName(), source.getDescription(), source.getPrice(), organizationDTO);
+        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.organizationId());
+        return new ProductDTO(source.name(), source.description(), source.price(), organizationDTO);
     }
 }

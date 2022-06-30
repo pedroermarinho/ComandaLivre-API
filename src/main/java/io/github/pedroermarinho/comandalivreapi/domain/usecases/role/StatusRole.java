@@ -20,12 +20,20 @@ public class StatusRole {
     @Transactional
     public RoleDTO disableRole(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return roleRepository.disable(id);
+        return roleRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
     public RoleDTO enableRole(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return roleRepository.enable(id);
+        return roleRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

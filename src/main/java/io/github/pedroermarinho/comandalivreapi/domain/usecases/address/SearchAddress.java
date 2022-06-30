@@ -19,7 +19,11 @@ public class SearchAddress {
 
     public AddressDTO searchAddressById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return addressRepository.findById(id);
+        return addressRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public List<AddressDTO> searchAddressAll() {

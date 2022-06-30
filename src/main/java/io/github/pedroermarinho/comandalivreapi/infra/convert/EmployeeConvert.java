@@ -18,7 +18,7 @@ public class EmployeeConvert implements Converter<EmployeeForm, EmployeeDTO> {
 
     @Override
     public EmployeeDTO convert(EmployeeForm source) {
-        final UserDTO userDTO = searchUser.searchUserById(source.getUserId());
-        return new EmployeeDTO(source.getRegistration(), userDTO);
+        final UserDTO userDTO = searchUser.searchUserById(source.userId());
+        return new EmployeeDTO(source.registration(), userDTO);
     }
 }

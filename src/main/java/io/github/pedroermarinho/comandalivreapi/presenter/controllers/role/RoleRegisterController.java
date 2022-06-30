@@ -32,6 +32,7 @@ public class RoleRegisterController {
     @Operation(summary = "Cadastrar novo cargo")
     @PostMapping
     public ResponseEntity<RoleDTO> registerRole(RoleForm roleForm) {
+        System.out.println(roleForm);
         final RoleDTO role = registerRole.execute(roleConvert.convert(roleForm));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

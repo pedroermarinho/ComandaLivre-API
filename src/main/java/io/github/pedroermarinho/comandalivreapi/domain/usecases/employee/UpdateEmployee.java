@@ -21,6 +21,10 @@ public class UpdateEmployee {
     public EmployeeDTO execute(UUID id, EmployeeDTO employeeParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(employeeParam);
-        return employeeRepository.update(id, employeeParam);
+        return employeeRepository.update(id, employeeParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

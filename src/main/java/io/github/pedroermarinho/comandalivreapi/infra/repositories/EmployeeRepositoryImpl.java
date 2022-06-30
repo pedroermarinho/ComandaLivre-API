@@ -6,6 +6,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplemented
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.EmployeeDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,39 +27,47 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public EmployeeDTO findById(UUID id) {
-        return new EmployeeDTO(employeeDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, EmployeeDTO> findById(UUID id) {
+        return employeeDataSource.findById(id).<Either<RuntimeException, EmployeeDTO>>map(entity -> Either.right(new EmployeeDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Emprego não encontrado! Id: " + id + ", Tipo: " + EmployeeDTO.class.getName())));
     }
 
     @Override
-    public EmployeeDTO create(EmployeeDTO param) {
-        return new EmployeeDTO(employeeDataSource.save(param.toEntity()));
+    public Either<RuntimeException, EmployeeDTO> create(EmployeeDTO param) {
+        return Either.right(new EmployeeDTO(employeeDataSource.save(param.toEntity())));
     }
 
     @Override
-    public EmployeeDTO update(UUID id, EmployeeDTO param) {
+    public Either<RuntimeException, EmployeeDTO> update(UUID id, EmployeeDTO param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public EmployeeDTO disable(UUID id) {
-        final EmployeeEntity employeeEntity = findById(id).toEntity();
+    public Either<RuntimeException, EmployeeDTO> disable(UUID id) {
+        final EmployeeEntity employeeEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeDTO::toEntity);
         employeeEntity.setStatus(false);
-        return new EmployeeDTO(employeeDataSource.save(employeeEntity));
+        return Either.right(new EmployeeDTO(employeeDataSource.save(employeeEntity)));
     }
 
     @Override
-    public EmployeeDTO enable(UUID id) {
-        final EmployeeEntity employeeEntity = findById(id).toEntity();
+    public Either<RuntimeException, EmployeeDTO> enable(UUID id) {
+        final EmployeeEntity employeeEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeDTO::toEntity);
         employeeEntity.setStatus(true);
-        return new EmployeeDTO(employeeDataSource.save(employeeEntity));
+        return Either.right(new EmployeeDTO(employeeDataSource.save(employeeEntity)));
     }
 
     @Override
-    public long count() {
-        return employeeDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(employeeDataSource.count());
     }
 
 }

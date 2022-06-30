@@ -6,6 +6,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplemented
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.OrganizationDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,39 +27,47 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     }
 
     @Override
-    public OrganizationDTO findById(UUID id) {
-        return new OrganizationDTO(organizationDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, OrganizationDTO> findById(UUID id) {
+        return organizationDataSource.findById(id).<Either<RuntimeException, OrganizationDTO>>map(entity -> Either.right(new OrganizationDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Organização não encontrado! Id: " + id + ", Tipo: " + OrganizationDTO.class.getName())));
     }
 
     @Override
-    public OrganizationDTO create(OrganizationDTO param) {
-        return new OrganizationDTO(organizationDataSource.save(param.toEntity()));
+    public Either<RuntimeException, OrganizationDTO> create(OrganizationDTO param) {
+        return Either.right(new OrganizationDTO(organizationDataSource.save(param.toEntity())));
     }
 
     @Override
-    public OrganizationDTO update(UUID id, OrganizationDTO param) {
+    public Either<RuntimeException, OrganizationDTO> update(UUID id, OrganizationDTO param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public OrganizationDTO disable(UUID id) {
-        final OrganizationEntity organizationEntity = findById(id).toEntity();
+    public Either<RuntimeException, OrganizationDTO> disable(UUID id) {
+        final OrganizationEntity organizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                OrganizationDTO::toEntity);
         organizationEntity.setStatus(false);
-        return new OrganizationDTO(organizationDataSource.save(organizationEntity));
+        return Either.right(new OrganizationDTO(organizationDataSource.save(organizationEntity)));
     }
 
     @Override
-    public OrganizationDTO enable(UUID id) {
-        final OrganizationEntity organizationEntity = findById(id).toEntity();
+    public Either<RuntimeException, OrganizationDTO> enable(UUID id) {
+        final OrganizationEntity organizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                OrganizationDTO::toEntity);
         organizationEntity.setStatus(true);
-        return new OrganizationDTO(organizationDataSource.save(organizationEntity));
+        return Either.right(new OrganizationDTO(organizationDataSource.save(organizationEntity)));
     }
 
     @Override
-    public long count() {
-        return organizationDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(organizationDataSource.count());
     }
 
 }

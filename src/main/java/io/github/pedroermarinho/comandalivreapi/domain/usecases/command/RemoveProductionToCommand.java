@@ -22,6 +22,10 @@ public class RemoveProductionToCommand {
     public ProductOfCommandDTO execute(@Nullable UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
-        return productofcommandRepository.disable(id);
+        return productofcommandRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 }

@@ -19,7 +19,11 @@ public class RegisterProductOfCommand {
     public ProductOfCommandDTO execute(ProductOfCommandDTO payload) {
         UtilValidation.objectNotNullValidationThrow(payload);
         UtilValidation.idNotNullValidationThrow(payload.product().id());
-        return productofcommandRepository.create(payload);
+        return productofcommandRepository.create(payload).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

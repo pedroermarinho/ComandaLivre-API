@@ -23,6 +23,10 @@ public class UpdateUser {
         UtilValidation.objectNotNullValidationThrow(userParam);
         UtilValidation.emailNotNullValidationThrow(userParam.email());
         UtilValidation.usernameNotNullValidationThrow(userParam.username());
-        return userRepository.update(id, userParam);
+        return userRepository.update(id, userParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

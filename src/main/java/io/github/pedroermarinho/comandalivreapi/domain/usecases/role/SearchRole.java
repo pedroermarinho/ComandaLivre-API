@@ -19,7 +19,11 @@ public class SearchRole {
 
     public RoleDTO searchRoleById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
-        return roleRepository.findById(id);
+        return roleRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     public List<RoleDTO> searchRoleAll() {

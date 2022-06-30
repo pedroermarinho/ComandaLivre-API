@@ -10,6 +10,6 @@ public class RoleConvert implements Converter<RoleForm, RoleDTO> {
 
     @Override
     public RoleDTO convert(RoleForm source) {
-        return new RoleDTO(source.getName(), source.getDescription());
+        return new RoleDTO(source.name(), source.description());
     }
 }

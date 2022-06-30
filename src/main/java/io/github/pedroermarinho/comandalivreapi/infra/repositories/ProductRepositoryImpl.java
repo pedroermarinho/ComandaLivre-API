@@ -6,6 +6,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplemented
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.ProductDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,39 +27,47 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public ProductDTO findById(UUID id) {
-        return new ProductDTO(productDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, ProductDTO> findById(UUID id) {
+        return productDataSource.findById(id).<Either<RuntimeException, ProductDTO>>map(entity -> Either.right(new ProductDTO(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Produdo não encontrado! Id: " + id + ", Tipo: " + ProductDTO.class.getName())));
     }
 
     @Override
-    public ProductDTO create(ProductDTO param) {
-        return new ProductDTO(productDataSource.save(param.toEntity()));
+    public Either<RuntimeException, ProductDTO> create(ProductDTO param) {
+        return Either.right(new ProductDTO(productDataSource.save(param.toEntity())));
     }
 
     @Override
-    public ProductDTO update(UUID id, ProductDTO param) {
-        throw new NotImplementedException();
+    public Either<RuntimeException, ProductDTO> update(UUID id, ProductDTO param) {
+        return Either.left(new NotImplementedException());
     }
 
     @Override
-    public ProductDTO disable(UUID id) {
-        final ProductEntity productEntity = findById(id).toEntity();
+    public Either<RuntimeException, ProductDTO> disable(UUID id) {
+        final ProductEntity productEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductDTO::toEntity);
         productEntity.setStatus(false);
-        return new ProductDTO(productDataSource.save(productEntity));
+        return Either.right(new ProductDTO(productDataSource.save(productEntity)));
     }
 
     @Override
-    public ProductDTO enable(UUID id) {
-        final ProductEntity productEntity = findById(id).toEntity();
+    public Either<RuntimeException, ProductDTO> enable(UUID id) {
+        final ProductEntity productEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductDTO::toEntity);
         productEntity.setStatus(true);
-        return new ProductDTO(productDataSource.save(productEntity));
+        return Either.right(new ProductDTO(productDataSource.save(productEntity)));
     }
 
     @Override
-    public long count() {
-        return productDataSource.count();
+    public Either<RuntimeException, Long> count() {
+        return Either.right(productDataSource.count());
     }
 
 }
