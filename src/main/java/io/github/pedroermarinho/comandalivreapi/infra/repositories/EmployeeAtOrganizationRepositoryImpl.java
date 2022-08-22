@@ -1,11 +1,12 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeAtOrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeAtOrganizationRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.EmployeeAtOrganizationConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.EmployeeAtOrganizationDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,47 +16,59 @@ import java.util.UUID;
 public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizationRepository {
 
     private final EmployeeAtOrganizationDataSource employeeAtOrganizationDataSource;
-    private final EmployeeAtOrganizationConvert convert = new EmployeeAtOrganizationConvert();
 
     public EmployeeAtOrganizationRepositoryImpl(EmployeeAtOrganizationDataSource employeeAtOrganizationDataSource) {
         this.employeeAtOrganizationDataSource = employeeAtOrganizationDataSource;
     }
 
     @Override
-    public List<EmployeeAtOrganizationDTO> findAll() {
-        return convert.formEntity(employeeAtOrganizationDataSource.findAll());
+    public List<EmployeeAtOrganizationRecord> findAll() {
+        return employeeAtOrganizationDataSource.findAll().stream().map(EmployeeAtOrganizationRecord::new).toList();
     }
 
     @Override
-    public EmployeeAtOrganizationDTO findById(UUID id) {
-        return convert.formEntity(employeeAtOrganizationDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> findById(UUID id) {
+        return employeeAtOrganizationDataSource.findById(id).<Either<RuntimeException, EmployeeAtOrganizationRecord>>map(entity -> Either.right(new EmployeeAtOrganizationRecord(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Emprego na orginação não encontrado! Id: " + id + ", Tipo: "
-                                + EmployeeAtOrganizationDTO.class.getName())));
+                                + EmployeeAtOrganizationRecord.class.getName())));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO create(EmployeeAtOrganizationDTO param) {
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(param)));
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> create(EmployeeAtOrganizationRecord param) {
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(param.toEntity())));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO update(UUID id, EmployeeAtOrganizationDTO param) {
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> update(UUID id, EmployeeAtOrganizationRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public EmployeeAtOrganizationDTO disable(UUID id) {
-        final EmployeeAtOrganizationDTO employeeAtOrganizationDTO = findById(id);
-        employeeAtOrganizationDTO.setStatus(false);
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(employeeAtOrganizationDTO)));
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> disable(UUID id) {
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeAtOrganizationRecord::toEntity);
+        employeeAtOrganizationEntity.setStatus(false);
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
     }
 
     @Override
-    public EmployeeAtOrganizationDTO enable(UUID id) {
-        final EmployeeAtOrganizationDTO employeeAtOrganizationDTO = findById(id);
-        employeeAtOrganizationDTO.setStatus(true);
-        return convert.formEntity(employeeAtOrganizationDataSource.save(convert.formDTO(employeeAtOrganizationDTO)));
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> enable(UUID id) {
+        final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                EmployeeAtOrganizationRecord::toEntity);
+        employeeAtOrganizationEntity.setStatus(true);
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
+    }
+
+    @Override
+    public Either<RuntimeException, Long> count() {
+        return Either.right(employeeAtOrganizationDataSource.count());
     }
 
 }

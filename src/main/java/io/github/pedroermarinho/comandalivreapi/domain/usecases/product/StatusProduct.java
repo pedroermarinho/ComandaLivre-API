@@ -1,14 +1,11 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,20 +18,22 @@ public class StatusProduct {
     }
 
     @Transactional
-    public ProductDTO disableProduct(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return productRepository.disable(id);
+    public ProductRecord disableProduct(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+        return productRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
     @Transactional
-    public ProductDTO enableProduct(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return productRepository.enable(id);
+    public ProductRecord enableProduct(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+        return productRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 }

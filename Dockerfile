@@ -1,20 +1,21 @@
 FROM maven:3.8-openjdk-17 AS builder
 
-WORKDIR /app
+WORKDIR /aires
 
-COPY ./pom.xml /app/pom.xml
+COPY ./pom.xml /aires/pom.xml
 
 RUN mvn dependency:go-offline
 
-COPY . /app
+COPY . /aires
 
-RUN mvn package -DskipTes
+RUN mvn package
+
 
 
 FROM openjdk:17-jdk-alpine3.14
 
-COPY --from=builder /app/target/comanda-livre-api-0.0.1-SNAPSHOT.jar /comanda-livre-api-0.0.1-SNAPSHOT.jar
+COPY --from=builder /aires/target/ComandaLivre-API-0.0.1-SNAPSHOT.jar /app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-Dserver.port=9090", "-Djava.security.egd=file:/dev/./urandom", "-jar","-Dspring.profiles.active=docker", "/comanda-livre-api-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-Dserver.port=8080", "-Djava.security.egd=file:/dev/./urandom", "-jar","-Dspring.profiles.active=docker", "/app.jar"] 

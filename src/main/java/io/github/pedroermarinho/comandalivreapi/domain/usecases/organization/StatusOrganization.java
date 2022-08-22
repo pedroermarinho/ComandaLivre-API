@@ -1,14 +1,11 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.organization;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,20 +18,22 @@ public class StatusOrganization {
     }
 
     @Transactional
-    public OrganizationDTO disableOrganization(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return organizationRepository.disable(id);
+    public OrganizationRecord disableOrganization(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+        return organizationRepository.disable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
     @Transactional
-    public OrganizationDTO enableOrganization(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return organizationRepository.enable(id);
+    public OrganizationRecord enableOrganization(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+        return organizationRepository.enable(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 }

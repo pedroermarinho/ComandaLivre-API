@@ -1,12 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,15 +17,16 @@ public class SearchProduct {
         this.productRepository = productRepository;
     }
 
-    public ProductDTO searchProductById(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(id));
-
-        return productRepository.findById(id);
+    public ProductRecord searchProductById(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+        return productRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
 
-    public List<ProductDTO> searchProductAll() {
+    public List<ProductRecord> searchProductAll() {
         return productRepository.findAll();
     }
 

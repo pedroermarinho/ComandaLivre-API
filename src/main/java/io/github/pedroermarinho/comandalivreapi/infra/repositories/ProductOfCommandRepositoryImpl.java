@@ -1,11 +1,12 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductOfCommandEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.ProductOfCommandConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.ProductOfCommandDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,47 +16,59 @@ import java.util.UUID;
 public class ProductOfCommandRepositoryImpl implements ProductOfCommandRepository {
 
     private final ProductOfCommandDataSource productOfCommandDataSource;
-    private final ProductOfCommandConvert convert = new ProductOfCommandConvert();
 
     public ProductOfCommandRepositoryImpl(ProductOfCommandDataSource productOfCommandDataSource) {
         this.productOfCommandDataSource = productOfCommandDataSource;
     }
 
     @Override
-    public List<ProductOfCommandDTO> findAll() {
-        return convert.formEntity(productOfCommandDataSource.findAll());
+    public List<ProductOfCommandRecord> findAll() {
+        return productOfCommandDataSource.findAll().stream().map(ProductOfCommandRecord::new).toList();
     }
 
     @Override
-    public ProductOfCommandDTO findById(UUID id) {
-        return convert.formEntity(productOfCommandDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
+    public Either<RuntimeException, ProductOfCommandRecord> findById(UUID id) {
+        return productOfCommandDataSource.findById(id).<Either<RuntimeException, ProductOfCommandRecord>>map(entity -> Either.right(new ProductOfCommandRecord(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Produdo da comanda não encontrado! Id: " + id + ", Tipo: "
-                                + ProductOfCommandDTO.class.getName())));
+                                + ProductOfCommandRecord.class.getName())));
     }
 
     @Override
-    public ProductOfCommandDTO create(ProductOfCommandDTO param) {
-        return convert.formEntity(productOfCommandDataSource.save(convert.formDTO(param)));
+    public Either<RuntimeException, ProductOfCommandRecord> create(ProductOfCommandRecord param) {
+        return Either.right(new ProductOfCommandRecord(productOfCommandDataSource.save(param.toEntity())));
     }
 
     @Override
-    public ProductOfCommandDTO update(UUID id, ProductOfCommandDTO param) {
+    public Either<RuntimeException, ProductOfCommandRecord> update(UUID id, ProductOfCommandRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public ProductOfCommandDTO disable(UUID id) {
-        final ProductOfCommandDTO productOfCommandDTO = findById(id);
-        productOfCommandDTO.setStatus(false);
-        return convert.formEntity(productOfCommandDataSource.save(convert.formDTO(productOfCommandDTO)));
+    public Either<RuntimeException, ProductOfCommandRecord> disable(UUID id) {
+        final ProductOfCommandEntity productOfCommandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductOfCommandRecord::toEntity);
+        productOfCommandEntity.setStatus(false);
+        return Either.right(new ProductOfCommandRecord(productOfCommandDataSource.save(productOfCommandEntity)));
     }
 
     @Override
-    public ProductOfCommandDTO enable(UUID id) {
-        final ProductOfCommandDTO productOfCommandDTO = findById(id);
-        productOfCommandDTO.setStatus(true);
-        return convert.formEntity(productOfCommandDataSource.save(convert.formDTO(productOfCommandDTO)));
+    public Either<RuntimeException, ProductOfCommandRecord> enable(UUID id) {
+        final ProductOfCommandEntity productOfCommandEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                ProductOfCommandRecord::toEntity);
+        productOfCommandEntity.setStatus(true);
+        return Either.right(new ProductOfCommandRecord(productOfCommandDataSource.save(productOfCommandEntity)));
+    }
+
+    @Override
+    public Either<RuntimeException, Long> count() {
+        return Either.right(productOfCommandDataSource.count());
     }
 
 }

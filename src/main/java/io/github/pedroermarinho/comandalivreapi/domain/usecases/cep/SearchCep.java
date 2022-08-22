@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.cep;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.services.CepService;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.CepValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
@@ -19,7 +19,7 @@ public class SearchCep {
         this.cepService = cepService;
     }
 
-    public AddressDTO execute(String cep) {
+    public AddressRecord execute(String cep) {
         final List<Validation<String>> validations = Arrays.asList(new NotNullValidation<>(), new CepValidation());
 
         validations.forEach(validation -> validation.validationThrow(cep));

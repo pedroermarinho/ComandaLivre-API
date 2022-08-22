@@ -1,7 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.domain.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeAtOrganizationRecord;
 
-public interface EmployeeAtOrganizationRepository extends GenericRepository<EmployeeAtOrganizationDTO> {
+public interface EmployeeAtOrganizationRepository extends GenericRepository<EmployeeAtOrganizationRecord> {
 
 }

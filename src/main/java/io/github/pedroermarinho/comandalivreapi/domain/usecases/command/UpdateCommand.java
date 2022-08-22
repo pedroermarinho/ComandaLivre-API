@@ -1,14 +1,11 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,12 +18,15 @@ public class UpdateCommand {
     }
 
     @Transactional
-    public CommandDTO execute(UUID id, CommandDTO commandParam) {
-
-        final List<Validation<UUID>> idValidations = Arrays.asList(new NotNullValidation<>());
-
-        idValidations.forEach(validation -> validation.validationThrow(id));
-
-        return commandRepository.update(id, commandParam);
+    public CommandRecord execute(UUID id, CommandRecord commandParam) {
+        UtilValidation.idNotNullValidationThrow(id);
+        UtilValidation.objectNotNullValidationThrow(commandParam);
+        return commandRepository.update(id, commandParam).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                result -> result);
     }
+
+
 }

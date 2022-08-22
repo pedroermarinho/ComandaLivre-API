@@ -9,26 +9,26 @@ import org.junit.jupiter.api.Test;
 
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
 
-public class EmailValidationTest {
+class EmailValidationTest {
 
     
     @Test
-    public void emailValidationReturnsNotThrow(){
+    void emailValidationReturnsNotThrow(){
         assertDoesNotThrow(()->new EmailValidation().validationThrow("exemplo@exemplo.com"));
     }
 
     @Test
-    public void emailValidationReturnsThrowEmailInvalidException(){
+    void emailValidationReturnsThrowEmailInvalidException(){
         assertThrows(UsernameInvalidException.class,()->new EmailValidation().validationThrow("exemplo@exemplo"));
     }
     
     @Test
-    public void emailValidationReturnsTrue(){
+    void emailValidationReturnsTrue(){
         assertTrue(new EmailValidation().validation("exemplo@exemplo.com"));
     }
 
     @Test
-    public void emailValidationReturnsFalse(){
+    void emailValidationReturnsFalse(){
         assertFalse(new EmailValidation().validation("exemplo@exemplo"));
     }
 }

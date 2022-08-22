@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotNullException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.UsernameInvalidException;
@@ -23,7 +23,7 @@ import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserReposito
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
 import io.github.pedroermarinho.comandalivreapi.infra.repositories.UserRepositoryImpl;
 
-public class SearchUserTest {
+class SearchUserTest {
 
     @Mock
     private UserDataSource userDataSource;
@@ -34,7 +34,7 @@ public class SearchUserTest {
 
 
     @BeforeEach
-    private void setUp() throws Exception{
+    void setUp() throws Exception{
         MockitoAnnotations.openMocks(this);
 
         userRepository = new UserRepositoryImpl(userDataSource);
@@ -47,7 +47,7 @@ public class SearchUserTest {
         
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserDTO.class, searchUser.searchUserById(UUID.randomUUID()));
+        assertInstanceOf(UserRecord.class, searchUser.searchUserById(UUID.randomUUID()));
     }
     
     @Test
@@ -63,7 +63,7 @@ public class SearchUserTest {
         
         when(userDataSource.findByEmail(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserDTO.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
+        assertInstanceOf(UserRecord.class, searchUser.searchUserByEmail("exemplo@exemplo.com"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class SearchUserTest {
         
         when(userDataSource.findByUsername(any(String.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserDTO.class, searchUser.searchUserByUsername("exemplo"));
+        assertInstanceOf(UserRecord.class, searchUser.searchUserByUsername("exemplo"));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class SearchUserTest {
     @Test
     void searchUserAllReturnsListUser() {
         
-        when(userDataSource.findAll()).thenReturn( new ArrayList<UserEntity>());
+        when(userDataSource.findAll()).thenReturn( new ArrayList<>());
 
         assertInstanceOf(List.class, searchUser.searchUserAll());
     }

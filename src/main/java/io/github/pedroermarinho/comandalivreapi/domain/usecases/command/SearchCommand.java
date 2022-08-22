@@ -1,12 +1,11 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,16 +18,21 @@ public class SearchCommand {
         this.commandRepository = commandRepository;
     }
 
-    public CommandDTO searchCommandById(UUID id) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
+    public CommandRecord searchCommandById(@Nullable UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
 
-        validations.forEach(validation -> validation.validationThrow(id));
+        final var result = commandRepository.findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
 
-        return commandRepository.findById(id);
+        UtilValidation.statusEnableValidationThrow(result.status());
+
+        return result;
     }
 
-    public List<CommandDTO> searchCommandAll() {
-        return commandRepository.findAll();
+    public List<CommandRecord> searchCommandAll() {
+        return commandRepository.findAll().stream().filter(CommandRecord::status).toList();
     }
-
 }

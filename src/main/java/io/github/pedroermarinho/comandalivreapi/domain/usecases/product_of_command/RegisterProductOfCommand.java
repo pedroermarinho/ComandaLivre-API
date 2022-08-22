@@ -1,15 +1,10 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product_of_command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
-import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class RegisterProductOfCommand {
@@ -21,12 +16,14 @@ public class RegisterProductOfCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO execute(ProductOfCommandDTO productofcommandRegister) {
-        final List<Validation<UUID>> validations = Arrays.asList(new NotNullValidation<>());
-
-        validations.forEach(validation -> validation.validationThrow(productofcommandRegister.getProduct().getId()));
-
-        return productofcommandRepository.create(productofcommandRegister);
+    public ProductOfCommandRecord execute(ProductOfCommandRecord payload) {
+        UtilValidation.objectNotNullValidationThrow(payload);
+        UtilValidation.idNotNullValidationThrow(payload.product().id());
+        return productofcommandRepository.create(payload).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
     }
 
 }

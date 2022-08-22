@@ -1,48 +1,24 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.usecases.address.SearchAddress;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.OrganizationForm;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+@Component
+public class OrganizationConvert implements Converter<OrganizationForm, OrganizationRecord> {
 
-public class OrganizationConvert implements Convert<OrganizationEntity, OrganizationDTO, OrganizationForm> {
+    private final SearchAddress searchAddress;
 
-    @Override
-    public OrganizationDTO formEntity(OrganizationEntity entity) {
-        final OrganizationDTO dto = new OrganizationDTO();
-        dto.setId(entity.getId());
-        dto.setCreatedById(entity.getCreatedById());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setModifiedById(entity.getCreatedById());
-        dto.setLastModifiedDate(entity.getLastModifiedDate());
-        dto.setStatus(entity.getStatus());
-        return dto;
+    public OrganizationConvert(SearchAddress searchAddress) {
+        this.searchAddress = searchAddress;
     }
 
     @Override
-    public OrganizationEntity formDTO(OrganizationDTO dto) {
-        final OrganizationEntity entity = new OrganizationEntity();
-        entity.setId(dto.getId());
-        entity.setCreatedById(dto.getCreatedById());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setModifiedById(dto.getCreatedById());
-        entity.setLastModifiedDate(dto.getLastModifiedDate());
-        entity.setStatus(dto.getStatus());
-        return entity;
+    public OrganizationRecord convert(OrganizationForm source) {
+        final AddressRecord addressRecord = searchAddress.searchAddressById(source.addressId());
+        return new OrganizationRecord(source.name(), source.phone(), addressRecord);
     }
-
-    @Override
-    public OrganizationDTO fromForm(OrganizationForm form) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<OrganizationDTO> formEntity(List<OrganizationEntity> entityList) {
-        final List<OrganizationDTO> dtos = new ArrayList<>();
-        return dtos;
-    }
-
 }

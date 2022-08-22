@@ -1,11 +1,13 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
-import io.github.pedroermarinho.comandalivreapi.infra.convert.RoleConvert;
+import io.github.pedroermarinho.comandalivreapi.infra.config.Translator;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.RoleDataSource;
+import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,46 +17,60 @@ import java.util.UUID;
 public class RoleRepositoryImpl implements RoleRepository {
 
     private final RoleDataSource roleDataSource;
-    private final RoleConvert convert = new RoleConvert();
+    private final Translator translator;
 
-    public RoleRepositoryImpl(RoleDataSource roleDataSource) {
+    public RoleRepositoryImpl(RoleDataSource roleDataSource, Translator translator) {
         this.roleDataSource = roleDataSource;
+        this.translator = translator;
     }
 
     @Override
-    public List<RoleDTO> findAll() {
-        return convert.formEntity(roleDataSource.findAll());
+    public List<RoleRecord> findAll() {
+        return roleDataSource.findAll().stream().map(RoleRecord::new).toList();
     }
 
     @Override
-    public RoleDTO findById(UUID id) {
-        return convert.formEntity(roleDataSource.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException(
-                        "Cargo não encontrado! Id: " + id + ", Tipo: " + RoleDTO.class.getName())));
+    public Either<RuntimeException, RoleRecord> findById(UUID id) {
+        return roleDataSource.findById(id).<Either<RuntimeException, RoleRecord>>map(entity -> Either.right(new RoleRecord(entity)))
+                .orElseGet(() -> Either.left(new ObjectNotFoundException(
+                        translator.toLocale("role.ObjectNotFoundException"))));
     }
 
     @Override
-    public RoleDTO create(RoleDTO param) {
-        return convert.formEntity(roleDataSource.save(convert.formDTO(param)));
+    public Either<RuntimeException, RoleRecord> create(RoleRecord param) {
+        return Either.right(new RoleRecord(roleDataSource.save(param.toEntity())));
     }
 
     @Override
-    public RoleDTO update(UUID id, RoleDTO param) {
+    public Either<RuntimeException, RoleRecord> update(UUID id, RoleRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public RoleDTO disable(UUID id) {
-        final RoleDTO roleDTO = findById(id);
-        roleDTO.setStatus(false);
-        return convert.formEntity(roleDataSource.save(convert.formDTO(roleDTO)));
+    public Either<RuntimeException, RoleRecord> disable(UUID id) {
+        final RoleEntity roleEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                RoleRecord::toEntity);
+        roleEntity.setStatus(false);
+        return Either.right(new RoleRecord(roleDataSource.save(roleEntity)));
     }
 
     @Override
-    public RoleDTO enable(UUID id) {
-        final RoleDTO roleDTO = findById(id);
-        roleDTO.setStatus(true);
-        return convert.formEntity(roleDataSource.save(convert.formDTO(roleDTO)));
+    public Either<RuntimeException, RoleRecord> enable(UUID id) {
+        final RoleEntity roleEntity = findById(id).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                RoleRecord::toEntity);
+        roleEntity.setStatus(false);
+        return Either.right(new RoleRecord(roleDataSource.save(roleEntity)));
+    }
+
+    @Override
+    public Either<RuntimeException, Long> count() {
+        return Either.right(roleDataSource.count());
     }
 
 }

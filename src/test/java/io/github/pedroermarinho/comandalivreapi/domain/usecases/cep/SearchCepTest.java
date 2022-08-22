@@ -13,13 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.CepInvalidException;
 import io.github.pedroermarinho.comandalivreapi.domain.services.CepService;
 import io.github.pedroermarinho.comandalivreapi.infra.drivers.CepDriver;
 import io.github.pedroermarinho.comandalivreapi.infra.services.CepServiceImpl;
 
-public class SearchCepTest {
+class SearchCepTest {
 
     @Mock
     private CepDriver cepDriver;
@@ -29,7 +29,7 @@ public class SearchCepTest {
     private SearchCep searchCep;
 
     @BeforeEach
-    private void setUp() throws Exception{
+    void setUp() {
         MockitoAnnotations.openMocks(this);
 
         cepService = new CepServiceImpl(cepDriver);
@@ -41,9 +41,9 @@ public class SearchCepTest {
     @Test
     void searchCepReturnsNewCepAddress() {
         
-        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new AddressDTO()));
+        when(cepDriver.findByCep(any(String.class))).thenReturn(Optional.of(new AddressRecord(null,null,null,null,null,null)));
 
-        assertInstanceOf(AddressDTO.class, searchCep.execute("69088240"));
+        assertInstanceOf(AddressRecord.class, searchCep.execute("69088240"));
     }
 
     @Test

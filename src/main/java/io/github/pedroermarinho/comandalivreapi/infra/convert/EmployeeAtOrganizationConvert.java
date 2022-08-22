@@ -1,48 +1,40 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeAtOrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.SearchEmployee;
+import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.SearchOrganization;
+import io.github.pedroermarinho.comandalivreapi.domain.usecases.role.SearchRole;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeAtOrganizationForm;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+@Component
+public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrganizationForm, EmployeeAtOrganizationRecord> {
 
-public class EmployeeAtOrganizationConvert implements Convert<EmployeeAtOrganizationEntity, EmployeeAtOrganizationDTO, EmployeeAtOrganizationForm> {
+    private final SearchOrganization searchOrganization;
 
-    @Override
-    public EmployeeAtOrganizationDTO formEntity(EmployeeAtOrganizationEntity entity) {
-        final EmployeeAtOrganizationDTO dto = new EmployeeAtOrganizationDTO();
-        dto.setId(entity.getId());
-        dto.setCreatedById(entity.getCreatedById());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setModifiedById(entity.getCreatedById());
-        dto.setLastModifiedDate(entity.getLastModifiedDate());
-        dto.setStatus(entity.getStatus());
-        return dto;
+    private final SearchEmployee searchEmployee;
+
+    private final SearchRole searchRole;
+
+    public EmployeeAtOrganizationConvert(
+            SearchOrganization searchOrganization,
+            SearchEmployee searchEmployee,
+            SearchRole searchRole
+    ) {
+        this.searchOrganization = searchOrganization;
+        this.searchEmployee = searchEmployee;
+        this.searchRole = searchRole;
     }
 
     @Override
-    public EmployeeAtOrganizationEntity formDTO(EmployeeAtOrganizationDTO dto) {
-        final EmployeeAtOrganizationEntity entity = new EmployeeAtOrganizationEntity();
-        entity.setId(dto.getId());
-        entity.setCreatedById(dto.getCreatedById());
-        entity.setCreationDate(dto.getCreationDate());
-        entity.setModifiedById(dto.getCreatedById());
-        entity.setLastModifiedDate(dto.getLastModifiedDate());
-        entity.setStatus(dto.getStatus());
-        return entity;
+    public EmployeeAtOrganizationRecord convert(EmployeeAtOrganizationForm source) {
+        final OrganizationRecord organizationRecord = searchOrganization.searchOrganizationById(source.organizationId());
+        final EmployeeRecord employeeRecord = searchEmployee.searchEmployeeById(source.employeeId());
+        final RoleRecord roleRecord = searchRole.searchRoleById(source.roleId());
+        return new EmployeeAtOrganizationRecord(organizationRecord, employeeRecord, roleRecord);
     }
-
-    @Override
-    public EmployeeAtOrganizationDTO fromForm(EmployeeAtOrganizationForm form) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<EmployeeAtOrganizationDTO> formEntity(List<EmployeeAtOrganizationEntity> entityList) {
-        final List<EmployeeAtOrganizationDTO> dtos = new ArrayList<>();
-        return dtos;
-    }
-
 }

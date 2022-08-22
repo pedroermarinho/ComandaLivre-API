@@ -1,0 +1,33 @@
+package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
+
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
+import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class PayCommand {
+
+    private final CommandRepository commandRepository;
+    private final SearchCommand searchCommand;
+
+    public PayCommand(CommandRepository commandRepository, SearchCommand searchCommand) {
+        this.commandRepository = commandRepository;
+        this.searchCommand = searchCommand;
+    }
+
+    public CommandRecord execute(UUID id) {
+        UtilValidation.idNotNullValidationThrow(id);
+
+        searchCommand.searchCommandById(id);
+
+        return commandRepository.updatePaidOff(id, true).fold(
+                throwable -> {
+                    throw throwable;
+                },
+                value -> value);
+    }
+
+}
