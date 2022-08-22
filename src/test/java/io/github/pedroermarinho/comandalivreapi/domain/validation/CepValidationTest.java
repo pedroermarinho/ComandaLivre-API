@@ -9,26 +9,26 @@ import org.junit.jupiter.api.Test;
 
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.CepInvalidException;
 
-public class CepValidationTest {
+class CepValidationTest {
 
     @Test
-    public void cepValidationReturnsNotThrow(){
+    void cepValidationReturnsNotThrow(){
         assertDoesNotThrow(()->new CepValidation().validationThrow("60440134"));
     }
 
     @Test
-    public void cepValidationReturnsThrowCepInvalidException(){
+    void cepValidationReturnsThrowCepInvalidException(){
         assertThrows(CepInvalidException.class,()->new CepValidation().validationThrow("60440-134"));
     }
 
 
     @Test
-    public void cepValidationReturnsTrue(){
+    void cepValidationReturnsTrue(){
         assertTrue(new CepValidation().validation("60440134"));
     }
 
     @Test
-    public void cepValidationReturnsFalse(){
+    void cepValidationReturnsFalse(){
         assertFalse(new CepValidation().validation("6044-0134"));
     }
 

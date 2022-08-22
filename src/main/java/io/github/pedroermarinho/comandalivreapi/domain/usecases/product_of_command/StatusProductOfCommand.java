@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product_of_command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StatusProductOfCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO disableProductOfCommand(UUID id) {
+    public ProductOfCommandRecord disableProductOfCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return productofcommandRepository.disable(id).fold(
                 throwable -> {
@@ -28,7 +28,7 @@ public class StatusProductOfCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO enableProductOfCommand(UUID id) {
+    public ProductOfCommandRecord enableProductOfCommand(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return productofcommandRepository.enable(id).fold(
                 throwable -> {

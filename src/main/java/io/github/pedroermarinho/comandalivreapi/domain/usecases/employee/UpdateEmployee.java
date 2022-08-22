@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class UpdateEmployee {
     }
 
     @Transactional
-    public EmployeeDTO execute(UUID id, EmployeeDTO employeeParam) {
+    public EmployeeRecord execute(UUID id, EmployeeRecord employeeParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(employeeParam);
         return employeeRepository.update(id, employeeParam).fold(

@@ -1,4 +1,4 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductOfCommandEntity;
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 
 
-public record ProductOfCommandDTO(
+public record ProductOfCommandRecord(
         UUID id,
 
         UUID createdById,
@@ -25,12 +25,12 @@ public record ProductOfCommandDTO(
 
         Integer amount,
 
-        CommandDTO command,
+        CommandRecord command,
 
-        ProductDTO product
+        ProductRecord product
 ) implements Serializable {
 
-    public ProductOfCommandDTO(Integer amount, CommandDTO command, ProductDTO product) {
+    public ProductOfCommandRecord(Integer amount, CommandRecord command, ProductRecord product) {
         this(
                 null,
                 null,
@@ -44,7 +44,7 @@ public record ProductOfCommandDTO(
         );
     }
 
-    public ProductOfCommandDTO(ProductOfCommandEntity entity) {
+    public ProductOfCommandRecord(ProductOfCommandEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -53,8 +53,8 @@ public record ProductOfCommandDTO(
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
                 entity.getAmount(),
-                new CommandDTO(entity.getCommandEntity()),
-                new ProductDTO(entity.getProductEntity())
+                new CommandRecord(entity.getCommandEntity()),
+                new ProductRecord(entity.getProductEntity())
         );
     }
 

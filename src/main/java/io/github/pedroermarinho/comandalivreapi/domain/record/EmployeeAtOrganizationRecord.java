@@ -1,13 +1,13 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public record EmployeeDTO(
+public record EmployeeAtOrganizationRecord(
         UUID id,
 
         UUID createdById,
@@ -22,11 +22,13 @@ public record EmployeeDTO(
 
         Boolean status,
 
-        String registration,
+        OrganizationRecord organization,
 
-        UserDTO user
+        EmployeeRecord employee,
+
+        RoleRecord role
 ) implements Serializable {
-    public EmployeeDTO(String registration, UserDTO user) {
+    public EmployeeAtOrganizationRecord(OrganizationRecord organization, EmployeeRecord employee, RoleRecord role) {
         this(
                 null,
                 null,
@@ -34,12 +36,13 @@ public record EmployeeDTO(
                 null,
                 null,
                 true,
-                registration,
-                user
+                organization,
+                employee,
+                role
         );
     }
 
-    public EmployeeDTO(EmployeeEntity entity) {
+    public EmployeeAtOrganizationRecord(EmployeeAtOrganizationEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -47,23 +50,24 @@ public record EmployeeDTO(
                 entity.getCreationDate(),
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
-                entity.getRegistration(),
-                new UserDTO(entity.getUserEntity())
+                new OrganizationRecord(entity.getOrganizationEntity()),
+                new EmployeeRecord(entity.getEmployeeEntity()),
+                new RoleRecord(entity.getRoleEntity())
         );
     }
 
-    public EmployeeEntity toEntity() {
-        final EmployeeEntity entity = new EmployeeEntity();
+    public EmployeeAtOrganizationEntity toEntity() {
+        final EmployeeAtOrganizationEntity entity = new EmployeeAtOrganizationEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
         entity.setModifiedById(this.modifiedById);
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
-        entity.setRegistration(this.registration);
-        entity.setUserEntity(this.user.toEntity());
+        entity.setOrganizationEntity(this.organization.toEntity());
+        entity.setEmployeeEntity(this.employee.toEntity());
+        entity.setRoleEntity(this.role.toEntity());
         return entity;
     }
-
 
 }

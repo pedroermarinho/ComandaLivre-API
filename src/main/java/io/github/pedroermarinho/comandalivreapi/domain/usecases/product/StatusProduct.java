@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StatusProduct {
     }
 
     @Transactional
-    public ProductDTO disableProduct(UUID id) {
+    public ProductRecord disableProduct(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return productRepository.disable(id).fold(
                 throwable -> {
@@ -28,7 +28,7 @@ public class StatusProduct {
     }
 
     @Transactional
-    public ProductDTO enableProduct(UUID id) {
+    public ProductRecord enableProduct(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return productRepository.enable(id).fold(
                 throwable -> {

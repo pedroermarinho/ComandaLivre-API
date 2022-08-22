@@ -1,14 +1,16 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.user;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.RegisterUser;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.UserPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.UserConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.UserForm;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
+@CrossOrigin("*")
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = PathRest.API + PathRest.VERSION + UserPathRest.USER_REGISTER)
 @Tag(name = "Usuário", description = "Operações do usuário")
 public class UserRegisterController {
@@ -31,8 +35,8 @@ public class UserRegisterController {
 
     @Operation(summary = "Cadastrar usuário", tags = {"Usuário"})
     @PostMapping
-    public ResponseEntity<UserDTO> registerUser(UserForm userForm) {
-        final UserDTO user = registerUser.execute(userConvert.convert(userForm));
+    public ResponseEntity<UserRecord> registerUser(UserForm userForm) {
+        final UserRecord user = registerUser.execute(userConvert.convert(userForm));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

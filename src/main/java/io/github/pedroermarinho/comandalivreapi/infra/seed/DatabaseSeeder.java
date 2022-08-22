@@ -1,32 +1,22 @@
 package io.github.pedroermarinho.comandalivreapi.infra.seed;
 
-import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.RegisterOrganization;
-import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.RegisterUser;
-import io.github.pedroermarinho.comandalivreapi.infra.seed.data.*;
+import io.github.pedroermarinho.comandalivreapi.infra.seed.data.DataSeed;
+import io.github.pedroermarinho.comandalivreapi.infra.seed.data.UserData;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class DatabaseSeeder implements CommandLineRunner {
 
     private final List<DataSeed> dataSeeds;
 
     public DatabaseSeeder(
-            RegisterUser registerUser,
-            RegisterOrganization registerOrganization
+            UserData userData
     ) {
-        this.dataSeeds = Arrays.asList(
-                new AddressData(),
-                new CommandData(),
-                new EmployeeAtOrganizationData(),
-                new EmployeeData(),
-                new OrganizationData(registerOrganization),
-                new ProductData(),
-                new ProductData(),
-                new ProductOfCommandData(),
-                new RoleData(),
-                new UserData(registerUser)
+        this.dataSeeds = List.of(
+                userData
         );
     }
 

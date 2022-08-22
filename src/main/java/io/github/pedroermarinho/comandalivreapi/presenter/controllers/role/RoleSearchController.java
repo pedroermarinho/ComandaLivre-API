@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.role;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.role.SearchRole;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.RolePathRest;
@@ -10,17 +10,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*")
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = PathRest.API + PathRest.VERSION + RolePathRest.ROLE_SEARCH)
 @Tag(name = "Cargo", description = "Operações de cargo")
 public class RoleSearchController {
@@ -36,13 +36,13 @@ public class RoleSearchController {
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
                     content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = RoleDTO.class))
+                            array = @ArraySchema(schema = @Schema(implementation = RoleRecord.class))
                     )
             )
     })
     @GetMapping
-    public ResponseEntity<List<RoleDTO>> searchRoleAll() {
-        final List<RoleDTO> roles = searchRole.searchRoleAll();
+    public ResponseEntity<List<RoleRecord>> searchRoleAll() {
+        final List<RoleRecord> roles = searchRole.searchRoleAll();
         return ResponseEntity.ok().body(roles);
     }
 
@@ -51,12 +51,12 @@ public class RoleSearchController {
             @ApiResponse(responseCode = "404", description = "Cargo não encontrado"),
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
-                    content = @Content(schema = @Schema(implementation = RoleDTO.class))
+                    content = @Content(schema = @Schema(implementation = RoleRecord.class))
             )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDTO> searchRoleById(@PathVariable UUID id) {
-        final RoleDTO role = searchRole.searchRoleById(id);
+    public ResponseEntity<RoleRecord> searchRoleById(@PathVariable UUID id) {
+        final RoleRecord role = searchRole.searchRoleById(id);
         return ResponseEntity.ok().body(role);
     }
 

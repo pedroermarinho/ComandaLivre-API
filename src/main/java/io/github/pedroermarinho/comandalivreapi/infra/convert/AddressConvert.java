@@ -1,18 +1,18 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.AddressForm;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class AddressConvert implements Converter<AddressForm, AddressDTO> {
+public class AddressConvert implements Converter<AddressForm, AddressRecord> {
 
 
     @Override
-    public AddressDTO convert(AddressForm source) {
-        return new AddressDTO(
+    public AddressRecord convert(AddressForm source) {
+        return new AddressRecord(
                 source.cep(),
                 source.logradouro(),
                 source.bairro(),

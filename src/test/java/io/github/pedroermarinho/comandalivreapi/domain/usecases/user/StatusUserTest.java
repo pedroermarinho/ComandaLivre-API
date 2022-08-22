@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.UserDataSource;
 import io.github.pedroermarinho.comandalivreapi.infra.repositories.UserRepositoryImpl;
 
-public class StatusUserTest {
+class StatusUserTest {
 
     @Mock
     private UserDataSource userDataSource;
@@ -30,7 +30,7 @@ public class StatusUserTest {
     private StatusUser statusUser;
 
     @BeforeEach
-    private void setUp() throws Exception{
+    void setUp() throws Exception{
         MockitoAnnotations.openMocks(this);
 
         userRepository = new UserRepositoryImpl(userDataSource);
@@ -44,7 +44,7 @@ public class StatusUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserDTO.class, statusUser.disableUser(UUID.randomUUID()));
+        assertInstanceOf(UserRecord.class, statusUser.disableUser(UUID.randomUUID()));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class StatusUserTest {
         when(userDataSource.save(any(UserEntity.class))).thenReturn(new UserEntity());
         when(userDataSource.findById(any(UUID.class))).thenReturn(Optional.of(new UserEntity()));
 
-        assertInstanceOf(UserDTO.class, statusUser.enableUser(UUID.randomUUID()));
+        assertInstanceOf(UserRecord.class, statusUser.enableUser(UUID.randomUUID()));
     }
 
     @Test

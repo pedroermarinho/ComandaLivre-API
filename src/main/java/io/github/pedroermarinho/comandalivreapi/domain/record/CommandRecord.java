@@ -1,13 +1,14 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public record EmployeeAtOrganizationDTO(
+public record CommandRecord(
         UUID id,
 
         UUID createdById,
@@ -22,13 +23,13 @@ public record EmployeeAtOrganizationDTO(
 
         Boolean status,
 
-        OrganizationDTO organization,
+        @Nullable
+        Boolean paidOff,
 
-        EmployeeDTO employee,
-
-        RoleDTO role
+        String identification
 ) implements Serializable {
-    public EmployeeAtOrganizationDTO(OrganizationDTO organization, EmployeeDTO employee, RoleDTO role) {
+
+    public CommandRecord(Boolean paidOff, String identification) {
         this(
                 null,
                 null,
@@ -36,13 +37,12 @@ public record EmployeeAtOrganizationDTO(
                 null,
                 null,
                 true,
-                organization,
-                employee,
-                role
+                paidOff,
+                identification
         );
     }
 
-    public EmployeeAtOrganizationDTO(EmployeeAtOrganizationEntity entity) {
+    public CommandRecord(CommandEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -50,23 +50,21 @@ public record EmployeeAtOrganizationDTO(
                 entity.getCreationDate(),
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
-                new OrganizationDTO(entity.getOrganizationEntity()),
-                new EmployeeDTO(entity.getEmployeeEntity()),
-                new RoleDTO(entity.getRoleEntity())
+                entity.getPaidOff(),
+                entity.getIdentification()
         );
     }
 
-    public EmployeeAtOrganizationEntity toEntity() {
-        final EmployeeAtOrganizationEntity entity = new EmployeeAtOrganizationEntity();
+    public CommandEntity toEntity() {
+        final CommandEntity entity = new CommandEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
         entity.setModifiedById(this.modifiedById);
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
-        entity.setOrganizationEntity(this.organization.toEntity());
-        entity.setEmployeeEntity(this.employee.toEntity());
-        entity.setRoleEntity(this.role.toEntity());
+        entity.setPaidOff(this.paidOff);
+        entity.setIdentification(this.identification);
         return entity;
     }
 

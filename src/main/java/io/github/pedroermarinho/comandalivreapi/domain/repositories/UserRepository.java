@@ -1,13 +1,13 @@
 package io.github.pedroermarinho.comandalivreapi.domain.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.vavr.control.Either;
 
-public interface UserRepository extends GenericRepository<UserDTO> {
+public interface UserRepository extends GenericRepository<UserRecord> {
 
-    Either<RuntimeException, UserDTO> findByEmail(String email);
+    Either<RuntimeException, UserRecord> findByEmail(String email);
 
-    Either<RuntimeException, UserDTO> findByUsername(String username);
+    Either<RuntimeException, UserRecord> findByUsername(String username);
 
     Either<RuntimeException, Boolean> existsByUsername(String username);
 

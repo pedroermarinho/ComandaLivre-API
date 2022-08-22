@@ -1,9 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeAtOrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.SearchEmployee;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.SearchOrganization;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.role.SearchRole;
@@ -12,7 +12,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrganizationForm, EmployeeAtOrganizationDTO> {
+public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrganizationForm, EmployeeAtOrganizationRecord> {
 
     private final SearchOrganization searchOrganization;
 
@@ -31,10 +31,10 @@ public class EmployeeAtOrganizationConvert implements Converter<EmployeeAtOrgani
     }
 
     @Override
-    public EmployeeAtOrganizationDTO convert(EmployeeAtOrganizationForm source) {
-        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.organizationId());
-        final EmployeeDTO employeeDTO = searchEmployee.searchEmployeeById(source.employeeId());
-        final RoleDTO roleDTO = searchRole.searchRoleById(source.roleId());
-        return new EmployeeAtOrganizationDTO(organizationDTO, employeeDTO, roleDTO);
+    public EmployeeAtOrganizationRecord convert(EmployeeAtOrganizationForm source) {
+        final OrganizationRecord organizationRecord = searchOrganization.searchOrganizationById(source.organizationId());
+        final EmployeeRecord employeeRecord = searchEmployee.searchEmployeeById(source.employeeId());
+        final RoleRecord roleRecord = searchRole.searchRoleById(source.roleId());
+        return new EmployeeAtOrganizationRecord(organizationRecord, employeeRecord, roleRecord);
     }
 }

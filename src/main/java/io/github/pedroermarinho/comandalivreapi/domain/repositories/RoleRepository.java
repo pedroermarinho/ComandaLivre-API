@@ -1,7 +1,7 @@
 package io.github.pedroermarinho.comandalivreapi.domain.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 
-public interface RoleRepository extends GenericRepository<RoleDTO> {
+public interface RoleRepository extends GenericRepository<RoleRecord> {
 
 }

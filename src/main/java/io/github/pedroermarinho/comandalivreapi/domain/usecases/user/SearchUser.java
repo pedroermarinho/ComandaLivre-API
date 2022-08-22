@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.user;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.UserRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SearchUser {
         this.userRepository = userRepository;
     }
 
-    public UserDTO searchUserById(UUID id) {
+    public UserRecord searchUserById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return userRepository.findById(id).fold(
                 throwable -> {
@@ -26,7 +26,7 @@ public class SearchUser {
                 value -> value);
     }
 
-    public UserDTO searchUserByEmail(String email) {
+    public UserRecord searchUserByEmail(String email) {
         UtilValidation.emailNotNullValidationThrow(email);
         return userRepository.findByEmail(email).fold(
                 throwable -> {
@@ -35,7 +35,7 @@ public class SearchUser {
                 value -> value);
     }
 
-    public UserDTO searchUserByUsername(String username) {
+    public UserRecord searchUserByUsername(String username) {
         UtilValidation.usernameNotNullValidationThrow(username);
         return userRepository.findByUsername(username).fold(
                 throwable -> {
@@ -44,7 +44,7 @@ public class SearchUser {
                 value -> value);
     }
 
-    public List<UserDTO> searchUserAll() {
+    public List<UserRecord> searchUserAll() {
         return userRepository.findAll();
     }
 

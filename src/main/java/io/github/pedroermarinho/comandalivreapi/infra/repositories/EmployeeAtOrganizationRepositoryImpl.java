@@ -1,9 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeAtOrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeAtOrganizationEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeAtOrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeAtOrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.EmployeeAtOrganizationDataSource;
 import io.vavr.control.Either;
@@ -22,48 +22,48 @@ public class EmployeeAtOrganizationRepositoryImpl implements EmployeeAtOrganizat
     }
 
     @Override
-    public List<EmployeeAtOrganizationDTO> findAll() {
-        return employeeAtOrganizationDataSource.findAll().stream().map(EmployeeAtOrganizationDTO::new).toList();
+    public List<EmployeeAtOrganizationRecord> findAll() {
+        return employeeAtOrganizationDataSource.findAll().stream().map(EmployeeAtOrganizationRecord::new).toList();
     }
 
     @Override
-    public Either<RuntimeException, EmployeeAtOrganizationDTO> findById(UUID id) {
-        return employeeAtOrganizationDataSource.findById(id).<Either<RuntimeException, EmployeeAtOrganizationDTO>>map(entity -> Either.right(new EmployeeAtOrganizationDTO(entity)))
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> findById(UUID id) {
+        return employeeAtOrganizationDataSource.findById(id).<Either<RuntimeException, EmployeeAtOrganizationRecord>>map(entity -> Either.right(new EmployeeAtOrganizationRecord(entity)))
                 .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         "Emprego na orginação não encontrado! Id: " + id + ", Tipo: "
-                                + EmployeeAtOrganizationDTO.class.getName())));
+                                + EmployeeAtOrganizationRecord.class.getName())));
     }
 
     @Override
-    public Either<RuntimeException, EmployeeAtOrganizationDTO> create(EmployeeAtOrganizationDTO param) {
-        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(param.toEntity())));
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> create(EmployeeAtOrganizationRecord param) {
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(param.toEntity())));
     }
 
     @Override
-    public Either<RuntimeException, EmployeeAtOrganizationDTO> update(UUID id, EmployeeAtOrganizationDTO param) {
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> update(UUID id, EmployeeAtOrganizationRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public Either<RuntimeException, EmployeeAtOrganizationDTO> disable(UUID id) {
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> disable(UUID id) {
         final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                EmployeeAtOrganizationDTO::toEntity);
+                EmployeeAtOrganizationRecord::toEntity);
         employeeAtOrganizationEntity.setStatus(false);
-        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
     }
 
     @Override
-    public Either<RuntimeException, EmployeeAtOrganizationDTO> enable(UUID id) {
+    public Either<RuntimeException, EmployeeAtOrganizationRecord> enable(UUID id) {
         final EmployeeAtOrganizationEntity employeeAtOrganizationEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                EmployeeAtOrganizationDTO::toEntity);
+                EmployeeAtOrganizationRecord::toEntity);
         employeeAtOrganizationEntity.setStatus(true);
-        return Either.right(new EmployeeAtOrganizationDTO(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
+        return Either.right(new EmployeeAtOrganizationRecord(employeeAtOrganizationDataSource.save(employeeAtOrganizationEntity)));
     }
 
     @Override

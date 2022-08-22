@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
@@ -21,7 +21,7 @@ public class RegisterEmployee {
     }
 
     @Transactional
-    public EmployeeDTO execute(EmployeeDTO employeeRegister) {
+    public EmployeeRecord execute(EmployeeRecord employeeRegister) {
         UtilValidation.objectNotNullValidationThrow(employeeRegister);
 
         final List<Validation<UUID>> validations = List.of(new NotNullValidation<>());

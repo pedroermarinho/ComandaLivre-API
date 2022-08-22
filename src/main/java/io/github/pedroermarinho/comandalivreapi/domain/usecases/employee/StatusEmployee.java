@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StatusEmployee {
     }
 
     @Transactional
-    public EmployeeDTO disableEmployee(UUID id) {
+    public EmployeeRecord disableEmployee(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return employeeRepository.disable(id).fold(
                 throwable -> {
@@ -28,7 +28,7 @@ public class StatusEmployee {
     }
 
     @Transactional
-    public EmployeeDTO enableEmployee(UUID id) {
+    public EmployeeRecord enableEmployee(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return employeeRepository.enable(id).fold(
                 throwable -> {

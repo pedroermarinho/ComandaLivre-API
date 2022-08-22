@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PayCommand {
         this.searchCommand = searchCommand;
     }
 
-    public CommandDTO execute(UUID id) {
+    public CommandRecord execute(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
         searchCommand.searchCommandById(id);

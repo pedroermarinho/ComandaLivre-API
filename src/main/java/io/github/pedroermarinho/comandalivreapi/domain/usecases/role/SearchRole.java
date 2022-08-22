@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.role;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SearchRole {
         this.roleRepository = roleRepository;
     }
 
-    public RoleDTO searchRoleById(UUID id) {
+    public RoleRecord searchRoleById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return roleRepository.findById(id).fold(
                 throwable -> {
@@ -26,7 +26,7 @@ public class SearchRole {
                 value -> value);
     }
 
-    public List<RoleDTO> searchRoleAll() {
+    public List<RoleRecord> searchRoleAll() {
         return roleRepository.findAll();
     }
 

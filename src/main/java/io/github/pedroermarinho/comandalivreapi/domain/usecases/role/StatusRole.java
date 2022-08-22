@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.role;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StatusRole {
     }
 
     @Transactional
-    public RoleDTO disableRole(UUID id) {
+    public RoleRecord disableRole(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return roleRepository.disable(id).fold(
                 throwable -> {
@@ -28,7 +28,7 @@ public class StatusRole {
     }
 
     @Transactional
-    public RoleDTO enableRole(UUID id) {
+    public RoleRecord enableRole(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return roleRepository.enable(id).fold(
                 throwable -> {

@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ public class SearchCommand {
         this.commandRepository = commandRepository;
     }
 
-    public CommandDTO searchCommandById(@Nullable UUID id) {
+    public CommandRecord searchCommandById(@Nullable UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
         final var result = commandRepository.findById(id).fold(
@@ -32,7 +32,7 @@ public class SearchCommand {
         return result;
     }
 
-    public List<CommandDTO> searchCommandAll() {
-        return commandRepository.findAll().stream().filter(CommandDTO::status).toList();
+    public List<CommandRecord> searchCommandAll() {
+        return commandRepository.findAll().stream().filter(CommandRecord::status).toList();
     }
 }

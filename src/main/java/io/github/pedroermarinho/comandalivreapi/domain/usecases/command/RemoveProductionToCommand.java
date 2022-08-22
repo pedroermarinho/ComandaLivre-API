@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ public class RemoveProductionToCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO execute(@Nullable UUID id) {
+    public ProductOfCommandRecord execute(@Nullable UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
         return productofcommandRepository.disable(id).fold(

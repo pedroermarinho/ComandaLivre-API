@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.role;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
@@ -20,7 +20,7 @@ public class RegisterRole {
     }
 
     @Transactional
-    public RoleDTO execute(RoleDTO roleRegister) {
+    public RoleRecord execute(RoleRecord roleRegister) {
         UtilValidation.objectNotNullValidationThrow(roleRegister);
 
         final List<Validation<String>> validations = List.of(new NotNullValidation<>());

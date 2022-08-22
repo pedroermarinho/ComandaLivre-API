@@ -1,14 +1,14 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.organization.SearchOrganization;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.ProductForm;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductConvert implements Converter<ProductForm, ProductDTO> {
+public class ProductConvert implements Converter<ProductForm, ProductRecord> {
 
     private final SearchOrganization searchOrganization;
 
@@ -17,8 +17,8 @@ public class ProductConvert implements Converter<ProductForm, ProductDTO> {
     }
 
     @Override
-    public ProductDTO convert(ProductForm source) {
-        final OrganizationDTO organizationDTO = searchOrganization.searchOrganizationById(source.organizationId());
-        return new ProductDTO(source.name(), source.description(), source.price(), organizationDTO);
+    public ProductRecord convert(ProductForm source) {
+        final OrganizationRecord organizationRecord = searchOrganization.searchOrganizationById(source.organizationId());
+        return new ProductRecord(source.name(), source.description(), source.price(), organizationRecord);
     }
 }

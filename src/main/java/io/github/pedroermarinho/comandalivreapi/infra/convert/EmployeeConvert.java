@@ -1,14 +1,14 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.UserDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.UserRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.user.SearchUser;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeForm;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmployeeConvert implements Converter<EmployeeForm, EmployeeDTO> {
+public class EmployeeConvert implements Converter<EmployeeForm, EmployeeRecord> {
 
     private final SearchUser searchUser;
 
@@ -17,8 +17,8 @@ public class EmployeeConvert implements Converter<EmployeeForm, EmployeeDTO> {
     }
 
     @Override
-    public EmployeeDTO convert(EmployeeForm source) {
-        final UserDTO userDTO = searchUser.searchUserById(source.userId());
-        return new EmployeeDTO(source.registration(), userDTO);
+    public EmployeeRecord convert(EmployeeForm source) {
+        final UserRecord userRecord = searchUser.searchUserById(source.userId());
+        return new EmployeeRecord(source.registration(), userRecord);
     }
 }

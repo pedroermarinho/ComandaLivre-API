@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.CommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
@@ -20,7 +20,7 @@ public class CreateCommand {
     }
 
     @Transactional
-    public CommandDTO execute(CommandDTO commandRegister) {
+    public CommandRecord execute(CommandRecord commandRegister) {
         UtilValidation.objectNotNullValidationThrow(commandRegister);
 
         final List<Validation<Boolean>> validations = List.of(new NotNullValidation<>());

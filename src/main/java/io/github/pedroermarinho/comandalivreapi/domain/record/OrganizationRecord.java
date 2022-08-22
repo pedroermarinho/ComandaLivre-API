@@ -1,14 +1,13 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEntity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-public record ProductDTO(
+public record OrganizationRecord(
         UUID id,
 
         UUID createdById,
@@ -25,14 +24,12 @@ public record ProductDTO(
 
         String name,
 
-        String description,
+        String telefone,
 
-        BigDecimal price,
-
-        OrganizationDTO organization
+        AddressRecord address
 ) implements Serializable {
 
-    public ProductDTO(String name, String description, BigDecimal price, OrganizationDTO organization) {
+    public OrganizationRecord(String name, String telefone, AddressRecord address) {
         this(
                 null,
                 null,
@@ -41,13 +38,12 @@ public record ProductDTO(
                 null,
                 true,
                 name,
-                description,
-                price,
-                organization
+                telefone,
+                address
         );
     }
 
-    public ProductDTO(ProductEntity entity) {
+    public OrganizationRecord(OrganizationEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -56,14 +52,13 @@ public record ProductDTO(
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
                 entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                new OrganizationDTO(entity.getOrganizationEntity())
+                entity.getTelefone(),
+                new AddressRecord(entity.getAddressEntity())
         );
     }
 
-    public ProductEntity toEntity() {
-        final ProductEntity entity = new ProductEntity();
+    public OrganizationEntity toEntity() {
+        final OrganizationEntity entity = new OrganizationEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
@@ -71,9 +66,9 @@ public record ProductDTO(
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
         entity.setName(this.name);
-        entity.setDescription(this.description);
-        entity.setPrice(this.price);
-        entity.setOrganizationEntity(this.organization.toEntity());
+        entity.setTelefone(this.name);
+        entity.setAddressEntity(this.address.toEntity());
         return entity;
     }
+
 }

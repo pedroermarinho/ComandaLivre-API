@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.organization;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SearchOrganization {
         this.organizationRepository = organizationRepository;
     }
 
-    public OrganizationDTO searchOrganizationById(UUID id) {
+    public OrganizationRecord searchOrganizationById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return organizationRepository.findById(id).fold(
                 throwable -> {
@@ -27,7 +27,7 @@ public class SearchOrganization {
     }
 
 
-    public List<OrganizationDTO> searchOrganizationAll() {
+    public List<OrganizationRecord> searchOrganizationAll() {
         return organizationRepository.findAll();
     }
 

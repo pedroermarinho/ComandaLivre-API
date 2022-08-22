@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.organization;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
@@ -20,7 +20,7 @@ public class RegisterOrganization {
     }
 
     @Transactional
-    public OrganizationDTO execute(OrganizationDTO organizationRegister) {
+    public OrganizationRecord execute(OrganizationRecord organizationRegister) {
         UtilValidation.objectNotNullValidationThrow(organizationRegister);
 
         final List<Validation<String>> validations = List.of(new NotNullValidation<>());

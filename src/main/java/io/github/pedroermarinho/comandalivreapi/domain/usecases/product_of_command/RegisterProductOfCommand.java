@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.product_of_command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class RegisterProductOfCommand {
     }
 
     @Transactional
-    public ProductOfCommandDTO execute(ProductOfCommandDTO payload) {
+    public ProductOfCommandRecord execute(ProductOfCommandRecord payload) {
         UtilValidation.objectNotNullValidationThrow(payload);
         UtilValidation.idNotNullValidationThrow(payload.product().id());
         return productofcommandRepository.create(payload).fold(

@@ -1,9 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.RoleDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.RoleRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.RoleRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.config.Translator;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.RoleDataSource;
@@ -25,47 +25,47 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public List<RoleDTO> findAll() {
-        return roleDataSource.findAll().stream().map(RoleDTO::new).toList();
+    public List<RoleRecord> findAll() {
+        return roleDataSource.findAll().stream().map(RoleRecord::new).toList();
     }
 
     @Override
-    public Either<RuntimeException, RoleDTO> findById(UUID id) {
-        return roleDataSource.findById(id).<Either<RuntimeException, RoleDTO>>map(entity -> Either.right(new RoleDTO(entity)))
+    public Either<RuntimeException, RoleRecord> findById(UUID id) {
+        return roleDataSource.findById(id).<Either<RuntimeException, RoleRecord>>map(entity -> Either.right(new RoleRecord(entity)))
                 .orElseGet(() -> Either.left(new ObjectNotFoundException(
                         translator.toLocale("role.ObjectNotFoundException"))));
     }
 
     @Override
-    public Either<RuntimeException, RoleDTO> create(RoleDTO param) {
-        return Either.right(new RoleDTO(roleDataSource.save(param.toEntity())));
+    public Either<RuntimeException, RoleRecord> create(RoleRecord param) {
+        return Either.right(new RoleRecord(roleDataSource.save(param.toEntity())));
     }
 
     @Override
-    public Either<RuntimeException, RoleDTO> update(UUID id, RoleDTO param) {
+    public Either<RuntimeException, RoleRecord> update(UUID id, RoleRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public Either<RuntimeException, RoleDTO> disable(UUID id) {
+    public Either<RuntimeException, RoleRecord> disable(UUID id) {
         final RoleEntity roleEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                RoleDTO::toEntity);
+                RoleRecord::toEntity);
         roleEntity.setStatus(false);
-        return Either.right(new RoleDTO(roleDataSource.save(roleEntity)));
+        return Either.right(new RoleRecord(roleDataSource.save(roleEntity)));
     }
 
     @Override
-    public Either<RuntimeException, RoleDTO> enable(UUID id) {
+    public Either<RuntimeException, RoleRecord> enable(UUID id) {
         final RoleEntity roleEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                RoleDTO::toEntity);
+                RoleRecord::toEntity);
         roleEntity.setStatus(false);
-        return Either.right(new RoleDTO(roleDataSource.save(roleEntity)));
+        return Either.right(new RoleRecord(roleDataSource.save(roleEntity)));
     }
 
     @Override

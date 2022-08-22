@@ -1,9 +1,9 @@
 package io.github.pedroermarinho.comandalivreapi.infra.repositories;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEntity;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.NotImplementedException;
 import io.github.pedroermarinho.comandalivreapi.domain.exceptions.ObjectNotFoundException;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.infra.datasources.OrganizationDataSource;
 import io.vavr.control.Either;
@@ -22,47 +22,47 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     }
 
     @Override
-    public List<OrganizationDTO> findAll() {
-        return organizationDataSource.findAll().stream().map(OrganizationDTO::new).toList();
+    public List<OrganizationRecord> findAll() {
+        return organizationDataSource.findAll().stream().map(OrganizationRecord::new).toList();
     }
 
     @Override
-    public Either<RuntimeException, OrganizationDTO> findById(UUID id) {
-        return organizationDataSource.findById(id).<Either<RuntimeException, OrganizationDTO>>map(entity -> Either.right(new OrganizationDTO(entity)))
+    public Either<RuntimeException, OrganizationRecord> findById(UUID id) {
+        return organizationDataSource.findById(id).<Either<RuntimeException, OrganizationRecord>>map(entity -> Either.right(new OrganizationRecord(entity)))
                 .orElseGet(() -> Either.left(new ObjectNotFoundException(
-                        "Organização não encontrado! Id: " + id + ", Tipo: " + OrganizationDTO.class.getName())));
+                        "Organização não encontrado! Id: " + id + ", Tipo: " + OrganizationRecord.class.getName())));
     }
 
     @Override
-    public Either<RuntimeException, OrganizationDTO> create(OrganizationDTO param) {
-        return Either.right(new OrganizationDTO(organizationDataSource.save(param.toEntity())));
+    public Either<RuntimeException, OrganizationRecord> create(OrganizationRecord param) {
+        return Either.right(new OrganizationRecord(organizationDataSource.save(param.toEntity())));
     }
 
     @Override
-    public Either<RuntimeException, OrganizationDTO> update(UUID id, OrganizationDTO param) {
+    public Either<RuntimeException, OrganizationRecord> update(UUID id, OrganizationRecord param) {
         throw new NotImplementedException();
     }
 
     @Override
-    public Either<RuntimeException, OrganizationDTO> disable(UUID id) {
+    public Either<RuntimeException, OrganizationRecord> disable(UUID id) {
         final OrganizationEntity organizationEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                OrganizationDTO::toEntity);
+                OrganizationRecord::toEntity);
         organizationEntity.setStatus(false);
-        return Either.right(new OrganizationDTO(organizationDataSource.save(organizationEntity)));
+        return Either.right(new OrganizationRecord(organizationDataSource.save(organizationEntity)));
     }
 
     @Override
-    public Either<RuntimeException, OrganizationDTO> enable(UUID id) {
+    public Either<RuntimeException, OrganizationRecord> enable(UUID id) {
         final OrganizationEntity organizationEntity = findById(id).fold(
                 throwable -> {
                     throw throwable;
                 },
-                OrganizationDTO::toEntity);
+                OrganizationRecord::toEntity);
         organizationEntity.setStatus(true);
-        return Either.right(new OrganizationDTO(organizationDataSource.save(organizationEntity)));
+        return Either.right(new OrganizationRecord(organizationDataSource.save(organizationEntity)));
     }
 
     @Override

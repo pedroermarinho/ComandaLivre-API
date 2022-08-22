@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.address;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.AddressRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StatusAddress {
     }
 
     @Transactional
-    public AddressDTO disableAddress(UUID id) {
+    public AddressRecord disableAddress(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return addressRepository.disable(id).fold(
                 throwable -> {
@@ -28,7 +28,7 @@ public class StatusAddress {
     }
 
     @Transactional
-    public AddressDTO enableAddress(UUID id) {
+    public AddressRecord enableAddress(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return addressRepository.enable(id).fold(
                 throwable -> {

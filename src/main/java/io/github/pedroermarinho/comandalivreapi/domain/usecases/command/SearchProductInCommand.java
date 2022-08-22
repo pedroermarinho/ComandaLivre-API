@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.ProductOfCommandRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SearchProductInCommand {
         this.productOfCommandRepository = productofcommandRepository;
     }
 
-    public ProductOfCommandDTO searchProductInCommandById(UUID id) {
+    public ProductOfCommandRecord searchProductInCommandById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
 
         final var productOfCommand = productOfCommandRepository.findById(id).fold(
@@ -30,8 +30,8 @@ public class SearchProductInCommand {
         return productOfCommand;
     }
 
-    public List<ProductOfCommandDTO> searchProductInCommandAll() {
-        return productOfCommandRepository.findAll().stream().filter(ProductOfCommandDTO::status).toList();
+    public List<ProductOfCommandRecord> searchProductInCommandAll() {
+        return productOfCommandRepository.findAll().stream().filter(ProductOfCommandRecord::status).toList();
     }
 
 }

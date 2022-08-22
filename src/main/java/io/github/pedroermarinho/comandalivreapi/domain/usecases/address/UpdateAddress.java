@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.address;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.AddressRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class UpdateAddress {
     }
 
     @Transactional
-    public AddressDTO execute(UUID id, AddressDTO addressParam) {
+    public AddressRecord execute(UUID id, AddressRecord addressParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(addressParam);
         return addressRepository.update(id, addressParam).fold(

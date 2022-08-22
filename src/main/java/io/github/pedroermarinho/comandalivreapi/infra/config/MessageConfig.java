@@ -20,7 +20,7 @@ public class MessageConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale( new Locale("pt", "BR"));
+        slr.setDefaultLocale(new Locale("pt", "BR"));
         slr.setLocaleAttributeName("session.current.locale");
         slr.setTimeZoneAttributeName("session.current.timezone");
         return slr;

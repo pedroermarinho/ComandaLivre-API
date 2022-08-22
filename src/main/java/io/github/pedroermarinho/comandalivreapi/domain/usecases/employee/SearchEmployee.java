@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.EmployeeRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class SearchEmployee {
         this.employeeRepository = employeeRepository;
     }
 
-    public EmployeeDTO searchEmployeeById(UUID id) {
+    public EmployeeRecord searchEmployeeById(UUID id) {
         UtilValidation.idNotNullValidationThrow(id);
         return employeeRepository.findById(id).fold(
                 throwable -> {
@@ -27,7 +27,7 @@ public class SearchEmployee {
     }
 
 
-    public List<EmployeeDTO> searchEmployeeAll() {
+    public List<EmployeeRecord> searchEmployeeAll() {
         return employeeRepository.findAll();
     }
 

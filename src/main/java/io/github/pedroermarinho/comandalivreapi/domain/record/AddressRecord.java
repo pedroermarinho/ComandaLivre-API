@@ -1,4 +1,4 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.pedroermarinho.comandalivreapi.domain.entities.AddressEntity;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public record AddressDTO(
+public record AddressRecord(
         UUID id,
 
         UUID createdById,
@@ -35,7 +35,7 @@ public record AddressDTO(
         String number
 ) implements Serializable {
 
-    public AddressDTO(String cep, String logradouro, String bairro, String localidade, String uf, String number) {
+    public AddressRecord(String cep, String logradouro, String bairro, String localidade, String uf, String number) {
         this(
                 null,
                 null,
@@ -52,7 +52,7 @@ public record AddressDTO(
         );
     }
 
-    public AddressDTO(AddressEntity entity) {
+    public AddressRecord(AddressEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),

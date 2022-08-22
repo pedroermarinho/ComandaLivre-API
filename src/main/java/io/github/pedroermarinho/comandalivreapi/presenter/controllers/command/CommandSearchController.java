@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.command;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.command.SearchCommand;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.CommandPathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
@@ -10,17 +10,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*")
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = PathRest.API + PathRest.VERSION + CommandPathRest.COMMAND_SEARCH)
 @Tag(name = "Comanda", description = "Operações de comanda")
 public class CommandSearchController {
@@ -35,12 +35,12 @@ public class CommandSearchController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CommandDTO.class)))
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CommandRecord.class)))
             )
     })
     @GetMapping
-    public ResponseEntity<List<CommandDTO>> searchCommandAll() {
-        final List<CommandDTO> commands = searchCommand.searchCommandAll();
+    public ResponseEntity<List<CommandRecord>> searchCommandAll() {
+        final List<CommandRecord> commands = searchCommand.searchCommandAll();
         return ResponseEntity.ok().body(commands);
     }
 
@@ -49,12 +49,12 @@ public class CommandSearchController {
             @ApiResponse(responseCode = "404", description = "Comanda não encontrado"),
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
-                    content = @Content(schema = @Schema(implementation = CommandDTO.class))
+                    content = @Content(schema = @Schema(implementation = CommandRecord.class))
             )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<CommandDTO> searchCommandById(@PathVariable UUID id) {
-        final CommandDTO command = searchCommand.searchCommandById(id);
+    public ResponseEntity<CommandRecord> searchCommandById(@PathVariable UUID id) {
+        final CommandRecord command = searchCommand.searchCommandById(id);
         return ResponseEntity.ok().body(command);
     }
 

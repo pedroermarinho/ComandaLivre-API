@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.organization;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.OrganizationDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.OrganizationRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.OrganizationRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class UpdateOrganization {
     }
 
     @Transactional
-    public OrganizationDTO execute(UUID id, OrganizationDTO organizationParam) {
+    public OrganizationRecord execute(UUID id, OrganizationRecord organizationParam) {
         UtilValidation.idNotNullValidationThrow(id);
         UtilValidation.objectNotNullValidationThrow(organizationParam);
         return organizationRepository.update(id, organizationParam).fold(

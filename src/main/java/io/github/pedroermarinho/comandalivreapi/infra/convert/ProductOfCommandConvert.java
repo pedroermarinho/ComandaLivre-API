@@ -1,8 +1,8 @@
 package io.github.pedroermarinho.comandalivreapi.infra.convert;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.CommandDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductDTO;
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.ProductOfCommandDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.CommandRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductOfCommandRecord;
+import io.github.pedroermarinho.comandalivreapi.domain.record.ProductRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.command.SearchCommand;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.product.SearchProduct;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.ProductOfCommandForm;
@@ -10,7 +10,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductOfCommandConvert implements Converter<ProductOfCommandForm, ProductOfCommandDTO> {
+public class ProductOfCommandConvert implements Converter<ProductOfCommandForm, ProductOfCommandRecord> {
 
     private final SearchCommand searchCommand;
     private final SearchProduct searchProduct;
@@ -21,9 +21,9 @@ public class ProductOfCommandConvert implements Converter<ProductOfCommandForm, 
     }
 
     @Override
-    public ProductOfCommandDTO convert(ProductOfCommandForm source) {
-        final CommandDTO commandDTO = searchCommand.searchCommandById(source.commandId());
-        final ProductDTO productDTO = searchProduct.searchProductById(source.productId());
-        return new ProductOfCommandDTO(source.amount(), commandDTO, productDTO);
+    public ProductOfCommandRecord convert(ProductOfCommandForm source) {
+        final CommandRecord commandRecord = searchCommand.searchCommandById(source.commandId());
+        final ProductRecord productRecord = searchProduct.searchProductById(source.productId());
+        return new ProductOfCommandRecord(source.amount(), commandRecord, productRecord);
     }
 }

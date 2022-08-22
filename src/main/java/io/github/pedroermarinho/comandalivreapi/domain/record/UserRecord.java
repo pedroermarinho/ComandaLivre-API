@@ -1,13 +1,15 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public record RoleDTO(
+
+public record UserRecord(
         UUID id,
 
         UUID createdById,
@@ -24,10 +26,17 @@ public record RoleDTO(
 
         String name,
 
-        String description
+        String email,
+
+        String username,
+
+        String password,
+
+        String telefone
+
 ) implements Serializable {
 
-    public RoleDTO(String name, String description) {
+    public UserRecord(String name, String email, String username, String password, String telefone) {
         this(
                 null,
                 null,
@@ -36,11 +45,14 @@ public record RoleDTO(
                 null,
                 true,
                 name,
-                description
+                email,
+                username,
+                password,
+                telefone
         );
     }
 
-    public RoleDTO(RoleEntity entity) {
+    public UserRecord(UserEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -49,12 +61,15 @@ public record RoleDTO(
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
                 entity.getName(),
-                entity.getDescription()
+                entity.getEmail(),
+                entity.getUsername(),
+                entity.getPassword(),
+                entity.getTelefone()
         );
     }
 
-    public RoleEntity toEntity() {
-        final RoleEntity entity = new RoleEntity();
+    public UserEntity toEntity() {
+        final UserEntity entity = new UserEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
@@ -62,8 +77,10 @@ public record RoleDTO(
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
         entity.setName(this.name);
-        entity.setDescription(this.description);
+        entity.setEmail(this.email);
+        entity.setUsername(this.username);
+        entity.setPassword(this.password);
+        entity.setTelefone(this.telefone);
         return entity;
     }
-
 }

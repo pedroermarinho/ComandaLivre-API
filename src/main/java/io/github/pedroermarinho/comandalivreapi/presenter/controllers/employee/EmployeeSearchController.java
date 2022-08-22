@@ -1,6 +1,6 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.SearchEmployee;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeePathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
@@ -10,18 +10,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
 
 @RestController
+@CrossOrigin("*")
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = PathRest.API + PathRest.VERSION + EmployeePathRest.EMPLOYEE_SEARCH)
 @Tag(name = "Emprego", description = "Operações de emprego")
 public class EmployeeSearchController {
@@ -36,12 +36,12 @@ public class EmployeeSearchController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = EmployeeDTO.class)))
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = EmployeeRecord.class)))
             )
     })
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> searchEmployeeAll() {
-        final List<EmployeeDTO> employees = searchEmployee.searchEmployeeAll();
+    public ResponseEntity<List<EmployeeRecord>> searchEmployeeAll() {
+        final List<EmployeeRecord> employees = searchEmployee.searchEmployeeAll();
         return ResponseEntity.ok().body(employees);
     }
 
@@ -50,12 +50,12 @@ public class EmployeeSearchController {
             @ApiResponse(responseCode = "404", description = "Contact não encontrado"),
             @ApiResponse(
                     responseCode = "200", description = "Operação bem sucedida",
-                    content = @Content(schema = @Schema(implementation = EmployeeDTO.class))
+                    content = @Content(schema = @Schema(implementation = EmployeeRecord.class))
             )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> searchEmployeeById(@PathVariable UUID id) {
-        final EmployeeDTO employee = searchEmployee.searchEmployeeById(id);
+    public ResponseEntity<EmployeeRecord> searchEmployeeById(@PathVariable UUID id) {
+        final EmployeeRecord employee = searchEmployee.searchEmployeeById(id);
         return ResponseEntity.ok().body(employee);
     }
 

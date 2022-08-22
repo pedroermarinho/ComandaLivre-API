@@ -1,15 +1,13 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
-
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.UserEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.EmployeeEntity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-
-public record UserDTO(
+public record EmployeeRecord(
         UUID id,
 
         UUID createdById,
@@ -24,19 +22,11 @@ public record UserDTO(
 
         Boolean status,
 
-        String name,
+        String registration,
 
-        String email,
-
-        String username,
-
-        String password,
-
-        String telefone
-
+        UserRecord user
 ) implements Serializable {
-
-    public UserDTO(String name, String email, String username, String password, String telefone) {
+    public EmployeeRecord(String registration, UserRecord user) {
         this(
                 null,
                 null,
@@ -44,15 +34,12 @@ public record UserDTO(
                 null,
                 null,
                 true,
-                name,
-                email,
-                username,
-                password,
-                telefone
+                registration,
+                user
         );
     }
 
-    public UserDTO(UserEntity entity) {
+    public EmployeeRecord(EmployeeEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -60,27 +47,23 @@ public record UserDTO(
                 entity.getCreationDate(),
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
-                entity.getName(),
-                entity.getEmail(),
-                entity.getUsername(),
-                entity.getPassword(),
-                entity.getTelefone()
+                entity.getRegistration(),
+                new UserRecord(entity.getUserEntity())
         );
     }
 
-    public UserEntity toEntity() {
-        final UserEntity entity = new UserEntity();
+    public EmployeeEntity toEntity() {
+        final EmployeeEntity entity = new EmployeeEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
         entity.setModifiedById(this.modifiedById);
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
-        entity.setName(this.name);
-        entity.setEmail(this.email);
-        entity.setUsername(this.username);
-        entity.setPassword(this.password);
-        entity.setTelefone(this.telefone);
+        entity.setRegistration(this.registration);
+        entity.setUserEntity(this.user.toEntity());
         return entity;
     }
+
+
 }

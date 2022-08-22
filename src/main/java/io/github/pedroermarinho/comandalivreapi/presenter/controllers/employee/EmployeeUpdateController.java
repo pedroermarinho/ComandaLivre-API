@@ -1,12 +1,13 @@
 package io.github.pedroermarinho.comandalivreapi.presenter.controllers.employee;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.EmployeeDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.EmployeeRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.usecases.employee.UpdateEmployee;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.EmployeePathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.config.constants.PathRest;
 import io.github.pedroermarinho.comandalivreapi.infra.convert.EmployeeConvert;
 import io.github.pedroermarinho.comandalivreapi.infra.forms.EmployeeForm;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*")
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping(value = PathRest.API + PathRest.VERSION + EmployeePathRest.EMPLOYEE_UPDATE)
 @Tag(name = "Emprego", description = "Operações de emprego")
 public class EmployeeUpdateController {
@@ -29,8 +32,8 @@ public class EmployeeUpdateController {
 
     @Operation(summary = "Atualizar emprego")
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable UUID id, @Valid @RequestBody EmployeeForm employeeForm) {
-        final EmployeeDTO employee = updateEmployee.execute(id, employeeConvert.convert(employeeForm));
+    public ResponseEntity<EmployeeRecord> updateEmployee(@PathVariable UUID id, @Valid @RequestBody EmployeeForm employeeForm) {
+        final EmployeeRecord employee = updateEmployee.execute(id, employeeConvert.convert(employeeForm));
         return ResponseEntity.ok().body(employee);
     }
 }

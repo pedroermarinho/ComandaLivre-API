@@ -1,12 +1,13 @@
 package io.github.pedroermarinho.comandalivreapi.domain.usecases.address;
 
-import io.github.pedroermarinho.comandalivreapi.domain.dtos.AddressDTO;
+import io.github.pedroermarinho.comandalivreapi.domain.record.AddressRecord;
 import io.github.pedroermarinho.comandalivreapi.domain.repositories.AddressRepository;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.NotNullValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.UtilValidation;
 import io.github.pedroermarinho.comandalivreapi.domain.validation.Validation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class RegisterAddress {
     }
 
     @Transactional
-    public AddressDTO execute(AddressDTO addressRegister) {
+    public AddressRecord execute(AddressRecord addressRegister) {
         UtilValidation.objectNotNullValidationThrow(addressRegister);
 
         final List<Validation<String>> validations = List.of(new NotNullValidation<>());

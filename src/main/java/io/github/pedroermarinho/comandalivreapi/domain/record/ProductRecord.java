@@ -1,14 +1,14 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.CommandEntity;
-import org.springframework.lang.Nullable;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.ProductEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-public record CommandDTO(
+public record ProductRecord(
         UUID id,
 
         UUID createdById,
@@ -23,13 +23,16 @@ public record CommandDTO(
 
         Boolean status,
 
-        @Nullable
-        Boolean paidOff,
+        String name,
 
-        String identification
+        String description,
+
+        BigDecimal price,
+
+        OrganizationRecord organization
 ) implements Serializable {
 
-    public CommandDTO(Boolean paidOff, String identification) {
+    public ProductRecord(String name, String description, BigDecimal price, OrganizationRecord organization) {
         this(
                 null,
                 null,
@@ -37,12 +40,14 @@ public record CommandDTO(
                 null,
                 null,
                 true,
-                paidOff,
-                identification
+                name,
+                description,
+                price,
+                organization
         );
     }
 
-    public CommandDTO(CommandEntity entity) {
+    public ProductRecord(ProductEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -50,22 +55,25 @@ public record CommandDTO(
                 entity.getCreationDate(),
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
-                entity.getPaidOff(),
-                entity.getIdentification()
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPrice(),
+                new OrganizationRecord(entity.getOrganizationEntity())
         );
     }
 
-    public CommandEntity toEntity() {
-        final CommandEntity entity = new CommandEntity();
+    public ProductEntity toEntity() {
+        final ProductEntity entity = new ProductEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
         entity.setModifiedById(this.modifiedById);
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
-        entity.setPaidOff(this.paidOff);
-        entity.setIdentification(this.identification);
+        entity.setName(this.name);
+        entity.setDescription(this.description);
+        entity.setPrice(this.price);
+        entity.setOrganizationEntity(this.organization.toEntity());
         return entity;
     }
-
 }

@@ -1,13 +1,13 @@
-package io.github.pedroermarinho.comandalivreapi.domain.dtos;
+package io.github.pedroermarinho.comandalivreapi.domain.record;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.github.pedroermarinho.comandalivreapi.domain.entities.OrganizationEntity;
+import io.github.pedroermarinho.comandalivreapi.domain.entities.RoleEntity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public record OrganizationDTO(
+public record RoleRecord(
         UUID id,
 
         UUID createdById,
@@ -24,12 +24,10 @@ public record OrganizationDTO(
 
         String name,
 
-        String telefone,
-
-        AddressDTO address
+        String description
 ) implements Serializable {
 
-    public OrganizationDTO(String name, String telefone, AddressDTO address) {
+    public RoleRecord(String name, String description) {
         this(
                 null,
                 null,
@@ -38,12 +36,11 @@ public record OrganizationDTO(
                 null,
                 true,
                 name,
-                telefone,
-                address
+                description
         );
     }
 
-    public OrganizationDTO(OrganizationEntity entity) {
+    public RoleRecord(RoleEntity entity) {
         this(
                 entity.getId(),
                 entity.getCreatedById(),
@@ -52,13 +49,12 @@ public record OrganizationDTO(
                 entity.getLastModifiedDate(),
                 entity.getStatus(),
                 entity.getName(),
-                entity.getTelefone(),
-                new AddressDTO(entity.getAddressEntity())
+                entity.getDescription()
         );
     }
 
-    public OrganizationEntity toEntity() {
-        final OrganizationEntity entity = new OrganizationEntity();
+    public RoleEntity toEntity() {
+        final RoleEntity entity = new RoleEntity();
         entity.setId(this.id);
         entity.setCreatedById(this.createdById);
         entity.setCreationDate(this.creationDate);
@@ -66,8 +62,7 @@ public record OrganizationDTO(
         entity.setLastModifiedDate(this.lastModifiedDate);
         entity.setStatus(this.status);
         entity.setName(this.name);
-        entity.setTelefone(this.name);
-        entity.setAddressEntity(this.address.toEntity());
+        entity.setDescription(this.description);
         return entity;
     }
 
